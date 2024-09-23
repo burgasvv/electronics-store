@@ -1,6 +1,9 @@
 package org.burgas.employeeservice.repository;
 
 import org.burgas.employeeservice.entity.Employee;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,4 +23,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findEmployeeByPurchaseId(Long purchaseId);
 
     List<Employee> findEmployeesByStoreId(Long storeId);
+
+    Page<Employee> findEmployeesByStoreId(Long storeId, @NotNull Pageable pageable);
+
+    @Override
+    @NotNull Page<Employee> findAll(@NotNull Pageable pageable);
 }

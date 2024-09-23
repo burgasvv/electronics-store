@@ -3,13 +3,14 @@ package org.burgas.storeservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.burgas.storeservice.model.StoreResponse;
 import org.burgas.storeservice.service.StoreService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,7 +21,18 @@ public class StoreController {
 
     @GetMapping
     public String getAllStores(Model model) {
-        model.addAttribute("stores", storeService.findAll());
+        return getStorePage(1, model);
+    }
+
+    @GetMapping("/pages/{page}")
+    public String getStorePage(
+            @PathVariable int page, Model model
+    ) {
+        Page<StoreResponse> allStorePages = storeService.findAllStorePages(page, 10);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, allStorePages.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute("stores", allStorePages.getContent());
         return "stores";
     }
 

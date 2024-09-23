@@ -1,12 +1,16 @@
 package org.burgas.employeeservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.model.EmployeeResponse;
 import org.burgas.employeeservice.service.EmployeeService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,7 +21,18 @@ public class EmployeeController {
 
     @GetMapping
     public String getAllEmployees(Model model) {
-        model.addAttribute("employees", employeeService.findAll());
+        return getEmployeesPage(1, model);
+    }
+
+    @GetMapping("/pages/{page}")
+    public String getEmployeesPage(
+            @PathVariable int page, Model model
+    ) {
+        Page<EmployeeResponse> employeePages = employeeService.findAllPages(page, 20);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, employeePages.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute("employees", employeePages.getContent());
         return "employees/employees";
     }
 
@@ -28,6 +43,27 @@ public class EmployeeController {
         model.addAttribute("employee", employeeService.findById(employeeId));
         return "employees/employee";
     }
+
+    @GetMapping("/store/{store-id}")
+    public String getEmployeesInStore(
+            @PathVariable(name = "store-id") Long storeId, Model model
+    ) {
+        model.addAttribute("storeId", storeId);
+        return getEmployeesInStorePages(1, storeId, model);
+    }
+
+    @GetMapping("/store-employees/{store-id}/pages/{page}")
+    public String getEmployeesInStorePages(
+            @PathVariable int page, @PathVariable(name = "store-id") Long storeId, Model model
+    ) {
+        Page<EmployeeResponse> employeesPages = employeeService.findPagesByStoreId(storeId, page, 20);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, employeesPages.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute("employees", employeesPages.getContent());
+        return "employees/employeesInStore";
+    }
+
 
     @GetMapping("/best-employees")
     public String getBestEmployees(Model model) {

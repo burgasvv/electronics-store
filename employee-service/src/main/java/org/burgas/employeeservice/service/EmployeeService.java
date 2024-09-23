@@ -5,6 +5,8 @@ import org.burgas.employeeservice.exception.EmployeeNotFoundException;
 import org.burgas.employeeservice.mapper.EmployeeMapper;
 import org.burgas.employeeservice.model.*;
 import org.burgas.employeeservice.repository.EmployeeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,19 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+
+    private PageRequest getPageRequest(int page, int size) {
+        return PageRequest.of(page - 1, size);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public Page<EmployeeResponse> findAllPages(int page, int size) {
+        return employeeRepository.findAll(getPageRequest(page, size))
+                .map(employeeMapper::toEmployeeResponse);
+    }
 
     @Transactional(
             isolation = SERIALIZABLE,
@@ -42,6 +57,17 @@ public class EmployeeService {
                                 "Не найден сотрудник с идентификатором: " + id
                         )
                 );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public Page<EmployeeResponse> findPagesByStoreId(Long storeId, int page, int size) {
+        return employeeRepository.findEmployeesByStoreId(
+                    storeId, getPageRequest(page, size)
+                )
+                .map(employeeMapper::toEmployeeResponse);
     }
 
     @Transactional(

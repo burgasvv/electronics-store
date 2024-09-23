@@ -7,6 +7,8 @@ import org.burgas.storeservice.model.StoreResponse;
 import org.burgas.storeservice.exception.StoreNotFoundException;
 import org.burgas.storeservice.mapper.StoreMapper;
 import org.burgas.storeservice.repository.StoreRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +24,17 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
 
+    public PageRequest getPageRequest(int page, int size) {
+        return PageRequest.of(page - 1, size);
+    }
+
     @Transactional(
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
-    public List<StoreResponse> findAll() {
-        return storeRepository.findAll()
-                .stream().map(storeMapper::toStoreResponse)
-                .toList();
+    public Page<StoreResponse> findAllStorePages(int page, int size) {
+        return storeRepository.findAll(getPageRequest(page , size))
+                .map(storeMapper::toStoreResponse);
     }
 
     @Transactional(
