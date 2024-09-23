@@ -1,6 +1,9 @@
 package org.burgas.productservice.repository;
 
 import org.burgas.productservice.entity.ProductType;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,4 +22,6 @@ public interface ProductTypeRepository extends JpaRepository<ProductType, Long> 
                     """
     )
     List<ProductType> findTypeByEmployeeId(Long employeeId);
+
+    @NotNull Page<ProductType> findAll(@NotNull Pageable pageable);
 }

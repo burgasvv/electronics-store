@@ -5,7 +5,7 @@ import org.burgas.productservice.model.ProductTypeResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TypeMapper {
+public class ProductTypeMapper {
 
     public ProductTypeResponse toTypeResponse(ProductType productType) {
         return ProductTypeResponse.builder()

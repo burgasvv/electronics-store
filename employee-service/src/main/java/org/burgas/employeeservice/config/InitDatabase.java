@@ -32,108 +32,183 @@ public class InitDatabase {
 
         return _ -> {
 
+            Position stager = Position.builder().name("Стажер").build();
             Position juniorSalesConsultant = Position.builder().name("Младший продавец-консультант").build();
             Position salesConsultant = Position.builder().name("Продавец-консультант").build();
             Position seniorSalesConsultant = Position.builder().name("Старший продавец-консультант").build();
+            Position leader = Position.builder().name("Ведущий продавец").build();
 
-            Employee pavelPoleev = Employee.builder().name("Павел").surname("Полеев").patronymic("Викторович")
-                    .position(seniorSalesConsultant).gender(Gender.MALE).storeId(1L)
+            Employee horoshilov = Employee.builder().name("Сергей").surname("Хорошилов").patronymic("Гаврилович")
+                    .position(salesConsultant).gender(Gender.MALE).storeId(1L)
                     .birthDate(
                             Date.valueOf(
-                                    LocalDate.of(1970, 11, 15)
+                                    LocalDate.of(1997, 12, 20)
                             )
                     ).build();
 
-            Employee sergeyKarpov = Employee.builder().name("Сергей").surname("Карпов").patronymic("Аркадьевич")
-                    .position(salesConsultant).gender(Gender.MALE).storeId(4L)
+            Employee sergeyKarpov = Employee.builder().name("Валентина").surname("Констатинова").patronymic("Петровна")
+                    .position(juniorSalesConsultant).gender(Gender.FEMALE).storeId(1L)
                     .birthDate(
                             Date.valueOf(
-                                    LocalDate.of(1978, 3, 23)
+                                    LocalDate.of(1999, 7, 10)
                             )
                     ).build();
 
-            Employee antoninaKuplina = Employee.builder().name("Антонина").surname("Куплина").patronymic("Станиславовна")
-                    .position(salesConsultant).gender(Gender.FEMALE).storeId(5L)
+            Employee antoninaKuplina = Employee.builder().name("Евгений").surname("Сергеев").patronymic("Петрович")
+                    .position(seniorSalesConsultant).gender(Gender.MALE).storeId(2L)
                     .birthDate(
                             Date.valueOf(
-                                    LocalDate.of(1977, 4, 5)
+                                    LocalDate.of(1997, 3, 1)
                             )
                     ).build();
 
-            Employee marinaVorohina = Employee.builder().name("Марина").surname("Ворохина").patronymic("Алексеевна")
-                    .position(juniorSalesConsultant).gender(Gender.FEMALE).storeId(2L)
+            Employee marinaVorohina = Employee.builder().name("Валентин").surname("Петров").patronymic("Констатинович")
+                    .position(leader).gender(Gender.MALE).storeId(2L)
                     .birthDate(
                             Date.valueOf(
-                                    LocalDate.of(1981, 12, 14)
+                                    LocalDate.of(1993, 5, 21)
                             )
                     ).build();
 
-            Employee vladislavKruglov = Employee.builder().name("Владислав").surname("Круглов").patronymic("Олегович")
-                    .position(juniorSalesConsultant).gender(Gender.MALE).storeId(3L)
+            Employee vladislavKruglov = Employee.builder().name("Петр").surname("Волошенко").patronymic("Борисович")
+                    .position(stager).gender(Gender.MALE).storeId(3L)
                     .birthDate(
                             Date.valueOf(
-                                    LocalDate.of(1986, 6, 18)
+                                    LocalDate.of(2002, 4, 5)
                             )
                     ).build();
 
-            Employee victoriaMirokhina = Employee.builder().name("Виктория").surname("Мирохина").patronymic("Владимировна")
-                    .position(juniorSalesConsultant).gender(Gender.FEMALE).storeId(6L)
+            Employee victoriaMirokhina = Employee.builder().name("Александра").surname("Иванова").patronymic("Сергеевна")
+                    .position(leader).gender(Gender.FEMALE).storeId(3L)
                     .birthDate(
                             Date.valueOf(
-                                    LocalDate.of(1973, 10, 7)
+                                    LocalDate.of(1990, 8, 15)
                             )
                     ).build();
+
+            Employee mongush = Employee.builder().surname("Монгуш").name("Алексей").patronymic("Вячеславович")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(1993, 3, 3)
+                            )
+                    ).position(seniorSalesConsultant).storeId(4L).gender(Gender.MALE).build();
+
+            Employee sidorov = Employee.builder().surname("Сидоров").name("Виктор").patronymic("Денисович")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(2001, 6, 2)
+                            )
+                    ).position(juniorSalesConsultant).storeId(4L).gender(Gender.MALE).build();
+
+            Employee victorov = Employee.builder().surname("Викторов").name("Тимур").patronymic("Викторович")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(2000, 3, 17)
+                            )
+                    ).position(stager).storeId(5L).gender(Gender.MALE).build();
+
+            Employee mironov = Employee.builder().surname("Миронов").name("Матвей").patronymic("Аркадьевич")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(2000, 3, 10)
+                            )
+                    ).position(juniorSalesConsultant).storeId(5L).gender(Gender.MALE).build();
+
+            Employee kuprianov = Employee.builder().surname("Куприянов").name("Артем").patronymic("Вячеславович")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(1999, 5, 17)
+                            )
+                    ).position(salesConsultant).storeId(6L).gender(Gender.MALE).build();
+
+            Employee petuhov = Employee.builder().surname("Петухов").name("Борис").patronymic("Петрович")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(1994, 7, 10)
+                            )
+                    ).position(seniorSalesConsultant).storeId(2L).gender(Gender.MALE).build();
+
+            Employee sherbakova = Employee.builder().surname("Щербакова").name("Евгения").patronymic("Борисовна")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(1997, 3, 1)
+                            )
+                    ).position(leader).storeId(5L).gender(Gender.FEMALE).build();
+
+            Employee leonov = Employee.builder().surname("Леонов").name("Сергей").patronymic("Дмитриевич")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(1993, 5, 21)
+                            )
+                    ).position(salesConsultant).storeId(6L).gender(Gender.MALE).build();
+
+            Employee gordienko = Employee.builder().surname("Гордиенко").name("Мирон").patronymic("Лаврентьевич")
+                    .birthDate(
+                            Date.valueOf(
+                                    LocalDate.of(2002, 4, 5)
+                            )
+                    ).position(juniorSalesConsultant).storeId(2L).gender(Gender.MALE).build();
 
             ArrayList<Employee> employees = new ArrayList<>(
                     List.of(sergeyKarpov, vladislavKruglov, victoriaMirokhina,
-                            marinaVorohina, antoninaKuplina, pavelPoleev)
+                            marinaVorohina, antoninaKuplina, horoshilov, mongush, sidorov, victorov, mironov,
+                            kuprianov, petuhov, sherbakova,leonov, gordienko
+                    )
             );
 
             log.info(
                     "Position added: {}", positionRepository.saveAll(
-                            List.of(juniorSalesConsultant, salesConsultant, seniorSalesConsultant)
+                            List.of(juniorSalesConsultant, salesConsultant, seniorSalesConsultant, stager, leader)
                     )
             );
             log.info(
                     "Employee added: {}", employeeRepository.saveAll(employees)
             );
 
-            employees.forEach(
-                    employee -> {
-
-                        ArrayList<Long> productTypeIds = new ArrayList<>();
-                        int nexted = new Random().nextInt(1, 10);
-
-                        for (int i = 0; i < nexted; ++i) {
-
-                            AtomicLong productTypeId = new AtomicLong(
-                                    new Random().nextLong(1, 10)
-                            );
-
-                            if (i > 0) {
-                                productTypeIds.forEach(aLong -> {
-                                    while (aLong == productTypeId.get()) {
-                                        productTypeId.set(new Random().nextLong(1, 10));
-                                    }
-                                });
-                            }
-                            productTypeIds.add(productTypeId.get());
-
-                            employeeProductTypeRepository.save(
-                                    EmployeeProductType.builder()
-                                            .employeeId(employee.getId())
-                                            .productTypeId(productTypeId.get())
-                                            .build()
-                            );
-
-                            nexted = new Random().nextInt(1, 10);
-                            if (nexted <= i) {
-                                while (nexted <= i) {
-                                    nexted = new Random().nextInt(1, 10);
-                                }
-                            }
-                        }
-                    }
+            log.info(
+                    "Employee product types added: {}", employeeProductTypeRepository.saveAll(
+                            List.of(
+                                    EmployeeProductType.builder().employeeId(1L).productTypeId(1L).build(),
+                                    EmployeeProductType.builder().employeeId(1L).productTypeId(2L).build(),
+                                    EmployeeProductType.builder().employeeId(1L).productTypeId(3L).build(),
+                                    EmployeeProductType.builder().employeeId(1L).productTypeId(4L).build(),
+                                    EmployeeProductType.builder().employeeId(2L).productTypeId(6L).build(),
+                                    EmployeeProductType.builder().employeeId(2L).productTypeId(7L).build(),
+                                    EmployeeProductType.builder().employeeId(2L).productTypeId(8L).build(),
+                                    EmployeeProductType.builder().employeeId(3L).productTypeId(3L).build(),
+                                    EmployeeProductType.builder().employeeId(3L).productTypeId(4L).build(),
+                                    EmployeeProductType.builder().employeeId(3L).productTypeId(5L).build(),
+                                    EmployeeProductType.builder().employeeId(3L).productTypeId(2L).build(),
+                                    EmployeeProductType.builder().employeeId(4L).productTypeId(9L).build(),
+                                    EmployeeProductType.builder().employeeId(4L).productTypeId(10L).build(),
+                                    EmployeeProductType.builder().employeeId(4L).productTypeId(11L).build(),
+                                    EmployeeProductType.builder().employeeId(5L).productTypeId(3L).build(),
+                                    EmployeeProductType.builder().employeeId(6L).productTypeId(1L).build(),
+                                    EmployeeProductType.builder().employeeId(6L).productTypeId(2L).build(),
+                                    EmployeeProductType.builder().employeeId(6L).productTypeId(4L).build(),
+                                    EmployeeProductType.builder().employeeId(6L).productTypeId(5L).build(),
+                                    EmployeeProductType.builder().employeeId(7L).productTypeId(7L).build(),
+                                    EmployeeProductType.builder().employeeId(7L).productTypeId(8L).build(),
+                                    EmployeeProductType.builder().employeeId(8L).productTypeId(10L).build(),
+                                    EmployeeProductType.builder().employeeId(8L).productTypeId(11L).build(),
+                                    EmployeeProductType.builder().employeeId(8L).productTypeId(2L).build(),
+                                    EmployeeProductType.builder().employeeId(10L).productTypeId(9L).build(),
+                                    EmployeeProductType.builder().employeeId(10L).productTypeId(10L).build(),
+                                    EmployeeProductType.builder().employeeId(10L).productTypeId(11L).build(),
+                                    EmployeeProductType.builder().employeeId(11L).productTypeId(6L).build(),
+                                    EmployeeProductType.builder().employeeId(11L).productTypeId(7L).build(),
+                                    EmployeeProductType.builder().employeeId(12L).productTypeId(6L).build(),
+                                    EmployeeProductType.builder().employeeId(12L).productTypeId(7L).build(),
+                                    EmployeeProductType.builder().employeeId(12L).productTypeId(9L).build(),
+                                    EmployeeProductType.builder().employeeId(13L).productTypeId(3L).build(),
+                                    EmployeeProductType.builder().employeeId(13L).productTypeId(4L).build(),
+                                    EmployeeProductType.builder().employeeId(13L).productTypeId(5L).build(),
+                                    EmployeeProductType.builder().employeeId(14L).productTypeId(1L).build(),
+                                    EmployeeProductType.builder().employeeId(14L).productTypeId(2L).build(),
+                                    EmployeeProductType.builder().employeeId(15L).productTypeId(10L).build(),
+                                    EmployeeProductType.builder().employeeId(15L).productTypeId(10L).build()
+                            )
+                    )
             );
         };
     }

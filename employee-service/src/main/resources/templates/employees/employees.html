@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Сотрудники</title>
-    <style>
-        table, td, th {
-            border: 3px solid #245488;
-        }
-
-        td, th {
-            padding: 10px 20px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/sidenav.css">
 </head>
 <body>
-    <div style="margin: 50px 100px">
+
+
+    <div class="sidenav">
+        <a href="/products">Электортовары</a>
+        <a href="/purchases">Покупки</a>
+        <a href="/employees">Сотрудники</a>
+        <button class="dropdown-btn">Справочники
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="/positions">Должности</a>
+            <a href="/product-types">Типы электротовара</a>
+            <a href="/stores">Магазины</a>
+            <a href="/purchase-types">Типы покупок</a>
+        </div>
+    </div>
+
+
+    <div style="margin: 50px 100px 50px 20%">
         <table style="width: 80%; margin-top: 50px">
             <tr>
                 <th><h2>Ф.И.О.</h2></th>
@@ -64,6 +74,8 @@
                 </th>
             </tr>
         </table>
+
+
         <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
             <ul style="display: inline-flex; list-style-type: none">
                 <th:block th:each="pageNumber : ${pages}">
@@ -75,6 +87,9 @@
                 </th:block>
             </ul>
         </div>
+
     </div>
+
+    <script src="/js/sidenav.js"></script>
 </body>
 </html>

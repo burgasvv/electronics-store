@@ -6,6 +6,10 @@ import org.burgas.productservice.exception.ProductNotFoundException;
 import org.burgas.productservice.mapper.ProductMapper;
 import org.burgas.productservice.model.PurchaseProductResponse;
 import org.burgas.productservice.repository.ProductRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +24,19 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+
+    private PageRequest getPageRequest(int page, int size) {
+        return PageRequest.of(page - 1, size);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public Page<ProductResponse> findAllPages(int page, int size) {
+        return productRepository.findAll(getPageRequest(page, size))
+                .map(productMapper::toProductResponse);
+    }
 
     @Transactional(
             isolation = SERIALIZABLE,

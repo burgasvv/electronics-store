@@ -2,8 +2,6 @@ package org.burgas.employeeservice.model;
 
 import lombok.Builder;
 
-import java.time.LocalDateTime;
-
 @Builder
 public record PurchaseResponse(
         Long id,
@@ -11,6 +9,6 @@ public record PurchaseResponse(
         PurchaseEmployeeResponse purchaseEmployeeResponse,
         PurchaseStoreResponse purchaseStoreResponse,
         PurchaseTypeResponse purchaseTypeResponse,
-        LocalDateTime purchaseDateTime
+        String dateTime
 ) {
 }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Покупки</title>
+</head>
+<body>
+<div style="margin: 50px 100px 50px 20%">
+    <h1>Покупки</h1>
+    <div>
+        <form th:action="@{/purchases/sort-purchases-by-date}" th:method="GET">
+            <label for="sortByDate">Сортировать по дате</label>
+            <select name="sort" id="sortByDate">
+                <option value="new">Сначала новые</option>
+                <option value="old">Сначала старые</option>
+            </select>
+            <input type="submit" value="Сортровать" style="color: black">
+        </form>
+    </div>
+    <table style="width: 80%">
+        <tr>
+            <th><h2>Наименование товара</h2></th>
+            <th><h2>Тип товара</h2></th>
+            <th><h2>Вид оплаты</h2></th>
+            <th><h2>Продавец</h2></th>
+            <th><h2>Магазин</h2></th>
+            <th><h2>Дата покупки</h2></th>
+        </tr>
+        <tr th:each="purchase : ${purchases}">
+            <th>
+                <a th:href="@{/products/{product-id} (product-id = ${purchase.purchaseProductResponse().id()})}">
+                    <h3 th:text="${purchase.purchaseProductResponse().name()}"></h3>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/product-types/{product-type-id}
+                    (product-type-id = ${purchase.purchaseProductResponse().productTypeResponse().id()})}">
+                    <h3 th:text="${purchase.purchaseProductResponse().productTypeResponse().name()}"></h3>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.purchaseTypeResponse().id()})}">
+                    <h3 th:text="${purchase.purchaseTypeResponse().name()}"></h3>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.purchaseEmployeeResponse().id()})}">
+                    <h3 th:text="|${purchase.purchaseEmployeeResponse().positionResponse().name()}
+                        ${purchase.purchaseEmployeeResponse().surname()} ${purchase.purchaseEmployeeResponse().name()}
+                        ${purchase.purchaseEmployeeResponse().patronymic()}|"></h3>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/stores/{store-id} (store-id = ${purchase.purchaseStoreResponse().id()})}">
+                    <h2 th:text="${purchase.purchaseStoreResponse().name()}"></h2>
+                </a>
+            </th>
+            <th>
+                <h2 th:text="${purchase.dateTime()}"></h2>
+            </th>
+        </tr>
+    </table>
+
+
+    <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
+        <ul style="display: inline-flex; list-style-type: none">
+            <th:block th:each="pageNumber : ${pages}">
+                <li class="page-item" style="margin-right: 10px" >
+                    <a class="w3-bar-item w3-button w3-teal"
+                       th:href="@{/purchases/sorted-purchases/{sort}/pages/{page}
+                       (page = ${pageNumber}, sort = ${sort})}"
+                       th:text="${pageNumber}">1</a>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

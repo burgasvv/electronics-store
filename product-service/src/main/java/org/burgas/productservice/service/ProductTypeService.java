@@ -3,8 +3,10 @@ package org.burgas.productservice.service;
 import lombok.RequiredArgsConstructor;
 import org.burgas.productservice.model.ProductTypeResponse;
 import org.burgas.productservice.exception.ProductTypeNotFoundException;
-import org.burgas.productservice.mapper.TypeMapper;
+import org.burgas.productservice.mapper.ProductTypeMapper;
 import org.burgas.productservice.repository.ProductTypeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +20,20 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 public class ProductTypeService {
 
     private final ProductTypeRepository productTypeRepository;
-    private final TypeMapper typeMapper;
+    private final ProductTypeMapper productTypeMapper;
+
+    private PageRequest getPageRequest(int page, int size) {
+        return PageRequest.of(page - 1, size);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public Page<ProductTypeResponse> findAllProductTypePages(int page, int size) {
+        return productTypeRepository.findAll(getPageRequest(page, size))
+                .map(productTypeMapper::toTypeResponse);
+    }
 
     @Transactional(
             isolation = SERIALIZABLE,
@@ -26,7 +41,7 @@ public class ProductTypeService {
     )
     public List<ProductTypeResponse> findTypesByEmployeeId(Long employeeId) {
         return productTypeRepository.findTypeByEmployeeId(employeeId)
-                .stream().map(typeMapper::toTypeResponse)
+                .stream().map(productTypeMapper::toTypeResponse)
                 .toList();
     }
 
@@ -36,7 +51,7 @@ public class ProductTypeService {
     )
     public List<ProductTypeResponse> findAll() {
         return productTypeRepository.findAll()
-                .stream().map(typeMapper::toTypeResponse)
+                .stream().map(productTypeMapper::toTypeResponse)
                 .toList();
     }
 
@@ -46,7 +61,7 @@ public class ProductTypeService {
     )
     public ProductTypeResponse findById(Long id) {
         return productTypeRepository.findById(id)
-                .map(typeMapper::toTypeResponse)
+                .map(productTypeMapper::toTypeResponse)
                 .orElseThrow(
                         () -> new ProductTypeNotFoundException(
                                 "Тип продукта с идентификатором " + id + " не найден"

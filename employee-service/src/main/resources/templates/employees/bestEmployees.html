@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Лучшие сотрудники</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/css/sidenav.css">
 </head>
 <body>
+
+<div class="sidenav">
+    <a href="/products">Электортовары</a>
+    <a href="/purchases">Покупки</a>
+    <a href="/employees">Сотрудники</a>
+    <button class="dropdown-btn">Справочники
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="/positions">Должности</a>
+        <a href="/product-types">Типы электротовара</a>
+        <a href="/stores">Магазины</a>
+        <a href="/purchase-types">Типы покупок</a>
+    </div>
+</div>
+
+
 <div style="margin: 50px 100px">
     <table style="width: 80%; margin-top: 50px">
         <tr>
@@ -46,5 +65,7 @@
         </tr>
     </table>
 </div>
+
+<script src="/js/sidenav.js"></script>
 </body>
 </html>

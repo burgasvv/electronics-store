@@ -104,7 +104,7 @@ public class EmployeeService {
 
                     List<PurchaseResponse> purchaseResponses = employeeResponse.purchaseResponses()
                             .stream().filter(
-                                    purchaseResponse -> purchaseResponse.purchaseDateTime().getYear() == 2024
+                                    purchaseResponse -> purchaseResponse.dateTime().contains("2024")
                             ).toList();
 
                     int purchasesAmount = purchaseResponses.size();

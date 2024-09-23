@@ -5,6 +5,8 @@ import org.burgas.purchaseservice.exception.PurchaseTypeNotFoundException;
 import org.burgas.purchaseservice.mapper.PurchaseTypeMapper;
 import org.burgas.purchaseservice.model.PurchaseTypeResponse;
 import org.burgas.purchaseservice.repository.PurchaseTypeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +22,17 @@ public class PurchaseTypeService {
     private final PurchaseTypeRepository purchaseTypeRepository;
     private final PurchaseTypeMapper purchaseTypeMapper;
 
+    private PageRequest getPageRequest(int page, int size) {
+        return PageRequest.of(page - 1, size);
+    }
+
     @Transactional(
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
-    public List<PurchaseTypeResponse> findAll() {
-        return purchaseTypeRepository.findAll()
-                .stream().map(purchaseTypeMapper::toPurchaseTypeResponse)
-                .toList();
+    public Page<PurchaseTypeResponse> getAllPurchaseTypePages(int page, int size) {
+        return purchaseTypeRepository.findAll(getPageRequest(page, size))
+                .map(purchaseTypeMapper::toPurchaseTypeResponse);
     }
 
     @Transactional(

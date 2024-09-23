@@ -8,6 +8,8 @@ import org.burgas.purchaseservice.feign.StoreClient;
 import org.burgas.purchaseservice.model.PurchaseResponse;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
+
 @Service
 @RequiredArgsConstructor
 public class PurchaseMapper {
@@ -34,7 +36,11 @@ public class PurchaseMapper {
                                 purchase.getPurchaseType()
                         )
                 )
-                .purchaseDateTime(purchase.getPurchaseDateTime())
+                .dateTime(
+                        purchase.getPurchaseDateTime().format(
+                                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+                        )
+                )
                 .build();
     }
 }

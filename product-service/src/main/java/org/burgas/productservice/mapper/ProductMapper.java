@@ -16,7 +16,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ProductMapper {
 
-    private final TypeMapper typeMapper;
+    private final ProductTypeMapper productTypeMapper;
     private final StoreClient storeClient;
     private final ProductStoreRepository productStoreRepository;
 
@@ -47,7 +47,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .productTypeResponse(
-                        typeMapper.toTypeResponse(product.getProductType())
+                        productTypeMapper.toTypeResponse(product.getProductType())
                 )
                 .price(product.getPrice())
                 .amount(product.getAmount())
@@ -62,7 +62,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .productTypeResponse(
-                        typeMapper.toTypeResponse(product.getProductType())
+                        productTypeMapper.toTypeResponse(product.getProductType())
                 )
                 .price(product.getPrice())
                 .amount(product.getAmount())

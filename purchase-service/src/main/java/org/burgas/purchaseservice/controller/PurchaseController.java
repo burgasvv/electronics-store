@@ -3,13 +3,13 @@ package org.burgas.purchaseservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.burgas.purchaseservice.model.PurchaseResponse;
 import org.burgas.purchaseservice.service.PurchaseService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,8 +20,45 @@ public class PurchaseController {
 
     @GetMapping
     public String getAllPurchases(Model model) {
-        model.addAttribute("purchases", purchaseService.findAll());
+        return getPurchasePage(1, model);
+    }
+
+    @GetMapping("/pages/{page}")
+    public String getPurchasePage(
+            @PathVariable int page, Model model
+    ) {
+        Page<PurchaseResponse> allPurchasePages = purchaseService.getAllPurchasePages(page, 20);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, allPurchasePages.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute(
+                "purchases", allPurchasePages.getContent()
+        );
         return "purchases/purchases";
+    }
+
+    @GetMapping("/sort-purchases-by-date")
+    public String getSortedPurchases(
+            @RequestParam(name = "sort") String sort, Model model
+    ) {
+        return getSortedPurchasePage(1, sort, model);
+    }
+
+    @GetMapping("/sorted-purchases/{sort}/pages/{page}")
+    public String getSortedPurchasePage(
+            @PathVariable int page,
+            @PathVariable(name = "sort") String sort,
+            Model model
+    ) {
+        Page<PurchaseResponse> purchaseResponses = purchaseService.sortPurchasesByDate(sort, page, 20);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, purchaseResponses.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute(
+                "purchases", purchaseResponses.getContent()
+        );
+        model.addAttribute("sort", sort);
+        return "purchases/sortedPurchases";
     }
 
     @GetMapping("/{purchase-id}")
