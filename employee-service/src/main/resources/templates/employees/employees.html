@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Сотрудники</title>
+    <style>
+        table, td, th {
+            border: 3px solid #245488;
+        }
+
+        td, th {
+            padding: 10px 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin: 50px 100px">
+        <table style="width: 80%; margin-top: 50px">
+            <tr>
+                <th><h2>Ф.И.О.</h2></th>
+                <th><h2>Пол</h2></th>
+                <th><h2>Дата Рождения</h2></th>
+                <th><h2>Должность</h2></th>
+                <th><h2>Магазин</h2></th>
+                <th><h2>Тип товара</h2></th>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <th>
+                    <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
+                        <h3>
+                            <span th:text="|${employee.surname()} ${employee.name()} ${employee.patronymic()}|"></span>
+                        </h3>
+                    </a>
+                </th>
+                <th>
+                    <h3>
+                        <span th:text="${employee.gender()}"></span>
+                    </h3>
+                </th>
+                <th>
+                    <h3>
+                        <span th:text="${employee.birthDate()}"></span>
+                    </h3>
+                </th>
+                <th>
+                    <a th:href="@{/positions/{position-id} (position-id = ${employee.positionResponse().id()})}">
+                        <h3>
+                            <span th:text="${employee.positionResponse().name()}"></span>
+                        </h3>
+                    </a>
+                </th>
+                <th>
+                    <a th:href="@{/stores/{store-id} (store-id = ${employee.storeResponse().id()})}">
+                        <h3>
+                            <span th:text="|${employee.storeResponse().name()}, ${employee.storeResponse().address()}|"></span>
+                        </h3>
+                    </a>
+                </th>
+                <th>
+                    <h4 th:each="productType : ${employee.productTypeResponses()}">
+                        <span th:text="${productType.name()}" style="color: grey"></span>
+                    </h4>
+                </th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

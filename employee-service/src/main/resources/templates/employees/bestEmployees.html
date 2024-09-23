@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Лучшие сотрудники</title>
+</head>
+<body>
+<div style="margin: 50px 100px">
+    <table style="width: 80%; margin-top: 50px">
+        <tr>
+            <th><h2>Ф.И.О.</h2></th>
+            <th><h2>Должность</h2></th>
+            <th><h2>Количество проданного товара</h2></th>
+            <th><h2>Денежный итог</h2></th>
+        </tr>
+        <tr th:each="employee : ${bestEmployees}">
+            <th>
+                <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
+                    <h3>
+                        <span th:text="|${employee.employeeResponse().name()}
+                        ${employee.employeeResponse().name()} ${employee.employeeResponse().patronymic()}|"></span>
+                    </h3>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/positions/{position-id} (position-id = ${employee.employeeResponse().positionResponse().id()})}">
+                    <h3>
+                        <span th:text="${employee.employeeResponse().positionResponse().name()}"></span>
+                    </h3>
+                </a>
+            </th>
+            <th>
+                <th:block th:if="${employee.purchasesAmount() != null}">
+                    <h3>
+                        <span th:text="${employee.purchasesAmount()}"></span>
+                    </h3>
+                </th:block>
+            </th>
+            <th>
+                <th:block th:if="${employee.fullPrice() != null}">
+                    <h3>
+                        <span th:text="${employee.fullPrice()}"></span>
+                    </h3>
+                </th:block>
+            </th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
