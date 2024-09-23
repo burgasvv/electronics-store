@@ -39,16 +39,6 @@ public class EmployeeService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
-    public List<EmployeeResponse> findAll() {
-        return employeeRepository.findAll()
-                .stream().map(employeeMapper::toEmployeeResponse)
-                .toList();
-    }
-
-    @Transactional(
-            isolation = SERIALIZABLE,
-            propagation = REQUIRED
-    )
     public EmployeeResponse findById(Long id) {
         return employeeRepository.findById(id)
                 .map(employeeMapper::toEmployeeResponse)
