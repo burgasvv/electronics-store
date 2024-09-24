@@ -2,7 +2,7 @@ package org.burgas.purchaseservice.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.burgas.purchaseservice.entity.PurchaseType;
-import org.burgas.purchaseservice.model.PurchaseTypeResponse;
+import org.burgas.purchaseservice.model.response.PurchaseTypeResponse;
 import org.springframework.stereotype.Service;
 
 @Service

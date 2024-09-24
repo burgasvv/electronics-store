@@ -1,7 +1,7 @@
 package org.burgas.productservice.mapper;
 
 import org.burgas.productservice.entity.ProductType;
-import org.burgas.productservice.model.ProductTypeResponse;
+import org.burgas.productservice.model.response.ProductTypeResponse;
 import org.springframework.stereotype.Service;
 
 @Service

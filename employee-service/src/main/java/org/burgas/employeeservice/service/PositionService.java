@@ -1,7 +1,7 @@
 package org.burgas.employeeservice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.employeeservice.model.PositionResponse;
+import org.burgas.employeeservice.model.response.PositionResponse;
 import org.burgas.employeeservice.exception.PositionNotFoundException;
 import org.burgas.employeeservice.mapper.PositionMapper;
 import org.burgas.employeeservice.repository.PositionRepository;

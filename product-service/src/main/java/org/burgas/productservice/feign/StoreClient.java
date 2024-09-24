@@ -1,6 +1,6 @@
 package org.burgas.productservice.feign;
 
-import org.burgas.productservice.model.StoreResponse;
+import org.burgas.productservice.model.response.StoreResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

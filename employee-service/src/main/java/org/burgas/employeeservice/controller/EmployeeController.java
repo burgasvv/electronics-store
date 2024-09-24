@@ -1,15 +1,15 @@
 package org.burgas.employeeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.employeeservice.model.EmployeeResponse;
+import org.burgas.employeeservice.model.response.EmployeeResponse;
 import org.burgas.employeeservice.service.EmployeeService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.stream.IntStream;
 
 @Controller
@@ -75,5 +75,11 @@ public class EmployeeController {
     public String getBestJuniorConsultant(Model model) {
         model.addAttribute("bestJuniorConsultants", employeeService.findBestJuniorConsultant());
         return "employees/bestJuniorConsultant";
+    }
+
+    @PostMapping("/save-from-csv")
+    public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
+        employeeService.saveFromCsvFile(file);
+        return "redirect:/employees";
     }
 }

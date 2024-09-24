@@ -1,14 +1,16 @@
 package org.burgas.purchaseservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.purchaseservice.model.PurchaseResponse;
+import org.burgas.purchaseservice.model.response.PurchaseResponse;
 import org.burgas.purchaseservice.service.PurchaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.stream.IntStream;
 
 @Controller
@@ -77,5 +79,11 @@ public class PurchaseController {
         return ResponseEntity.ok(
                 purchaseService.findById(purchaseId)
         );
+    }
+
+    @PostMapping("/save-from-csv")
+    public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
+        purchaseService.saveDataFromCsvFile(file);
+        return "redirect:/purchases";
     }
 }

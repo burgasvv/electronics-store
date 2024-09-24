@@ -36,7 +36,7 @@
             <th>
                 <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
                     <h3>
-                        <span th:text="|${employee.employeeResponse().name()}
+                        <span th:text="|${employee.employeeResponse().surname()}
                         ${employee.employeeResponse().name()} ${employee.employeeResponse().patronymic()}|"></span>
                     </h3>
                 </a>

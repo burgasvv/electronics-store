@@ -1,4 +1,4 @@
-package org.burgas.employeeservice.model;
+package org.burgas.employeeservice.model.standart;
 
 import lombok.Getter;
 

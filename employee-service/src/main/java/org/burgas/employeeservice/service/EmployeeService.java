@@ -1,16 +1,23 @@
 package org.burgas.employeeservice.service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.burgas.employeeservice.exception.EmployeeNotFoundException;
 import org.burgas.employeeservice.mapper.EmployeeMapper;
-import org.burgas.employeeservice.model.*;
+import org.burgas.employeeservice.model.csv.EmployeeCsv;
+import org.burgas.employeeservice.model.response.*;
 import org.burgas.employeeservice.repository.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
@@ -88,6 +95,27 @@ public class EmployeeService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public void saveFromCsvFile(MultipartFile multipartFile) throws IOException {
+
+        employeeRepository.saveAll(
+                new CsvToBeanBuilder<EmployeeCsv>(
+                        new InputStreamReader(
+                                multipartFile.getInputStream()
+                        )
+                )
+                        .withType(EmployeeCsv.class)
+                        .withSeparator(';')
+                        .build()
+                        .parse()
+                        .stream().map(employeeMapper::toEmployee)
+                        .toList()
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public List<BestEmployeeResponse> findBestEmployees() {
         List<EmployeeResponse> employeeResponses = employeeRepository.findAll()
                 .stream().map(employeeMapper::toEmployeeResponse)
@@ -128,7 +156,12 @@ public class EmployeeService {
                 }
         );
 
-        return bestEmployeeResponses;
+        return bestEmployeeResponses.stream()
+                .sorted(
+                        Comparator.comparing(
+                                bestEmployeeResponse -> bestEmployeeResponse.employeeResponse().positionResponse().id()
+                        )
+                ).toList();
     }
 
     @Transactional(

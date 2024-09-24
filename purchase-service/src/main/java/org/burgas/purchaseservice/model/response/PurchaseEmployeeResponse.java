@@ -1,8 +1,6 @@
-package org.burgas.purchaseservice.model;
+package org.burgas.purchaseservice.model.response;
 
 import lombok.Builder;
-
-import java.sql.Date;
 
 @Builder
 public record PurchaseEmployeeResponse(
@@ -11,7 +9,7 @@ public record PurchaseEmployeeResponse(
         String surname,
         String patronymic,
         String gender,
-        Date birthDate,
+        String birthDate,
         PositionResponse positionResponse
 ) {
 }

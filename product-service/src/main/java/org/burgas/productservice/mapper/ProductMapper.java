@@ -2,12 +2,14 @@ package org.burgas.productservice.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.burgas.productservice.entity.Product;
-import org.burgas.productservice.model.ProductResponse;
+import org.burgas.productservice.model.csv.ProductCsv;
+import org.burgas.productservice.model.response.ProductResponse;
 import org.burgas.productservice.entity.ProductStore;
-import org.burgas.productservice.model.PurchaseProductResponse;
-import org.burgas.productservice.model.StoreResponse;
+import org.burgas.productservice.model.response.PurchaseProductResponse;
+import org.burgas.productservice.model.response.StoreResponse;
 import org.burgas.productservice.repository.ProductStoreRepository;
 import org.burgas.productservice.feign.StoreClient;
+import org.burgas.productservice.repository.ProductTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,6 +21,7 @@ public class ProductMapper {
     private final ProductTypeMapper productTypeMapper;
     private final StoreClient storeClient;
     private final ProductStoreRepository productStoreRepository;
+    private final ProductTypeRepository productTypeRepository;
 
     public ProductResponse toProductResponse(Product product) {
 
@@ -68,6 +71,19 @@ public class ProductMapper {
                 .amount(product.getAmount())
                 .archive(product.getArchive())
                 .description(product.getDescription())
+                .build();
+    }
+
+    public Product toProduct(ProductCsv productCsv) {
+        return Product.builder()
+                .name(productCsv.getName())
+                .productType(
+                        productTypeRepository.findById(productCsv.getProductTypeId()).orElse(null)
+                ).price(productCsv.getPrice())
+                .amount(productCsv.getAmount())
+                .archive(
+                        productCsv.getArchive() != 0
+                ).description(productCsv.getDescription())
                 .build();
     }
 }

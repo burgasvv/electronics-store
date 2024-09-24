@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.CascadeType.*;
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.EAGER;
 
 @Data
 @Entity
@@ -28,7 +27,6 @@ public class Position {
 
     @OneToMany(
             mappedBy = "position",
-            cascade = {PERSIST, MERGE},
             fetch = EAGER
     )
     private List<Employee>employees = new ArrayList<>();

@@ -1,17 +1,16 @@
 package org.burgas.productservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.productservice.model.ProductResponse;
+import org.burgas.productservice.model.response.ProductResponse;
 import org.burgas.productservice.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.stream.IntStream;
 
 @Controller
@@ -52,5 +51,11 @@ public class ProductController {
             @PathVariable(name = "product-id") Long productId
     ) {
         return ResponseEntity.ok(productService.findById(productId));
+    }
+
+    @PostMapping("/save-from-csv")
+    public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
+        productService.saveDataFromCsvFile(file);
+        return "redirect:/products";
     }
 }

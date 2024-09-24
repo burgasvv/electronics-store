@@ -1,7 +1,7 @@
 package org.burgas.productservice.service;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.productservice.model.ProductTypeResponse;
+import org.burgas.productservice.model.response.ProductTypeResponse;
 import org.burgas.productservice.exception.ProductTypeNotFoundException;
 import org.burgas.productservice.mapper.ProductTypeMapper;
 import org.burgas.productservice.repository.ProductTypeRepository;

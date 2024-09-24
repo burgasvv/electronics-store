@@ -1,7 +1,7 @@
 package org.burgas.employeeservice.mapper;
 
 import org.burgas.employeeservice.entity.Position;
-import org.burgas.employeeservice.model.PositionResponse;
+import org.burgas.employeeservice.model.response.PositionResponse;
 import org.springframework.stereotype.Service;
 
 @Service

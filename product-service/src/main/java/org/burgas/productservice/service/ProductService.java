@@ -1,19 +1,21 @@
 package org.burgas.productservice.service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.burgas.productservice.model.ProductResponse;
 import org.burgas.productservice.exception.ProductNotFoundException;
 import org.burgas.productservice.mapper.ProductMapper;
-import org.burgas.productservice.model.PurchaseProductResponse;
+import org.burgas.productservice.model.csv.ProductCsv;
+import org.burgas.productservice.model.response.ProductResponse;
+import org.burgas.productservice.model.response.PurchaseProductResponse;
 import org.burgas.productservice.repository.ProductRepository;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
@@ -36,16 +38,6 @@ public class ProductService {
     public Page<ProductResponse> findAllPages(int page, int size) {
         return productRepository.findAll(getPageRequest(page, size))
                 .map(productMapper::toProductResponse);
-    }
-
-    @Transactional(
-            isolation = SERIALIZABLE,
-            propagation = REQUIRED
-    )
-    public List<ProductResponse> findAll() {
-        return productRepository.findAll()
-                .stream().map(productMapper::toProductResponse)
-                .toList();
     }
 
     @Transactional(
@@ -92,5 +84,23 @@ public class ProductService {
                                 ", и сотрудника: " + employeeId + " не найден"
                         )
                 );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void saveDataFromCsvFile(MultipartFile multipartFile) throws IOException {
+        productRepository.saveAll(
+                new CsvToBeanBuilder<ProductCsv>(
+                        new InputStreamReader(multipartFile.getInputStream())
+                )
+                        .withType(ProductCsv.class)
+                        .withSeparator(';')
+                        .build()
+                        .parse()
+                        .stream().map(productMapper::toProduct)
+                        .toList()
+        );
     }
 }

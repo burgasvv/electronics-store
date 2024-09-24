@@ -1,4 +1,4 @@
-package org.burgas.productservice.model;
+package org.burgas.employeeservice.model.response;
 
 import lombok.Builder;
 

@@ -1,4 +1,4 @@
-package org.burgas.employeeservice.model;
+package org.burgas.employeeservice.model.response;
 
 import lombok.Builder;
 
@@ -12,7 +12,7 @@ public record EmployeeResponse(
         String surname,
         String patronymic,
         String gender,
-        Date birthDate,
+        String birthDate,
         PositionResponse positionResponse,
         StoreResponse storeResponse,
         List<ProductTypeResponse> productTypeResponses,

@@ -1,4 +1,4 @@
-package org.burgas.employeeservice.model;
+package org.burgas.employeeservice.model.response;
 
 import lombok.Builder;
 
@@ -11,7 +11,7 @@ public record PurchaseEmployeeResponse(
         String surname,
         String patronymic,
         String gender,
-        Date birthDate,
+        String birthDate,
         PositionResponse positionResponse
 ) {
 }

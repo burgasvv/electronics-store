@@ -28,7 +28,6 @@ public class PurchaseType {
 
     @OneToMany(
             mappedBy = "purchaseType",
-            cascade = {PERSIST, MERGE},
             fetch = EAGER
     )
     private List<Purchase>purchases = new ArrayList<>();

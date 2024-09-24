@@ -1,10 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Электротовары</title>
 </head>
 <body>
+
+<div style="margin: 50px 100px 50px 20%">
+    <table style="width: 80%; margin-top: 50px">
+        <tr>
+            <th><h2>Наименование электротовара</h2></th>
+            <th><h2>Тип электротовара</h2></th>
+            <th><h2>Цена</h2></th>
+            <th><h2>Общее Количество</h2></th>
+            <th><h2>В продаже/снят</h2></th>
+            <th><h2>В наличии</h2></th>
+        </tr>
+        <tr th:each="product : ${products}">
+            <th>
+                <a th:href="@{/products/{product-id} (product-id = ${product.id()})}">
+                    <h3>
+                        <span th:text="${product.name()}"></span>
+                    </h3>
+                </a>
+            </th>
+            <th>
+                <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse().id()})}">
+                    <h3>
+                        <span th:text="${product.productTypeResponse().name()}"></span>
+                    </h3>
+                </a>
+            </th>
+            <th>
+                <h3>
+                    <span th:text="${product.price()}"></span>
+                </h3>
+            </th>
+            <th>
+                <h3>
+                    <span th:text="${product.amount()}"></span>
+                </h3>
+            </th>
+            <th>
+                <th:block th:if="${product.archive() eq false}">
+                    <h4 style="color: red">Снят с продажи</h4>
+                </th:block>
+                <th:block th:if="${product.archive() eq true}">
+                    <h4 style="color: green">В продаже</h4>
+                </th:block>
+            </th>
+            <th>
+                <div th:each="storeAmount : ${product.storeProductMap()}">
+                    <h3>
+                        <a th:href="@{/stores/{store-id} (store-id = ${storeAmount.getKey().id()})}">
+                            <span th:text="${storeAmount.getKey().name()}"></span><br>
+                        </a>
+                        <span style="color: grey" th:text="|Кол-во: ${storeAmount.getValue().getAmount()}|"></span>
+                    </h3>
+                </div>
+            </th>
+        </tr>
+    </table>
+
+    <div>
+        <form th:method="POST" th:action="@{/products/save-from-csv}" enctype="multipart/form-data">
+            <label for="csv">Добавить файл</label>
+            <input type="file" id="csv" name="file" accept="text/csv">
+            <input type="submit" value="Принять" style="color: black">
+        </form>
+    </div>
+
+
+    <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
+        <ul style="display: inline-flex; list-style-type: none">
+            <th:block th:each="pageNumber : ${pages}">
+                <li class="page-item" style="margin-right: 10px" >
+                    <a class="w3-bar-item w3-button w3-teal"
+                       th:href="@{/products/pages/{page}(page = ${pageNumber})}"
+                       th:text="${pageNumber}">1</a>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</div>
 
 </body>
 </html>

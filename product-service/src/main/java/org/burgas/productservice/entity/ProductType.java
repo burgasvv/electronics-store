@@ -29,7 +29,6 @@ public class ProductType {
 
     @OneToMany(
             mappedBy = "productType",
-            cascade = {PERSIST, MERGE},
             fetch = EAGER
     )
     private List<Product>products = new ArrayList<>();

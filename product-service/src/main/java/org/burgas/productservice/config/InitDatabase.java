@@ -40,8 +40,8 @@ public class InitDatabase {
             ProductType water = ProductType.builder().name("Водонагреватели").build();
 
             ArrayList<ProductType> productTypes = new ArrayList<>(
-                    List.of(tv, audio, smartphones, plansheti, smartWatches, smartphones,
-                            pechi, stiralmash, holod, kondic, water, chainiki
+                    List.of(tv, audio, smartphones, plansheti, smartWatches,
+                            chainiki, pechi, stiralmash, holod, kondic, water
                     )
             );
 

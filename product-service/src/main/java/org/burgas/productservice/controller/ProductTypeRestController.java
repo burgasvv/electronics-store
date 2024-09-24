@@ -1,7 +1,7 @@
 package org.burgas.productservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.productservice.model.ProductTypeResponse;
+import org.burgas.productservice.model.response.ProductTypeResponse;
 import org.burgas.productservice.service.ProductTypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

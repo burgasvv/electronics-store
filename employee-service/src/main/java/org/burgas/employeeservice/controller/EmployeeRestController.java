@@ -1,8 +1,8 @@
 package org.burgas.employeeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.employeeservice.model.EmployeeResponse;
-import org.burgas.employeeservice.model.PurchaseEmployeeResponse;
+import org.burgas.employeeservice.model.response.EmployeeResponse;
+import org.burgas.employeeservice.model.response.PurchaseEmployeeResponse;
 import org.burgas.employeeservice.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

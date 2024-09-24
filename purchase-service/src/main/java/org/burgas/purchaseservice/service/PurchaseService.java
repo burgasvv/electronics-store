@@ -1,16 +1,21 @@
 package org.burgas.purchaseservice.service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.burgas.purchaseservice.exception.PurchaseNotFoundException;
 import org.burgas.purchaseservice.mapper.PurchaseMapper;
-import org.burgas.purchaseservice.model.PurchaseResponse;
+import org.burgas.purchaseservice.model.csv.PurchaseCsv;
+import org.burgas.purchaseservice.model.response.PurchaseResponse;
 import org.burgas.purchaseservice.repository.PurchaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
@@ -83,5 +88,23 @@ public class PurchaseService {
         return purchaseRepository.findPurchasesByEmployeeId(employeeId)
                 .stream().map(purchaseMapper::toPurchaseResponse)
                 .toList();
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void saveDataFromCsvFile(MultipartFile multipartFile) throws IOException {
+        purchaseRepository.saveAll(
+                new CsvToBeanBuilder<PurchaseCsv>(
+                        new InputStreamReader(multipartFile.getInputStream())
+                )
+                        .withType(PurchaseCsv.class)
+                        .withSeparator(';')
+                        .build()
+                        .parse()
+                        .stream().map(purchaseMapper::toPurchase)
+                        .toList()
+        );
     }
 }

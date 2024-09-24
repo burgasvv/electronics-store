@@ -1,7 +1,7 @@
 package org.burgas.purchaseservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.purchaseservice.model.PurchaseTypeResponse;
+import org.burgas.purchaseservice.model.response.PurchaseTypeResponse;
 import org.burgas.purchaseservice.service.PurchaseTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;

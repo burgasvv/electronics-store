@@ -3,10 +3,10 @@ package org.burgas.employeeservice.config;
 import lombok.extern.slf4j.Slf4j;
 import org.burgas.employeeservice.entity.Employee;
 import org.burgas.employeeservice.entity.EmployeeProductType;
-import org.burgas.employeeservice.model.Gender;
 import org.burgas.employeeservice.entity.Position;
-import org.burgas.employeeservice.repository.EmployeeRepository;
+import org.burgas.employeeservice.model.standart.Gender;
 import org.burgas.employeeservice.repository.EmployeeProductTypeRepository;
+import org.burgas.employeeservice.repository.EmployeeRepository;
 import org.burgas.employeeservice.repository.PositionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -16,8 +16,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Slf4j
 @Configuration
@@ -46,7 +44,7 @@ public class InitDatabase {
                             )
                     ).build();
 
-            Employee sergeyKarpov = Employee.builder().name("Валентина").surname("Констатинова").patronymic("Петровна")
+            Employee konstantinova = Employee.builder().name("Валентина").surname("Констатинова").patronymic("Петровна")
                     .position(juniorSalesConsultant).gender(Gender.FEMALE).storeId(1L)
                     .birthDate(
                             Date.valueOf(
@@ -54,7 +52,7 @@ public class InitDatabase {
                             )
                     ).build();
 
-            Employee antoninaKuplina = Employee.builder().name("Евгений").surname("Сергеев").patronymic("Петрович")
+            Employee sergeev = Employee.builder().name("Евгений").surname("Сергеев").patronymic("Петрович")
                     .position(seniorSalesConsultant).gender(Gender.MALE).storeId(2L)
                     .birthDate(
                             Date.valueOf(
@@ -62,7 +60,7 @@ public class InitDatabase {
                             )
                     ).build();
 
-            Employee marinaVorohina = Employee.builder().name("Валентин").surname("Петров").patronymic("Констатинович")
+            Employee petrov = Employee.builder().name("Валентин").surname("Петров").patronymic("Констатинович")
                     .position(leader).gender(Gender.MALE).storeId(2L)
                     .birthDate(
                             Date.valueOf(
@@ -70,7 +68,7 @@ public class InitDatabase {
                             )
                     ).build();
 
-            Employee vladislavKruglov = Employee.builder().name("Петр").surname("Волошенко").patronymic("Борисович")
+            Employee voloshenko = Employee.builder().name("Петр").surname("Волошенко").patronymic("Борисович")
                     .position(stager).gender(Gender.MALE).storeId(3L)
                     .birthDate(
                             Date.valueOf(
@@ -78,7 +76,7 @@ public class InitDatabase {
                             )
                     ).build();
 
-            Employee victoriaMirokhina = Employee.builder().name("Александра").surname("Иванова").patronymic("Сергеевна")
+            Employee ivanova = Employee.builder().name("Александра").surname("Иванова").patronymic("Сергеевна")
                     .position(leader).gender(Gender.FEMALE).storeId(3L)
                     .birthDate(
                             Date.valueOf(
@@ -150,15 +148,15 @@ public class InitDatabase {
                     ).position(juniorSalesConsultant).storeId(2L).gender(Gender.MALE).build();
 
             ArrayList<Employee> employees = new ArrayList<>(
-                    List.of(sergeyKarpov, vladislavKruglov, victoriaMirokhina,
-                            marinaVorohina, antoninaKuplina, horoshilov, mongush, sidorov, victorov, mironov,
+                    List.of(horoshilov, konstantinova, sergeev, petrov, voloshenko, ivanova,
+                            mongush, sidorov, victorov, mironov,
                             kuprianov, petuhov, sherbakova,leonov, gordienko
                     )
             );
 
             log.info(
                     "Position added: {}", positionRepository.saveAll(
-                            List.of(juniorSalesConsultant, salesConsultant, seniorSalesConsultant, stager, leader)
+                            List.of(stager, juniorSalesConsultant, salesConsultant, seniorSalesConsultant, leader)
                     )
             );
             log.info(
