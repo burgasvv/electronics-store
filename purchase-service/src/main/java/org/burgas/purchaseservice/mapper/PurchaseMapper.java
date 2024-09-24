@@ -7,8 +7,10 @@ import org.burgas.purchaseservice.feign.EmployeeClient;
 import org.burgas.purchaseservice.feign.ProductClient;
 import org.burgas.purchaseservice.feign.StoreClient;
 import org.burgas.purchaseservice.model.csv.PurchaseCsv;
+import org.burgas.purchaseservice.model.response.PurchaseEmployeeResponse;
+import org.burgas.purchaseservice.model.response.PurchaseProductResponse;
 import org.burgas.purchaseservice.model.response.PurchaseResponse;
-import org.burgas.purchaseservice.model.response.PurchaseTypeResponse;
+import org.burgas.purchaseservice.model.response.PurchaseStoreResponse;
 import org.burgas.purchaseservice.repository.PurchaseTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,20 +27,26 @@ public class PurchaseMapper {
     private final PurchaseTypeRepository purchaseTypeRepository;
 
     public PurchaseResponse toPurchaseResponse(Purchase purchase) {
+
+        PurchaseProductResponse ppr = productClient.getProductByPurchaseId(purchase.getId()).getBody();
+        PurchaseEmployeeResponse per = employeeClient.getEmployeeByPurchaseId(purchase.getId()).getBody();
+        PurchaseStoreResponse psr = storeClient.getStoreByPurchaseId(purchase.getId()).getBody();
+
         return PurchaseResponse.builder()
                 .id(purchase.getId())
                 .purchaseProductResponse(
-                        productClient.getProductByPurchaseId(purchase.getId()).getBody()
+                        ppr == null ? PurchaseProductResponse.builder().build() : ppr
                 )
                 .purchaseEmployeeResponse(
-                        employeeClient.getEmployeeByPurchaseId(purchase.getId()).getBody()
+                        per == null ? PurchaseEmployeeResponse.builder().build() : per
                 )
                 .purchaseStoreResponse(
-                        storeClient.getStoreByPurchaseId(purchase.getId()).getBody()
+                        psr == null ? PurchaseStoreResponse.builder().build() : psr
                 )
                 .purchaseTypeResponse(
                         purchaseTypeMapper.toPurchaseTypeResponse(
-                                purchase.getPurchaseType()
+                                purchase.getPurchaseType() == null ?
+                                        PurchaseType.builder().build() : purchase.getPurchaseType()
                         )
                 )
                 .dateTime(

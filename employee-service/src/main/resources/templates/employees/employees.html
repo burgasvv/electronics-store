@@ -54,11 +54,16 @@
                     </h3>
                 </th>
                 <th>
-                    <a th:href="@{/positions/{position-id} (position-id = ${employee.positionResponse().id()})}">
-                        <h3>
-                            <span th:text="${employee.positionResponse().name()}"></span>
-                        </h3>
-                    </a>
+                    <th:block th:if="${employee.positionResponse().name() != null}">
+                        <a th:href="@{/positions/{position-id} (position-id = ${employee.positionResponse().id()})}">
+                            <h3>
+                                <span th:text="${employee.positionResponse().name()}"></span>
+                            </h3>
+                        </a>
+                    </th:block>
+                    <th:block th:if="${employee.positionResponse().name() == null}">
+                        <h3>Отсутствует</h3>
+                    </th:block>
                 </th>
                 <th>
                     <a th:href="@{/stores/{store-id} (store-id = ${employee.storeResponse().id()})}">

@@ -2,6 +2,7 @@ package org.burgas.productservice.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.burgas.productservice.entity.Product;
+import org.burgas.productservice.entity.ProductType;
 import org.burgas.productservice.model.csv.ProductCsv;
 import org.burgas.productservice.model.response.ProductResponse;
 import org.burgas.productservice.entity.ProductStore;
@@ -50,7 +51,10 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .productTypeResponse(
-                        productTypeMapper.toTypeResponse(product.getProductType())
+                        productTypeMapper.toTypeResponse(
+                                product.getProductType() == null ?
+                                        ProductType.builder().build() : product.getProductType()
+                        )
                 )
                 .price(product.getPrice())
                 .amount(product.getAmount())
@@ -65,7 +69,10 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .productTypeResponse(
-                        productTypeMapper.toTypeResponse(product.getProductType())
+                        productTypeMapper.toTypeResponse(
+                                product.getProductType() == null ?
+                                        ProductType.builder().build() : product.getProductType()
+                        )
                 )
                 .price(product.getPrice())
                 .amount(product.getAmount())

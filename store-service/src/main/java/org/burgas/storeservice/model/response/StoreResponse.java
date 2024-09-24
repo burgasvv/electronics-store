@@ -1,9 +1,9 @@
-package org.burgas.storeservice.model;
+package org.burgas.storeservice.model.response;
 
 import lombok.Builder;
 
 @Builder
-public record PurchaseStoreResponse(
+public record StoreResponse(
         Long id,
         String name,
         String address

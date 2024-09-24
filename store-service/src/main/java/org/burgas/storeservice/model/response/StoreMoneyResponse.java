@@ -1,4 +1,4 @@
-package org.burgas.storeservice.model;
+package org.burgas.storeservice.model.response;
 
 import lombok.Builder;
 

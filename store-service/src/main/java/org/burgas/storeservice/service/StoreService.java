@@ -1,9 +1,11 @@
 package org.burgas.storeservice.service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.burgas.storeservice.model.PurchaseStoreResponse;
-import org.burgas.storeservice.model.StoreMoneyResponse;
-import org.burgas.storeservice.model.StoreResponse;
+import org.burgas.storeservice.model.csv.StoreCsv;
+import org.burgas.storeservice.model.response.PurchaseStoreResponse;
+import org.burgas.storeservice.model.response.StoreMoneyResponse;
+import org.burgas.storeservice.model.response.StoreResponse;
 import org.burgas.storeservice.exception.StoreNotFoundException;
 import org.burgas.storeservice.mapper.StoreMapper;
 import org.burgas.storeservice.repository.StoreRepository;
@@ -11,7 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
@@ -95,5 +100,23 @@ public class StoreService {
                 .fullSum(storeRepository.findSumPriceInStoreByPurchaseType(storeId, purchaseType))
                 .purchaseType(purchaseType)
                 .build();
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void saveDataFromCsvFile(MultipartFile multipartFile) throws IOException {
+        storeRepository.saveAll(
+                new CsvToBeanBuilder<StoreCsv>(
+                        new InputStreamReader(multipartFile.getInputStream())
+                )
+                        .withType(StoreCsv.class)
+                        .withSeparator(';')
+                        .build()
+                        .parse()
+                        .stream().map(storeMapper::toStore)
+                        .toList()
+        );
     }
 }

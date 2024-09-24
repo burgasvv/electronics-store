@@ -1,15 +1,15 @@
 package org.burgas.storeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.storeservice.model.StoreResponse;
+import org.burgas.storeservice.model.response.StoreResponse;
 import org.burgas.storeservice.service.StoreService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.stream.IntStream;
 
 @Controller
@@ -54,5 +54,11 @@ public class StoreController {
                 "storeMoney", storeService.findSumPriceInStoreByPurchaseType(storeId, purchaseType)
         );
         return "storeMoney";
+    }
+
+    @PostMapping("/save-from-csv")
+    public String saveDateFromCsvFile(@RequestPart MultipartFile file) throws IOException {
+        storeService.saveDataFromCsvFile(file);
+        return "redirect:/stores";
     }
 }

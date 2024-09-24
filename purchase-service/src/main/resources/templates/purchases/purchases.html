@@ -39,9 +39,14 @@
                     </a>
                 </th>
                 <th>
-                    <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.purchaseTypeResponse().id()})}">
-                        <h3 th:text="${purchase.purchaseTypeResponse().name()}"></h3>
-                    </a>
+                    <th:block th:if="${purchase.purchaseTypeResponse().name() != null}">
+                        <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.purchaseTypeResponse().id()})}">
+                            <h3 th:text="${purchase.purchaseTypeResponse().name()}"></h3>
+                        </a>
+                    </th:block>
+                    <th:block th:if="${purchase.purchaseTypeResponse().name() == null}">
+                        <h3 style="color: red">Отсутствует</h3>
+                    </th:block>
                 </th>
                 <th>
                     <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.purchaseEmployeeResponse().id()})}">

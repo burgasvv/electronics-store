@@ -25,11 +25,16 @@
                 </a>
             </th>
             <th>
-                <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse().id()})}">
-                    <h3>
-                        <span th:text="${product.productTypeResponse().name()}"></span>
-                    </h3>
-                </a>
+                <th:block th:if="${product.productTypeResponse().name() != null}">
+                    <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse().id()})}">
+                        <h3>
+                            <span th:text="${product.productTypeResponse().name()}"></span>
+                        </h3>
+                    </a>
+                </th:block>
+                <th:block th:if="${product.productTypeResponse().name() == null}">
+                    <h3 style="color: red">Отсутствует</h3>
+                </th:block>
             </th>
             <th>
                 <h3>

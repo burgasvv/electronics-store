@@ -2,6 +2,7 @@ package org.burgas.employeeservice.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.burgas.employeeservice.entity.Employee;
+import org.burgas.employeeservice.entity.Position;
 import org.burgas.employeeservice.feign.ProductTypeClient;
 import org.burgas.employeeservice.feign.PurchaseClient;
 import org.burgas.employeeservice.feign.StoreClient;
@@ -38,7 +39,10 @@ public class EmployeeMapper {
                         )
                 )
                 .positionResponse(
-                        positionMapper.toPositionResponse(employee.getPosition())
+                        positionMapper.toPositionResponse(
+                                employee.getPosition() == null ?
+                                        Position.builder().id(null).name(null).build() : employee.getPosition()
+                        )
                 ).storeResponse(
                         storeClient.getStoreById(employee.getStoreId()).getBody()
                 ).productTypeResponses(
@@ -65,7 +69,10 @@ public class EmployeeMapper {
                         )
                 )
                 .positionResponse(
-                        positionMapper.toPositionResponse(employee.getPosition())
+                        positionMapper.toPositionResponse(
+                                employee.getPosition() == null ?
+                                        Position.builder().id(null).name(null).build() : employee.getPosition()
+                        )
                 )
                 .build();
     }

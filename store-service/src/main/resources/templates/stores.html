@@ -13,6 +13,15 @@
                 </a>
             </div>
         </div>
+
+        <div>
+            <form th:method="POST" th:action="@{/stores/save-from-csv}" enctype="multipart/form-data">
+                <label for="csv">Добавить файл</label>
+                <input type="file" id="csv" name="file" accept="text/csv">
+                <input type="submit" value="Принять" style="color: black">
+            </form>
+        </div>
+
         <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
             <ul style="display: inline-flex; list-style-type: none">
                 <th:block th:each="pageNumber : ${pages}">

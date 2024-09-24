@@ -2,8 +2,9 @@ package org.burgas.storeservice.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.burgas.storeservice.entity.Store;
-import org.burgas.storeservice.model.PurchaseStoreResponse;
-import org.burgas.storeservice.model.StoreResponse;
+import org.burgas.storeservice.model.csv.StoreCsv;
+import org.burgas.storeservice.model.response.PurchaseStoreResponse;
+import org.burgas.storeservice.model.response.StoreResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +24,13 @@ public class StoreMapper {
                 .id(store.getId())
                 .name(store.getName())
                 .address(store.getAddress())
+                .build();
+    }
+
+    public Store toStore(StoreCsv storeCsv) {
+        return Store.builder()
+                .name(storeCsv.getName())
+                .address(storeCsv.getAddress())
                 .build();
     }
 }

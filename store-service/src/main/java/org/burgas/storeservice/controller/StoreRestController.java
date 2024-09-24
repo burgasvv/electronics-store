@@ -1,8 +1,8 @@
 package org.burgas.storeservice.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.burgas.storeservice.model.PurchaseStoreResponse;
-import org.burgas.storeservice.model.StoreResponse;
+import org.burgas.storeservice.model.response.PurchaseStoreResponse;
+import org.burgas.storeservice.model.response.StoreResponse;
 import org.burgas.storeservice.service.StoreService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
