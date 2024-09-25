@@ -159,6 +159,7 @@ public class InitDatabase {
                             List.of(stager, juniorSalesConsultant, salesConsultant, seniorSalesConsultant, leader)
                     )
             );
+
             log.info(
                     "Employee added: {}", employeeRepository.saveAll(employees)
             );

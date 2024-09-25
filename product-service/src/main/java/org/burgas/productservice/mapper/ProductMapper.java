@@ -28,40 +28,62 @@ public class ProductMapper {
 
         Map<StoreResponse, ProductStore>storeProductMap = new HashMap<>();
 
-        List<StoreResponse> storeResponses = Objects.requireNonNull(
-                storeClient.getStoresByProductId(product.getId()).getBody()
-        )
-                .stream().distinct()
-                .sorted(Comparator.comparingLong(StoreResponse::id))
-                .toList();
+        List<StoreResponse> storeResponses = storeClient.getStoresByProductId(product.getId()).getBody();
+        List<ProductStore> productStores;
 
-        List<ProductStore> productStores = productStoreRepository
-                .findProductStoresByProductId(product.getId())
-                .stream().distinct()
-                .sorted(Comparator.comparingLong(ProductStore::getStoreId))
-                .toList();
+        if (storeResponses != null) {
 
-        for (int i = 0; i < Objects.requireNonNull(storeResponses).size(); i++) {
-            storeProductMap.put(
-                    storeResponses.get(i), productStores.get(i)
-            );
+            storeResponses = storeResponses
+                    .stream().distinct()
+                    .sorted(Comparator.comparingLong(StoreResponse::getId))
+                    .toList();
+            productStores = productStoreRepository
+                    .findProductStoresByProductId(product.getId())
+                    .stream().distinct()
+                    .sorted(Comparator.comparingLong(ProductStore::getStoreId))
+                    .toList();
+
+            for (int i = 0; i < storeResponses.size(); i++) {
+                storeProductMap.put(
+                        storeResponses.get(i), productStores.get(i)
+                );
+            }
+
+            return ProductResponse.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .productTypeResponse(
+                            productTypeMapper.toTypeResponse(
+                                    productTypeRepository.findById(product.getProductTypeId())
+                                            .orElseGet(ProductType::new)
+                            )
+                    )
+                    .price(product.getPrice())
+                    .amount(product.getAmount())
+                    .archive(product.getArchive())
+                    .description(product.getDescription())
+                    .storeProductMap(storeProductMap)
+                    .build();
+
+        } else {
+
+            return ProductResponse.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .productTypeResponse(
+                            productTypeMapper.toTypeResponse(
+                                    productTypeRepository.findById(product.getProductTypeId())
+                                            .orElseGet(ProductType::new)
+                            )
+                    )
+                    .price(product.getPrice())
+                    .amount(product.getAmount())
+                    .archive(product.getArchive())
+                    .description(product.getDescription())
+                    .storeProductMap(storeProductMap)
+                    .build();
         }
 
-        return ProductResponse.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .productTypeResponse(
-                        productTypeMapper.toTypeResponse(
-                                productTypeRepository.findById(product.getProductTypeId())
-                                        .orElseGet(ProductType::new)
-                        )
-                )
-                .price(product.getPrice())
-                .amount(product.getAmount())
-                .archive(product.getArchive())
-                .description(product.getDescription())
-                .storeProductMap(storeProductMap)
-                .build();
     }
 
     public PurchaseProductResponse toPurchaseProductResponse(Product product) {

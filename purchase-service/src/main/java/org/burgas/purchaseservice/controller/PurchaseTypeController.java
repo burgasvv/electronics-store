@@ -6,10 +6,10 @@ import org.burgas.purchaseservice.service.PurchaseTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.stream.IntStream;
 
 @Controller
@@ -44,5 +44,11 @@ public class PurchaseTypeController {
     ) {
         model.addAttribute("purchaseType", purchaseTypeService.findById(purchaseTypeId));
         return "purchaseTypes/purchaseType";
+    }
+
+    @PostMapping("/save-from-csv")
+    public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
+        purchaseTypeService.safeDataFromCsvFile(file);
+        return "redirect:/purchase-types";
     }
 }

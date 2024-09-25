@@ -1,11 +1,17 @@
 package org.burgas.employeeservice.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @Builder
-public record BestJuniorConsultantResponse(
-        Long id,
-        EmployeeResponse employeeResponse,
-        Integer smartWatchesAmount
-) {
+@NoArgsConstructor
+@AllArgsConstructor
+public class BestJuniorConsultantResponse  {
+
+    private Long id;
+    private EmployeeResponse employeeResponse;
+    private Integer smartWatchesAmount;
 }

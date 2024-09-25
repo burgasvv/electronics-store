@@ -14,24 +14,24 @@
         </tr>
         <tr th:each="employee : ${bestJuniorConsultants}">
             <th>
-                <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
+                <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
                     <h3>
-                        <span th:text="|${employee.employeeResponse().name()}
-                        ${employee.employeeResponse().name()} ${employee.employeeResponse().patronymic()}|"></span>
+                        <span th:text="|${employee.getEmployeeResponse().getName()}
+                        ${employee.getEmployeeResponse().getName()} ${employee.getEmployeeResponse().getPatronymic()}|"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <a th:href="@{/positions/{position-id} (position-id = ${employee.employeeResponse().positionResponse().id()})}">
+                <a th:href="@{/positions/{position-id} (position-id = ${employee.getEmployeeResponse().getPositionResponse().getId()})}">
                     <h3>
-                        <span th:text="${employee.employeeResponse().positionResponse().name()}"></span>
+                        <span th:text="${employee.getEmployeeResponse().getPositionResponse().getName()}"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <th:block th:if="${employee.smartWatchesAmount() != null}">
+                <th:block th:if="${employee.getSmartWatchesAmount() != null}">
                     <h3>
-                        <span th:text="${employee.smartWatchesAmount()}"></span>
+                        <span th:text="${employee.getSmartWatchesAmount()}"></span>
                     </h3>
                 </th:block>
             </th>

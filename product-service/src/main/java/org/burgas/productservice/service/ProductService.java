@@ -2,7 +2,6 @@ package org.burgas.productservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.burgas.productservice.exception.ProductNotFoundException;
 import org.burgas.productservice.mapper.ProductMapper;
 import org.burgas.productservice.model.csv.ProductCsv;
 import org.burgas.productservice.model.response.ProductResponse;
@@ -58,11 +57,7 @@ public class ProductService {
     public ProductResponse findById(Long id) {
         return productRepository.findById(id)
                 .map(productMapper::toProductResponse)
-                .orElseThrow(
-                        () -> new ProductNotFoundException(
-                                "Продукт с идентификатором " + id + " не найден"
-                        )
-                );
+                .orElseGet(ProductResponse::new);
     }
 
     @Transactional(
@@ -72,11 +67,7 @@ public class ProductService {
     public PurchaseProductResponse findProductByPurchaseId(Long purchaseId) {
         return productRepository.findProductByPurchaseId(purchaseId)
                 .map(productMapper::toPurchaseProductResponse)
-                .orElseThrow(
-                        () -> new ProductNotFoundException(
-                                "Продукт по идентификатору покупки: " + purchaseId + " не найден"
-                        )
-                );
+                .orElseGet(PurchaseProductResponse::new);
 
     }
 
@@ -89,12 +80,7 @@ public class ProductService {
     ) {
         return productRepository.findProductByEmployeeIdAndPurchaseId(employeeId, purchaseId)
                 .map(productMapper::toPurchaseProductResponse)
-                .orElseThrow(
-                        () -> new ProductNotFoundException(
-                                "Продукт по идентификатору покупки: " + purchaseId +
-                                ", и сотрудника: " + employeeId + " не найден"
-                        )
-                );
+                .orElseGet(PurchaseProductResponse::new);
     }
 
     @Transactional(

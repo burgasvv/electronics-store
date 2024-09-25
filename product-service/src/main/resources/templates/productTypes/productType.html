@@ -7,10 +7,10 @@
 <body>
 <div style="margin: 50px 100px">
     <div>
-        <h2 th:text="${productType.name()}"></h2>
+        <h2 th:text="${productType.getName()}"></h2>
         <h3>
             <a th:href="@{/products/product-type/{product-type-id}
-            (product-type-id = ${productType.id()})}">Электротовары по типу</a>
+            (product-type-id = ${productType.getId()})}">Электротовары по типу</a>
         </h3>
     </div>
 </div>

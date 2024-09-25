@@ -25,43 +25,51 @@
                 <th><h2>Продавец</h2></th>
                 <th><h2>Магазин</h2></th>
                 <th><h2>Дата покупки</h2></th>
+                <th><h2>Просмотр</h2></th>
             </tr>
             <tr th:each="purchase : ${purchases}">
                 <th>
-                    <a th:href="@{/products/{product-id} (product-id = ${purchase.purchaseProductResponse().id()})}">
-                        <h3 th:text="${purchase.purchaseProductResponse().name()}"></h3>
+                    <a th:href="@{/products/{product-id} (product-id = ${purchase.getPurchaseProductResponse().getId()})}">
+                        <h3 th:text="${purchase.getPurchaseProductResponse().getName()}"></h3>
                     </a>
                 </th>
                 <th>
-                    <a th:href="@{/product-types/{product-type-id}
-                    (product-type-id = ${purchase.purchaseProductResponse().productTypeResponse().id()})}">
-                        <h3 th:text="${purchase.purchaseProductResponse().productTypeResponse().name()}"></h3>
-                    </a>
-                </th>
-                <th>
-                    <th:block th:if="${purchase.purchaseTypeResponse().name() != null}">
-                        <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.purchaseTypeResponse().id()})}">
-                            <h3 th:text="${purchase.purchaseTypeResponse().name()}"></h3>
+                    <th:block th:if="${purchase.getPurchaseProductResponse().getProductTypeResponse().getId() != null}">
+                        <a th:href="@{/product-types/{product-type-id}
+                    (product-type-id = ${purchase.getPurchaseProductResponse().getProductTypeResponse().getId()})}">
+                            <h3 th:text="${purchase.getPurchaseProductResponse().getProductTypeResponse().getName()}"></h3>
                         </a>
                     </th:block>
-                    <th:block th:if="${purchase.purchaseTypeResponse().name() == null}">
+                </th>
+                <th>
+                    <th:block th:if="${purchase.getPurchaseTypeResponse().getName() != null}">
+                        <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.getPurchaseTypeResponse().getId()})}">
+                            <h3 th:text="${purchase.getPurchaseTypeResponse().getName()}"></h3>
+                        </a>
+                    </th:block>
+                    <th:block th:if="${purchase.getPurchaseTypeResponse().getName() == null}">
                         <h3 style="color: red">Отсутствует</h3>
                     </th:block>
                 </th>
                 <th>
-                    <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.purchaseEmployeeResponse().id()})}">
-                        <h3 th:text="|${purchase.purchaseEmployeeResponse().positionResponse().name()}
-                        ${purchase.purchaseEmployeeResponse().surname()} ${purchase.purchaseEmployeeResponse().name()}
-                        ${purchase.purchaseEmployeeResponse().patronymic()}|"></h3>
+                    <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.getPurchaseEmployeeResponse().getId()})}">
+                        <h3 th:text="|${purchase.getPurchaseEmployeeResponse().getPositionResponse().getName()}
+                        ${purchase.getPurchaseEmployeeResponse().getSurname()} ${purchase.getPurchaseEmployeeResponse().getName()}
+                        ${purchase.getPurchaseEmployeeResponse().getPatronymic()}|"></h3>
                     </a>
                 </th>
                 <th>
-                    <a th:href="@{/stores/{store-id} (store-id = ${purchase.purchaseStoreResponse().id()})}">
-                        <h2 th:text="${purchase.purchaseStoreResponse().name()}"></h2>
+                    <a th:href="@{/stores/{store-id} (store-id = ${purchase.getPurchaseStoreResponse().getId()})}">
+                        <h2 th:text="${purchase.getPurchaseStoreResponse().getName()}"></h2>
                     </a>
                 </th>
                 <th>
-                    <h2 th:text="${purchase.dateTime()}"></h2>
+                    <h2 th:text="${purchase.getDateTime()}"></h2>
+                </th>
+                <th>
+                    <form th:action="@{/purchases/{purchase-id} (purchase-id = ${purchase.getId()})}" th:method="GET">
+                        <input type="submit" value="Просмотр" style="color: black">
+                    </form>
                 </th>
             </tr>
         </table>

@@ -1,10 +1,16 @@
 package org.burgas.employeeservice.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @Builder
-public record PositionResponse(
-        Long id,
-        String name
-) {
+@NoArgsConstructor
+@AllArgsConstructor
+public class PositionResponse {
+
+    private Long id;
+    private String name;
 }

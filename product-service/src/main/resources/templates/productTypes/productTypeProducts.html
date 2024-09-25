@@ -7,8 +7,8 @@
 <body>
     <div style="margin: 50px 100px">
         <div th:each="product : ${products}">
-            <a th:href="@{/products/{product-id} (product-id = ${product.id()})}">
-                <h3 th:text="|${product.name()}|"></h3>
+            <a th:href="@{/products/{product-id} (product-id = ${product.getId()})}">
+                <h3 th:text="|${product.getName()}|"></h3>
             </a>
         </div>
     </div>

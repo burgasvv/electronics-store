@@ -2,7 +2,6 @@ package org.burgas.purchaseservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.burgas.purchaseservice.exception.PurchaseNotFoundException;
 import org.burgas.purchaseservice.mapper.PurchaseMapper;
 import org.burgas.purchaseservice.model.csv.PurchaseCsv;
 import org.burgas.purchaseservice.model.response.PurchaseResponse;
@@ -73,11 +72,7 @@ public class PurchaseService {
     public PurchaseResponse findById(Long purchaseId) {
         return purchaseRepository.findById(purchaseId)
                 .map(purchaseMapper::toPurchaseResponse)
-                .orElseThrow(
-                        () -> new PurchaseNotFoundException(
-                                "Покупка по идентификатору: " + purchaseId + " не найдена"
-                        )
-                );
+                .orElseGet(PurchaseResponse::new);
     }
 
     @Transactional(

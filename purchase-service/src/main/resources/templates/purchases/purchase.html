@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${purchase.purchaseProductResponse().name()}">Покупка</title>
+    <meta charset="UTF-8">
+    <title th:text="${purchase.getPurchaseProductResponse().getName()}">Покупка</title>
 </head>
 <body>
+    <div style="margin: 50px 100px">
+        <h1>Покупка</h1>
+        <div>
+            <h2>
+                Наименование электротовара:
+                <a th:href="@{/products/{product-id} (product-id = ${purchase.getPurchaseProductResponse().getId()})}">
+                    <span th:text="|${purchase.getPurchaseProductResponse().getName()}|"></span><br>
+                </a>
+                Описание:
+                <span th:text="${purchase.getPurchaseProductResponse().getDescription()}"></span><br>
+                Тип электротовара:
+                <a th:href="@{/product-types/{product-type-id}
+                (product-type-id = ${purchase.getPurchaseProductResponse().getProductTypeResponse().getId()})}">
+                    <span th:text="|${purchase.getPurchaseProductResponse().getProductTypeResponse().getName()}|"></span>
+                </a>
+            </h2>
+            <h3>
+                <span th:text="|Ф.И.О: ${purchase.getPurchaseEmployeeResponse().getSurname()}
+                    ${purchase.getPurchaseEmployeeResponse().getName()} ${purchase.getPurchaseEmployeeResponse().getPatronymic()}|"></span><br>
+                <span th:text="|Должность: ${purchase.getPurchaseEmployeeResponse().getPositionResponse().getName()}|"></span><br>
 
+                <form th:action="@{/employees/{employee-id} (employee-id = ${purchase.getPurchaseEmployeeResponse().getId()})}" th:method="GET">
+                    <input type="submit" value="Просмотр" style="color: black">
+                </form>
+            </h3>
+            <h3 th:text="|Тип оплаты: ${purchase.getPurchaseTypeResponse().getName()}|"></h3>
+        </div>
+    </div>
 </body>
 </html>

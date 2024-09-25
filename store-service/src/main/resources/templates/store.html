@@ -7,10 +7,10 @@
 <body>
     <div style="margin: 50px 100px">
         <div>
-            <h2 th:text="${store.name()}"></h2>
-            <h3 style="color: grey" th:text="${store.address()}"></h3>
+            <h2 th:text="${store.getName()}"></h2>
+            <h3 style="color: grey" th:text="${store.getAddress()}"></h3>
             <h3>
-                <a th:href="@{/employees/store/{store-id} (store-id = ${store.id()})}">Сотрудники</a>
+                <a th:href="@{/employees/store/{store-id} (store-id = ${store.getId()})}">Сотрудники</a>
             </h3>
         </div>
     </div>

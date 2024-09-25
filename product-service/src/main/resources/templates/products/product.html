@@ -2,23 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${product.name()}"></title>
+    <title th:text="${product.getName()}"></title>
 </head>
 <body>
 <div style="margin: 50px 100px">
     <div>
-        <h1 th:text="|Наименование: ${product.name()}|"></h1>
+        <h1 th:text="|Наименование: ${product.getName()}|"></h1>
         <h3>
-            <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse().id()})}">
-                <span th:text="${product.productTypeResponse().name()}"></span>
+            <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.getProductTypeResponse().getId()})}">
+                <span th:text="${product.getProductTypeResponse().getName()}"></span>
             </a><br>
-            <span th:text="|Цена: ${product.price()}|"></span><br>
-            <span th:text="|Общее количество: ${product.amount()}|"></span><br>
-            <span th:text="|Описание: ${product.description()}|"></span><br>
+            <span th:text="|Цена: ${product.getPrice()}|"></span><br>
+            <span th:text="|Общее количество: ${product.getAmount()}|"></span><br>
+            <span th:text="|Описание: ${product.getDescription()}|"></span><br>
         </h3>
-        <h3 th:each="storeProductAmount : ${product.storeProductMap()}">
-            <a th:href="@{/stores/{store-id} (store-id = ${storeProductAmount.getKey().id()})}">
-                <span th:text="${storeProductAmount.getKey().name()}"></span>
+        <h3 th:each="storeProductAmount : ${product.getStoreProductMap()}">
+            <a th:href="@{/stores/{store-id} (store-id = ${storeProductAmount.getKey().getId()})}">
+                <span th:text="${storeProductAmount.getKey().getName()}"></span>
             </a>
             <span th:text="|Количество: ${storeProductAmount.getValue().getAmount()}|"></span>
         </h3>

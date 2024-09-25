@@ -1,5 +1,6 @@
-package org.burgas.purchaseservice.model.response;
+package org.burgas.purchaseservice.model.csv;
 
+import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseStoreResponse {
+public class PurchaseTypeCsv {
 
+    @CsvBindByName(column = "id")
     private Long id;
+
+    @CsvBindByName(column = "name")
     private String name;
-    private String address;
 }

@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Сотрудники магазина</title>
+    <style>
+        hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <div style="margin: 50px 100px">
         <div th:each="employee : ${employees}">
-            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
-                <h3 th:text="|${employee.surname()} ${employee.name()} ${employee.patronymic()}|"></h3>
+            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
+                <h3 th:text="|${employee.getSurname()} ${employee.getName()} ${employee.getPatronymic()}|"></h3>
             </a>
-            <a th:href="@{/positions/{position-id} (position-id = ${employee.positionResponse().id()})}">
-                <h3 th:text="${employee.positionResponse().name()}"></h3>
+            <a th:href="@{/positions/{position-id} (position-id = ${employee.getPositionResponse().getId()})}">
+                <h3 th:text="${employee.getPositionResponse().getName()}"></h3>
             </a>
+            <hr>
         </div>
     </div>
     <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">

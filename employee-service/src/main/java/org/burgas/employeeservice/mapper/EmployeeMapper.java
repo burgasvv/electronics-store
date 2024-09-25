@@ -8,13 +8,14 @@ import org.burgas.employeeservice.feign.PurchaseClient;
 import org.burgas.employeeservice.feign.StoreClient;
 import org.burgas.employeeservice.model.csv.EmployeeCsv;
 import org.burgas.employeeservice.model.response.EmployeeResponse;
+import org.burgas.employeeservice.model.response.ProductTypeResponse;
 import org.burgas.employeeservice.model.response.PurchaseEmployeeResponse;
 import org.burgas.employeeservice.model.standart.Gender;
 import org.burgas.employeeservice.repository.PositionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,10 @@ public class EmployeeMapper {
     private final PositionRepository positionRepository;
 
     public EmployeeResponse toEmployeeResponse(Employee employee) {
+
+        List<ProductTypeResponse> productTypeResponses = productTypeClient
+                .getEmployeeProductTypes(employee.getId()).getBody();
+
         return EmployeeResponse.builder()
                 .id(employee.getId())
                 .name(employee.getName())
@@ -46,10 +51,8 @@ public class EmployeeMapper {
                 ).storeResponse(
                         storeClient.getStoreById(employee.getStoreId()).getBody()
                 ).productTypeResponses(
-                        Objects.requireNonNull(
-                                    productTypeClient.getEmployeeProductTypes(employee.getId()).getBody()
-                                )
-                                .stream().distinct().toList()
+                        productTypeResponses == null || productTypeResponses.isEmpty() ?
+                                null : productTypeResponses.stream().distinct().toList()
                 ).purchaseResponses(
                         purchaseClient.getPurchasesByEmployee(employee.getId()).getBody()
                 )

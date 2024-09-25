@@ -8,8 +8,8 @@
     <div style="margin: 100px 50px">
         <div th:each="store : ${stores}">
             <div>
-                <a th:href="@{/stores/{store-id} (store-id = ${store.id()})}">
-                    <h3 th:text="${store.name()}"></h3>
+                <a th:href="@{/stores/{store-id} (store-id = ${store.getId()})}">
+                    <h3 th:text="${store.getName()}"></h3>
                 </a>
             </div>
         </div>

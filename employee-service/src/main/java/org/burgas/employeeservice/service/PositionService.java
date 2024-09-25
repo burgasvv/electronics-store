@@ -2,10 +2,9 @@ package org.burgas.employeeservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.mapper.PositionMapper;
 import org.burgas.employeeservice.model.csv.PositionCsv;
 import org.burgas.employeeservice.model.response.PositionResponse;
-import org.burgas.employeeservice.exception.PositionNotFoundException;
-import org.burgas.employeeservice.mapper.PositionMapper;
 import org.burgas.employeeservice.repository.PositionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
@@ -47,11 +45,7 @@ public class PositionService {
     public PositionResponse findById(Long id) {
         return positionRepository.findById(id)
                 .map(positionMapper::toPositionResponse)
-                .orElseThrow(
-                        () -> new PositionNotFoundException(
-                                "Должность с идентификатором " + id + " не найдена"
-                        )
-                );
+                .orElseGet(PositionResponse::new);
     }
 
     @Transactional(

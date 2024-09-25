@@ -2,10 +2,9 @@ package org.burgas.productservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.productservice.mapper.ProductTypeMapper;
 import org.burgas.productservice.model.csv.ProductTypeCsv;
 import org.burgas.productservice.model.response.ProductTypeResponse;
-import org.burgas.productservice.exception.ProductTypeNotFoundException;
-import org.burgas.productservice.mapper.ProductTypeMapper;
 import org.burgas.productservice.repository.ProductTypeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -67,11 +66,7 @@ public class ProductTypeService {
     public ProductTypeResponse findById(Long id) {
         return productTypeRepository.findById(id)
                 .map(productTypeMapper::toTypeResponse)
-                .orElseThrow(
-                        () -> new ProductTypeNotFoundException(
-                                "Тип продукта с идентификатором " + id + " не найден"
-                        )
-                );
+                .orElseGet(ProductTypeResponse::new);
     }
 
     @Transactional(

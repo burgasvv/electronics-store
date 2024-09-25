@@ -18,47 +18,47 @@
         </tr>
         <tr th:each="product : ${products}">
             <th>
-                <a th:href="@{/products/{product-id} (product-id = ${product.id()})}">
+                <a th:href="@{/products/{product-id} (product-id = ${product.getId()})}">
                     <h3>
-                        <span th:text="${product.name()}"></span>
+                        <span th:text="${product.getName()}"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <th:block th:if="${product.productTypeResponse().name() != null}">
-                    <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse().id()})}">
+                <th:block th:if="${product.getProductTypeResponse().getName() != null}">
+                    <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.getProductTypeResponse().getId()})}">
                         <h3>
-                            <span th:text="${product.productTypeResponse().name()}"></span>
+                            <span th:text="${product.getProductTypeResponse().getName()}"></span>
                         </h3>
                     </a>
                 </th:block>
-                <th:block th:if="${product.productTypeResponse().name() == null}">
+                <th:block th:if="${product.getProductTypeResponse().getName() == null}">
                     <h3 style="color: red">Отсутствует</h3>
                 </th:block>
             </th>
             <th>
                 <h3>
-                    <span th:text="${product.price()}"></span>
+                    <span th:text="${product.getPrice()}"></span>
                 </h3>
             </th>
             <th>
                 <h3>
-                    <span th:text="${product.amount()}"></span>
+                    <span th:text="${product.getAmount()}"></span>
                 </h3>
             </th>
             <th>
-                <th:block th:if="${product.archive() eq false}">
+                <th:block th:if="${product.getArchive() eq false}">
                     <h4 style="color: red">Снят с продажи</h4>
                 </th:block>
-                <th:block th:if="${product.archive() eq true}">
+                <th:block th:if="${product.getArchive() eq true}">
                     <h4 style="color: green">В продаже</h4>
                 </th:block>
             </th>
             <th>
-                <div th:each="storeAmount : ${product.storeProductMap()}">
+                <div th:each="storeAmount : ${product.getStoreProductMap()}">
                     <h3>
-                        <a th:href="@{/stores/{store-id} (store-id = ${storeAmount.getKey().id()})}">
-                            <span th:text="${storeAmount.getKey().name()}"></span><br>
+                        <a th:href="@{/stores/{store-id} (store-id = ${storeAmount.getKey().getId()})}">
+                            <span th:text="${storeAmount.getKey().getName()}"></span><br>
                         </a>
                         <span style="color: grey" th:text="|Кол-во: ${storeAmount.getValue().getAmount()}|"></span>
                     </h3>
@@ -71,6 +71,15 @@
         <form th:method="POST" th:action="@{/products/save-from-csv}" enctype="multipart/form-data">
             <label for="csv">Добавить файл</label>
             <input type="file" id="csv" name="file" accept="text/csv">
+            <input type="submit" value="Принять" style="color: black">
+        </form>
+    </div>
+    <br><br>
+
+    <div>
+        <form th:method="POST" th:action="@{/products-stores/save-from-csv}" enctype="multipart/form-data">
+            <label for="csv2">Добавить CSV(UTF-8) файл связи продукты и магазины</label>
+            <input type="file" id="csv2" name="file" accept="text/csv">
             <input type="submit" value="Принять" style="color: black">
         </form>
     </div>

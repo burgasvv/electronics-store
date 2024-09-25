@@ -7,8 +7,8 @@
 <body>
     <div style="margin: 50px 100px">
         <div th:each="employee : ${employees}">
-            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
-                <h3 th:text="|${employee.name()} ${employee.positionResponse().name()}|"></h3>
+            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
+                <h3 th:text="|${employee.getName()} ${employee.getPositionResponse().getName()}|"></h3>
             </a>
         </div>
     </div>

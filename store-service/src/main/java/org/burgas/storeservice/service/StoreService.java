@@ -2,12 +2,11 @@ package org.burgas.storeservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.storeservice.mapper.StoreMapper;
 import org.burgas.storeservice.model.csv.StoreCsv;
 import org.burgas.storeservice.model.response.PurchaseStoreResponse;
 import org.burgas.storeservice.model.response.StoreMoneyResponse;
 import org.burgas.storeservice.model.response.StoreResponse;
-import org.burgas.storeservice.exception.StoreNotFoundException;
-import org.burgas.storeservice.mapper.StoreMapper;
 import org.burgas.storeservice.repository.StoreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,11 +48,7 @@ public class StoreService {
     public StoreResponse findById(Long id) {
         return storeRepository.findById(id)
                 .map(storeMapper::toStoreResponse)
-                .orElseThrow(
-                        () -> new StoreNotFoundException(
-                                "Магазин с идентификатором " + id + " не найден"
-                        )
-                );
+                .orElseGet(StoreResponse::new);
     }
 
     @Transactional(
@@ -73,11 +68,7 @@ public class StoreService {
     public PurchaseStoreResponse findStoreByPurchaseId(Long purchaseId) {
         return storeRepository.findStoreByPurchaseId(purchaseId)
                 .map(storeMapper::toPurchaseStoreResponse)
-                .orElseThrow(
-                        () -> new StoreNotFoundException(
-                                "Магазин по идентификатору покупки: " + purchaseId + " не найден"
-                        )
-                );
+                .orElseGet(PurchaseStoreResponse::new);
     }
 
     @Transactional(
@@ -89,11 +80,7 @@ public class StoreService {
     ) {
         StoreResponse storeResponse = storeRepository.findById(storeId)
                 .map(storeMapper::toStoreResponse)
-                .orElseThrow(
-                        () -> new StoreNotFoundException(
-                                "Магазин с идентификатором " + storeId + " не найден"
-                        )
-                );
+                .orElseGet(StoreResponse::new);
 
         return StoreMoneyResponse.builder()
                 .storeResponse(storeResponse)

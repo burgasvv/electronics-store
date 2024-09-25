@@ -8,8 +8,8 @@
 <div style="margin: 100px 50px">
     <div th:each="productType : ${productTypes}">
         <div>
-            <a th:href="@{/product-types/{product-type-id} (product-type-id = ${productType.id()})}">
-                <h3 th:text="${productType.name()}"></h3>
+            <a th:href="@{/product-types/{product-type-id} (product-type-id = ${productType.getId()})}">
+                <h3 th:text="${productType.getName()}"></h3>
             </a>
         </div>
     </div>

@@ -1,15 +1,21 @@
 package org.burgas.purchaseservice.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @Builder
-public record PurchaseProductResponse(
-        Long id,
-        String name,
-        Integer price,
-        Integer amount,
-        Boolean archive,
-        String description,
-        ProductTypeResponse productTypeResponse
-) {
+@NoArgsConstructor
+@AllArgsConstructor
+public class PurchaseProductResponse {
+
+    private Long id;
+    private String name;
+    private Integer price;
+    private Integer amount;
+    private Boolean archive;
+    private String description;
+    private ProductTypeResponse productTypeResponse;
 }

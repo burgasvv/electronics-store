@@ -2,7 +2,6 @@ package org.burgas.employeeservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
-import org.burgas.employeeservice.exception.EmployeeNotFoundException;
 import org.burgas.employeeservice.mapper.EmployeeMapper;
 import org.burgas.employeeservice.model.csv.EmployeeCsv;
 import org.burgas.employeeservice.model.response.*;
@@ -49,11 +48,7 @@ public class EmployeeService {
     public EmployeeResponse findById(Long id) {
         return employeeRepository.findById(id)
                 .map(employeeMapper::toEmployeeResponse)
-                .orElseThrow(
-                        () -> new EmployeeNotFoundException(
-                                "Не найден сотрудник с идентификатором: " + id
-                        )
-                );
+                .orElseGet(EmployeeResponse::new);
     }
 
     @Transactional(
@@ -95,11 +90,7 @@ public class EmployeeService {
     public PurchaseEmployeeResponse findByPurchaseId(Long purchaseId) {
         return employeeRepository.findEmployeeByPurchaseId(purchaseId)
                 .map(employeeMapper::toPurchaseEmployeeResponse)
-                .orElseThrow(
-                        () -> new EmployeeNotFoundException(
-                                "Не найден сотрудник с по идентификатору покупки: " + purchaseId
-                        )
-                );
+                .orElseGet(PurchaseEmployeeResponse::new);
     }
 
     @Transactional(
@@ -131,9 +122,9 @@ public class EmployeeService {
         List<EmployeeResponse> employeeResponses = employeeRepository.findAll()
                 .stream().map(employeeMapper::toEmployeeResponse)
                         .sorted(
-                                Comparator.comparingLong(EmployeeResponse::id)
+                                Comparator.comparingLong(EmployeeResponse::getId)
                         ).filter(
-                                employeeResponse -> !employeeResponse.purchaseResponses().isEmpty()
+                                employeeResponse -> !employeeResponse.getPurchaseResponses().isEmpty()
                 ).toList();
 
         ArrayList<BestEmployeeResponse> bestEmployeeResponses = new ArrayList<>();
@@ -141,24 +132,24 @@ public class EmployeeService {
         employeeResponses.forEach(
                 employeeResponse -> {
 
-                    List<PurchaseResponse> purchaseResponses = employeeResponse.purchaseResponses()
+                    List<PurchaseResponse> purchaseResponses = employeeResponse.getPurchaseResponses()
                             .stream().filter(
-                                    purchaseResponse -> purchaseResponse.dateTime().contains("2024")
+                                    purchaseResponse -> purchaseResponse.getDateTime().contains("2024")
                             ).toList();
 
                     int purchasesAmount = purchaseResponses.size();
                     Integer fullPrice = purchaseResponses
                             .stream()
                             .map(
-                                    purchaseResponse -> purchaseResponse.purchaseProductResponse()
-                                            .price()
+                                    purchaseResponse -> purchaseResponse.getPurchaseProductResponse()
+                                            .getPrice()
                             )
                             .reduce(Integer::sum)
                             .orElse(null);
 
                     bestEmployeeResponses.add(
                             BestEmployeeResponse.builder()
-                                    .id(employeeResponse.id())
+                                    .id(employeeResponse.getId())
                                     .employeeResponse(employeeResponse)
                                     .purchasesAmount(purchasesAmount)
                                     .fullPrice(fullPrice)
@@ -170,7 +161,8 @@ public class EmployeeService {
         return bestEmployeeResponses.stream()
                 .sorted(
                         Comparator.comparing(
-                                bestEmployeeResponse -> bestEmployeeResponse.employeeResponse().positionResponse().id()
+                                bestEmployeeResponse -> bestEmployeeResponse.getEmployeeResponse()
+                                        .getPositionResponse().getId()
                         )
                 ).toList();
     }
@@ -183,8 +175,8 @@ public class EmployeeService {
         List<EmployeeResponse> employeeResponses = employeeRepository.findAll()
                 .stream().map(employeeMapper::toEmployeeResponse)
                 .filter(
-                        employeeResponse -> employeeResponse.positionResponse()
-                                .name().equalsIgnoreCase("Младший продавец-консультант")
+                        employeeResponse -> employeeResponse.getPositionResponse()
+                                .getName().equalsIgnoreCase("Младший продавец-консультант")
                 ).toList();
 
         ArrayList<BestJuniorConsultantResponse> bestJuniorConsultantResponses = new ArrayList<>();
@@ -192,16 +184,16 @@ public class EmployeeService {
         employeeResponses.forEach(
                 employeeResponse -> {
 
-                    List<PurchaseResponse> smartWatchesPurchases = employeeResponse.purchaseResponses()
+                    List<PurchaseResponse> smartWatchesPurchases = employeeResponse.getPurchaseResponses()
                             .stream().filter(
-                                    purchaseResponse -> purchaseResponse.purchaseProductResponse()
-                                            .productTypeResponse().name().equalsIgnoreCase("Умные часы")
+                                    purchaseResponse -> purchaseResponse.getPurchaseProductResponse()
+                                            .getProductTypeResponse().getName().equalsIgnoreCase("Умные часы")
                             ).toList();
 
                     if (!smartWatchesPurchases.isEmpty()) {
                         bestJuniorConsultantResponses.add(
                                 BestJuniorConsultantResponse.builder()
-                                        .id(employeeResponse.id())
+                                        .id(employeeResponse.getId())
                                         .employeeResponse(employeeResponse)
                                         .smartWatchesAmount(smartWatchesPurchases.size())
                                         .build()
@@ -211,7 +203,7 @@ public class EmployeeService {
         );
 
         Integer maxPurchases = bestJuniorConsultantResponses.stream()
-                .map(BestJuniorConsultantResponse::smartWatchesAmount)
+                .map(BestJuniorConsultantResponse::getSmartWatchesAmount)
                 .max(
                         Comparator.comparingInt(Integer::intValue)
                 ).orElse(null);
@@ -219,7 +211,7 @@ public class EmployeeService {
         return bestJuniorConsultantResponses
                 .stream().filter(
                         bestJuniorConsultantResponse -> bestJuniorConsultantResponse
-                                .smartWatchesAmount().equals(maxPurchases)
+                                .getSmartWatchesAmount().equals(maxPurchases)
                 ).toList();
     }
 }

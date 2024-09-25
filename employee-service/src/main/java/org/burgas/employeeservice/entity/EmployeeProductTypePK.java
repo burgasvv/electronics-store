@@ -1,24 +1,18 @@
 package org.burgas.employeeservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(EmployeeProductTypePK.class)
-public class EmployeeProductType {
+@Embeddable
+public class EmployeeProductTypePK {
 
-    @Id
     private Long employeeId;
-
-    @Id
     private Long productTypeId;
 }

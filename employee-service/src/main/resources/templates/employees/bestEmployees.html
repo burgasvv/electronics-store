@@ -34,31 +34,31 @@
         </tr>
         <tr th:each="employee : ${bestEmployees}">
             <th>
-                <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
+                <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
                     <h3>
-                        <span th:text="|${employee.employeeResponse().surname()}
-                        ${employee.employeeResponse().name()} ${employee.employeeResponse().patronymic()}|"></span>
+                        <span th:text="|${employee.getEmployeeResponse().getSurname()}
+                        ${employee.getEmployeeResponse().getName()} ${employee.getEmployeeResponse().getPatronymic()}|"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <a th:href="@{/positions/{position-id} (position-id = ${employee.employeeResponse().positionResponse().id()})}">
+                <a th:href="@{/positions/{position-id} (position-id = ${employee.getEmployeeResponse().getId()})}">
                     <h3>
-                        <span th:text="${employee.employeeResponse().positionResponse().name()}"></span>
+                        <span th:text="${employee.getEmployeeResponse().getPositionResponse().getName()}"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <th:block th:if="${employee.purchasesAmount() != null}">
+                <th:block th:if="${employee.getPurchasesAmount() != null}">
                     <h3>
-                        <span th:text="${employee.purchasesAmount()}"></span>
+                        <span th:text="${employee.getPurchasesAmount()}"></span>
                     </h3>
                 </th:block>
             </th>
             <th>
-                <th:block th:if="${employee.fullPrice() != null}">
+                <th:block th:if="${employee.getFullPrice() != null}">
                     <h3>
-                        <span th:text="${employee.fullPrice()}"></span>
+                        <span th:text="${employee.getFullPrice()}"></span>
                     </h3>
                 </th:block>
             </th>
