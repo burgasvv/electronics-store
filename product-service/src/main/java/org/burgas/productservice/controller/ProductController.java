@@ -37,6 +37,27 @@ public class ProductController {
         return "products/products";
     }
 
+    @GetMapping("/product-type/{product-type-id}")
+    public String getProductsByProductType(
+            @PathVariable(name = "product-type-id") Long productTypeId, Model model
+    ) {
+        model.addAttribute("productTypeId", productTypeId);
+        return getProductsByProductTypePages(productTypeId, 1, model);
+    }
+
+    @GetMapping("/product-type-products/{product-type-id}/pages/{page}")
+    public String getProductsByProductTypePages(
+            @PathVariable(name = "product-type-id") Long productTypeId,
+            @PathVariable int page, Model model
+    ) {
+        Page<ProductResponse> productsPages = productService.findPagesByProductTypeId(productTypeId, page, 20);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, productsPages.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute("products", productsPages.getContent());
+        return "productTypes/productTypeProducts";
+    }
+
     @GetMapping("/{product-id}")
     public String getProductById(
             @PathVariable(name = "product-id") Long productId, Model model

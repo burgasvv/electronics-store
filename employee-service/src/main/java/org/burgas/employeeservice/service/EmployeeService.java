@@ -81,6 +81,17 @@ public class EmployeeService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public Page<EmployeeResponse> findPagesByPositionId(Long positionId, int page, int size) {
+        return employeeRepository.findEmployeesByPositionId(
+                positionId, getPageRequest(page, size)
+        )
+                .map(employeeMapper::toEmployeeResponse);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public PurchaseEmployeeResponse findByPurchaseId(Long purchaseId) {
         return employeeRepository.findEmployeeByPurchaseId(purchaseId)
                 .map(employeeMapper::toPurchaseEmployeeResponse)

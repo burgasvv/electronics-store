@@ -1,12 +1,16 @@
 package org.burgas.employeeservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.model.response.PositionResponse;
 import org.burgas.employeeservice.service.PositionService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,7 +21,18 @@ public class PositionController {
 
     @GetMapping
     public String getAllPositions(Model model) {
-        model.addAttribute("positions", positionService.findAll());
+        return getPositionPage(1, model);
+    }
+
+    @GetMapping("/pages/{page}")
+    public String getPositionPage(
+            @PathVariable int page, Model model
+    ) {
+        Page<PositionResponse> allPages = positionService.findAllPages(page, 20);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, allPages.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute("positions", allPages.getContent());
         return "positions/positions";
     }
 
@@ -27,5 +42,11 @@ public class PositionController {
     ) {
         model.addAttribute("position", positionService.findById(positionId));
         return "positions/position";
+    }
+
+    @PostMapping("/save-from-csv")
+    public String getDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
+        positionService.saveDataFromCsvFile(file);
+        return "redirect:/positions";
     }
 }

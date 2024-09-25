@@ -5,6 +5,24 @@
     <title th:text="${product.name()}"></title>
 </head>
 <body>
-
+<div style="margin: 50px 100px">
+    <div>
+        <h1 th:text="|Наименование: ${product.name()}|"></h1>
+        <h3>
+            <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse().id()})}">
+                <span th:text="${product.productTypeResponse().name()}"></span>
+            </a><br>
+            <span th:text="|Цена: ${product.price()}|"></span><br>
+            <span th:text="|Общее количество: ${product.amount()}|"></span><br>
+            <span th:text="|Описание: ${product.description()}|"></span><br>
+        </h3>
+        <h3 th:each="storeProductAmount : ${product.storeProductMap()}">
+            <a th:href="@{/stores/{store-id} (store-id = ${storeProductAmount.getKey().id()})}">
+                <span th:text="${storeProductAmount.getKey().name()}"></span>
+            </a>
+            <span th:text="|Количество: ${storeProductAmount.getValue().getAmount()}|"></span>
+        </h3>
+    </div>
+</div>
 </body>
 </html>

@@ -1,23 +1,20 @@
-package org.burgas.productservice.entity;
+package org.burgas.employeeservice.model.csv;
 
-import jakarta.persistence.*;
+import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product_type")
-public class ProductType {
+public class PositionCsv {
 
-    @Id
-    @GeneratedValue
+    @CsvBindByName(column = "id")
     private Long id;
 
-    @Column(nullable = false, length = 150)
+    @CsvBindByName(column = "name")
     private String name;
 }

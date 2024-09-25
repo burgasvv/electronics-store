@@ -1,6 +1,8 @@
 package org.burgas.productservice.service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.productservice.model.csv.ProductTypeCsv;
 import org.burgas.productservice.model.response.ProductTypeResponse;
 import org.burgas.productservice.exception.ProductTypeNotFoundException;
 import org.burgas.productservice.mapper.ProductTypeMapper;
@@ -9,7 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
@@ -67,5 +72,23 @@ public class ProductTypeService {
                                 "Тип продукта с идентификатором " + id + " не найден"
                         )
                 );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void saveDataFromCsvFile(MultipartFile multipartFile) throws IOException {
+        productTypeRepository.saveAll(
+                new CsvToBeanBuilder<ProductTypeCsv>(
+                        new InputStreamReader(multipartFile.getInputStream())
+                )
+                        .withType(ProductTypeCsv.class)
+                        .withSeparator(';')
+                        .build()
+                        .parse()
+                        .stream().map(productTypeMapper::toProductType)
+                        .toList()
+        );
     }
 }

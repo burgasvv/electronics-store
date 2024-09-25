@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Электротовары по типу</title>
+</head>
+<body>
+    <div style="margin: 50px 100px">
+        <div th:each="product : ${products}">
+            <a th:href="@{/products/{product-id} (product-id = ${product.id()})}">
+                <h3 th:text="|${product.name()}|"></h3>
+            </a>
+        </div>
+    </div>
+    <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
+        <ul style="display: inline-flex; list-style-type: none">
+            <th:block th:each="pageNumber : ${pages}">
+                <li class="page-item" style="margin-right: 10px" >
+                    <a class="w3-bar-item w3-button w3-teal"
+                       th:href="@{/products/product-type-products/{product-type-id}/pages/{page}
+                               (page = ${pageNumber}, product-type-id = ${productTypeId})}"
+                       th:text="${pageNumber}">1</a>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</body>
+</html>

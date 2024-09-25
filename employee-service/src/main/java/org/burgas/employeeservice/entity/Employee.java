@@ -34,10 +34,7 @@ public class Employee {
     @Column(nullable = false)
     private Date birthDate;
 
-    @ManyToOne
-    @JoinColumn(name = "position_id")
-    private Position position;
-
+    private Long positionId;
     private Long storeId;
 
     @Enumerated(STRING)

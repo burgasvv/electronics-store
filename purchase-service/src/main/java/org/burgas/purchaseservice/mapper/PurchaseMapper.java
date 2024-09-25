@@ -45,8 +45,8 @@ public class PurchaseMapper {
                 )
                 .purchaseTypeResponse(
                         purchaseTypeMapper.toPurchaseTypeResponse(
-                                purchase.getPurchaseType() == null ?
-                                        PurchaseType.builder().build() : purchase.getPurchaseType()
+                                purchaseTypeRepository.findById(purchase.getPurchaseTypeId())
+                                        .orElseGet(PurchaseType::new)
                         )
                 )
                 .dateTime(
@@ -63,9 +63,7 @@ public class PurchaseMapper {
                 .employeeId(purchaseCsv.getEmployeeId())
                 .storeId(purchaseCsv.getStoreId())
                 .purchaseDateTime(purchaseCsv.getPurchaseDate())
-                .purchaseType(
-                        purchaseTypeRepository.findById(purchaseCsv.getPurchaseTypeId()).orElse(null)
-                )
+                .purchaseTypeId(purchaseCsv.getPurchaseTypeId())
                 .build();
     }
 }

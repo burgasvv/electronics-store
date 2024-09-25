@@ -64,6 +64,25 @@ public class EmployeeController {
         return "employees/employeesInStore";
     }
 
+    @GetMapping("/position/{position-id}")
+    public String getEmployeesByPosition(
+            @PathVariable(name = "position-id") Long positionId, Model model
+    ) {
+        model.addAttribute("positionId", positionId);
+        return getEmployeesByPositionPages(1, positionId, model);
+    }
+
+    @GetMapping("/position-employees/{position-id}/pages/{page}")
+    public String getEmployeesByPositionPages(
+            @PathVariable int page, @PathVariable(name = "position-id") Long positionId, Model model
+    ) {
+        Page<EmployeeResponse> employeesPages = employeeService.findPagesByPositionId(positionId, page, 20);
+        model.addAttribute(
+                "pages", IntStream.rangeClosed(1, employeesPages.getTotalPages()).boxed().toList()
+        );
+        model.addAttribute("employees", employeesPages.getContent());
+        return "employees/employeesByPosition";
+    }
 
     @GetMapping("/best-employees")
     public String getBestEmployees(Model model) {

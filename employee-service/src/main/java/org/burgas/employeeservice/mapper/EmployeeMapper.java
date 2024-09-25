@@ -40,8 +40,8 @@ public class EmployeeMapper {
                 )
                 .positionResponse(
                         positionMapper.toPositionResponse(
-                                employee.getPosition() == null ?
-                                        Position.builder().id(null).name(null).build() : employee.getPosition()
+                                positionRepository.findById(employee.getPositionId())
+                                        .orElseGet(Position::new)
                         )
                 ).storeResponse(
                         storeClient.getStoreById(employee.getStoreId()).getBody()
@@ -70,8 +70,8 @@ public class EmployeeMapper {
                 )
                 .positionResponse(
                         positionMapper.toPositionResponse(
-                                employee.getPosition() == null ?
-                                        Position.builder().id(null).name(null).build() : employee.getPosition()
+                                positionRepository.findById(employee.getPositionId())
+                                        .orElseGet(Position::new)
                         )
                 )
                 .build();
@@ -82,9 +82,8 @@ public class EmployeeMapper {
                 .surname(employeeCsv.getSurname())
                 .name(employeeCsv.getName())
                 .patronymic(employeeCsv.getPatronymic())
-                .position(
-                        positionRepository.findById(employeeCsv.getPositionId()).orElse(null)
-                ).storeId(employeeCsv.getShopId())
+                .positionId(employeeCsv.getPositionId())
+                .storeId(employeeCsv.getShopId())
                 .birthDate(employeeCsv.getBirthDate())
                 .gender(
                         employeeCsv.getGender() ? Gender.MALE : Gender.FEMALE

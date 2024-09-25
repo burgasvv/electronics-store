@@ -20,10 +20,7 @@ public class Product {
     @Column(nullable = false, length = 150)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "product_type_id")
-    private ProductType productType;
-
+    private Long productTypeId;
     private Integer price;
     private Integer amount;
     private Boolean archive;

@@ -52,8 +52,8 @@ public class ProductMapper {
                 .name(product.getName())
                 .productTypeResponse(
                         productTypeMapper.toTypeResponse(
-                                product.getProductType() == null ?
-                                        ProductType.builder().build() : product.getProductType()
+                                productTypeRepository.findById(product.getProductTypeId())
+                                        .orElseGet(ProductType::new)
                         )
                 )
                 .price(product.getPrice())
@@ -70,8 +70,8 @@ public class ProductMapper {
                 .name(product.getName())
                 .productTypeResponse(
                         productTypeMapper.toTypeResponse(
-                                product.getProductType() == null ?
-                                        ProductType.builder().build() : product.getProductType()
+                                productTypeRepository.findById(product.getProductTypeId())
+                                        .orElseGet(ProductType::new)
                         )
                 )
                 .price(product.getPrice())
@@ -84,9 +84,8 @@ public class ProductMapper {
     public Product toProduct(ProductCsv productCsv) {
         return Product.builder()
                 .name(productCsv.getName())
-                .productType(
-                        productTypeRepository.findById(productCsv.getProductTypeId()).orElse(null)
-                ).price(productCsv.getPrice())
+                .productTypeId(productCsv.getProductTypeId())
+                .price(productCsv.getPrice())
                 .amount(productCsv.getAmount())
                 .archive(
                         productCsv.getArchive() != 0

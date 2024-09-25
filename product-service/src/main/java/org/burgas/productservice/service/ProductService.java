@@ -44,6 +44,17 @@ public class ProductService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public Page<ProductResponse> findPagesByProductTypeId(Long productTypeId, int page, int size) {
+        return productRepository.findProductByProductTypeId(
+                        productTypeId, getPageRequest(page, size)
+                )
+                .map(productMapper::toProductResponse);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public ProductResponse findById(Long id) {
         return productRepository.findById(id)
                 .map(productMapper::toProductResponse)

@@ -28,4 +28,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Override
     @NotNull Page<Employee> findAll(@NotNull Pageable pageable);
+
+    Page<Employee> findEmployeesByPositionId(Long positionId, Pageable pageable);
 }

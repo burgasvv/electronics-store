@@ -37,7 +37,7 @@ public class InitDatabase {
             Position leader = Position.builder().name("Ведущий продавец").build();
 
             Employee horoshilov = Employee.builder().name("Сергей").surname("Хорошилов").patronymic("Гаврилович")
-                    .position(salesConsultant).gender(Gender.MALE).storeId(1L)
+                    .positionId(3L).gender(Gender.MALE).storeId(1L)
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1997, 12, 20)
@@ -45,7 +45,7 @@ public class InitDatabase {
                     ).build();
 
             Employee konstantinova = Employee.builder().name("Валентина").surname("Констатинова").patronymic("Петровна")
-                    .position(juniorSalesConsultant).gender(Gender.FEMALE).storeId(1L)
+                    .positionId(2L).gender(Gender.FEMALE).storeId(1L)
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1999, 7, 10)
@@ -53,7 +53,7 @@ public class InitDatabase {
                     ).build();
 
             Employee sergeev = Employee.builder().name("Евгений").surname("Сергеев").patronymic("Петрович")
-                    .position(seniorSalesConsultant).gender(Gender.MALE).storeId(2L)
+                    .positionId(4L).gender(Gender.MALE).storeId(2L)
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1997, 3, 1)
@@ -61,7 +61,7 @@ public class InitDatabase {
                     ).build();
 
             Employee petrov = Employee.builder().name("Валентин").surname("Петров").patronymic("Констатинович")
-                    .position(leader).gender(Gender.MALE).storeId(2L)
+                    .positionId(5L).gender(Gender.MALE).storeId(2L)
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1993, 5, 21)
@@ -69,7 +69,7 @@ public class InitDatabase {
                     ).build();
 
             Employee voloshenko = Employee.builder().name("Петр").surname("Волошенко").patronymic("Борисович")
-                    .position(stager).gender(Gender.MALE).storeId(3L)
+                    .positionId(1L).gender(Gender.MALE).storeId(3L)
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(2002, 4, 5)
@@ -77,7 +77,7 @@ public class InitDatabase {
                     ).build();
 
             Employee ivanova = Employee.builder().name("Александра").surname("Иванова").patronymic("Сергеевна")
-                    .position(leader).gender(Gender.FEMALE).storeId(3L)
+                    .positionId(5L).gender(Gender.FEMALE).storeId(3L)
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1990, 8, 15)
@@ -89,63 +89,63 @@ public class InitDatabase {
                             Date.valueOf(
                                     LocalDate.of(1993, 3, 3)
                             )
-                    ).position(seniorSalesConsultant).storeId(4L).gender(Gender.MALE).build();
+                    ).positionId(4L).storeId(4L).gender(Gender.MALE).build();
 
             Employee sidorov = Employee.builder().surname("Сидоров").name("Виктор").patronymic("Денисович")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(2001, 6, 2)
                             )
-                    ).position(juniorSalesConsultant).storeId(4L).gender(Gender.MALE).build();
+                    ).positionId(2L).storeId(4L).gender(Gender.MALE).build();
 
             Employee victorov = Employee.builder().surname("Викторов").name("Тимур").patronymic("Викторович")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(2000, 3, 17)
                             )
-                    ).position(stager).storeId(5L).gender(Gender.MALE).build();
+                    ).positionId(1L).storeId(5L).gender(Gender.MALE).build();
 
             Employee mironov = Employee.builder().surname("Миронов").name("Матвей").patronymic("Аркадьевич")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(2000, 3, 10)
                             )
-                    ).position(juniorSalesConsultant).storeId(5L).gender(Gender.MALE).build();
+                    ).positionId(2L).storeId(5L).gender(Gender.MALE).build();
 
             Employee kuprianov = Employee.builder().surname("Куприянов").name("Артем").patronymic("Вячеславович")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1999, 5, 17)
                             )
-                    ).position(salesConsultant).storeId(6L).gender(Gender.MALE).build();
+                    ).positionId(3L).storeId(6L).gender(Gender.MALE).build();
 
             Employee petuhov = Employee.builder().surname("Петухов").name("Борис").patronymic("Петрович")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1994, 7, 10)
                             )
-                    ).position(seniorSalesConsultant).storeId(2L).gender(Gender.MALE).build();
+                    ).positionId(4L).storeId(2L).gender(Gender.MALE).build();
 
             Employee sherbakova = Employee.builder().surname("Щербакова").name("Евгения").patronymic("Борисовна")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1997, 3, 1)
                             )
-                    ).position(leader).storeId(5L).gender(Gender.FEMALE).build();
+                    ).positionId(5L).storeId(5L).gender(Gender.FEMALE).build();
 
             Employee leonov = Employee.builder().surname("Леонов").name("Сергей").patronymic("Дмитриевич")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(1993, 5, 21)
                             )
-                    ).position(salesConsultant).storeId(6L).gender(Gender.MALE).build();
+                    ).positionId(3L).storeId(6L).gender(Gender.MALE).build();
 
             Employee gordienko = Employee.builder().surname("Гордиенко").name("Мирон").patronymic("Лаврентьевич")
                     .birthDate(
                             Date.valueOf(
                                     LocalDate.of(2002, 4, 5)
                             )
-                    ).position(juniorSalesConsultant).storeId(2L).gender(Gender.MALE).build();
+                    ).positionId(2L).storeId(2L).gender(Gender.MALE).build();
 
             ArrayList<Employee> employees = new ArrayList<>(
                     List.of(horoshilov, konstantinova, sergeev, petrov, voloshenko, ivanova,

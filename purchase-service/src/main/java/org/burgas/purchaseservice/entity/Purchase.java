@@ -22,8 +22,5 @@ public class Purchase {
     private Long employeeId;
     private Long storeId;
     private LocalDateTime purchaseDateTime;
-
-    @ManyToOne
-    @JoinColumn(name = "purchase_type_id")
-    private PurchaseType purchaseType;
+    private Long purchaseTypeId;
 }

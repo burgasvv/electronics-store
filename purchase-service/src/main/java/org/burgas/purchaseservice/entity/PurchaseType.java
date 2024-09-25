@@ -1,15 +1,13 @@
 package org.burgas.purchaseservice.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static jakarta.persistence.FetchType.EAGER;
 
 @Data
 @Entity
@@ -24,10 +22,4 @@ public class PurchaseType {
 
     @Column(nullable = false, length = 150)
     private String name;
-
-    @OneToMany(
-            mappedBy = "purchaseType",
-            fetch = EAGER
-    )
-    private List<Purchase>purchases = new ArrayList<>();
 }

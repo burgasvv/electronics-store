@@ -1,13 +1,20 @@
 package org.burgas.employeeservice.service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.model.csv.PositionCsv;
 import org.burgas.employeeservice.model.response.PositionResponse;
 import org.burgas.employeeservice.exception.PositionNotFoundException;
 import org.burgas.employeeservice.mapper.PositionMapper;
 import org.burgas.employeeservice.repository.PositionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
@@ -20,14 +27,17 @@ public class PositionService {
     private final PositionRepository positionRepository;
     private final PositionMapper positionMapper;
 
+    private PageRequest getPageRequest(int page, int size) {
+        return PageRequest.of(page - 1, size);
+    }
+
     @Transactional(
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
-    public List<PositionResponse> findAll() {
-        return positionRepository.findAll()
-                .stream().map(positionMapper::toPositionResponse)
-                .toList();
+    public Page<PositionResponse> findAllPages(int page, int size) {
+        return positionRepository.findAll(getPageRequest(page, size))
+                .map(positionMapper::toPositionResponse);
     }
 
     @Transactional(
@@ -42,5 +52,23 @@ public class PositionService {
                                 "Должность с идентификатором " + id + " не найдена"
                         )
                 );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void saveDataFromCsvFile(MultipartFile multipartFile) throws IOException {
+        positionRepository.saveAll(
+                new CsvToBeanBuilder<PositionCsv>(
+                        new InputStreamReader(multipartFile.getInputStream())
+                )
+                        .withType(PositionCsv.class)
+                        .withSeparator(';')
+                        .build()
+                        .parse()
+                        .stream().map(positionMapper::toPosition)
+                        .toList()
+        );
     }
 }

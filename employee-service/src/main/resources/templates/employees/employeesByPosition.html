@@ -2,16 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Сотрудники магазина</title>
+    <title>Сотрудники</title>
 </head>
 <body>
     <div style="margin: 50px 100px">
         <div th:each="employee : ${employees}">
             <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id()})}">
-                <h3 th:text="|${employee.surname()} ${employee.name()} ${employee.patronymic()}|"></h3>
-            </a>
-            <a th:href="@{/positions/{position-id} (position-id = ${employee.positionResponse().id()})}">
-                <h3 th:text="${employee.positionResponse().name()}"></h3>
+                <h3 th:text="|${employee.name()} ${employee.positionResponse().name()}|"></h3>
             </a>
         </div>
     </div>
@@ -20,8 +17,8 @@
             <th:block th:each="pageNumber : ${pages}">
                 <li class="page-item" style="margin-right: 10px" >
                     <a class="w3-bar-item w3-button w3-teal"
-                       th:href="@{/employees/store-employees/{store-id}/pages/{page}
-                       (page = ${pageNumber}, store-id = ${storeId})}"
+                       th:href="@{/employees/position-employees/{position-id}/pages/{page}
+                           (page = ${pageNumber}, position-id = ${positionId})}"
                        th:text="${pageNumber}">1</a>
                 </li>
             </th:block>
