@@ -1,8 +1,11 @@
 package org.burgas.purchaseservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.purchaseservice.feign.StoreClient;
 import org.burgas.purchaseservice.model.response.PurchaseResponse;
+import org.burgas.purchaseservice.model.response.PurchaseStoreResponse;
 import org.burgas.purchaseservice.service.PurchaseService;
+import org.burgas.purchaseservice.service.PurchaseTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.IntStream;
 
 @Controller
@@ -19,6 +23,8 @@ import java.util.stream.IntStream;
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
+    private final PurchaseTypeService purchaseTypeService;
+    private final StoreClient storeClient;
 
     @GetMapping
     public String getAllPurchases(Model model) {
@@ -85,5 +91,32 @@ public class PurchaseController {
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         purchaseService.saveDataFromCsvFile(file);
         return "redirect:/purchases";
+    }
+
+    @GetMapping("/make-purchase-page/{product-id}")
+    public String makePurchase(
+            @PathVariable(name = "product-id") Long productId, Model model
+    ) {
+        model.addAttribute("productId", productId);
+        model.addAttribute("purchaseTypes", purchaseTypeService.findAll());
+        List<PurchaseStoreResponse> storesProductsInStock = storeClient.getStoresByProductInStock(productId).getBody();
+
+        if (storesProductsInStock != null && !storesProductsInStock.isEmpty()) {
+            model.addAttribute("stores", storesProductsInStock);
+            return "purchases/makePurchase";
+
+        } else {
+            return ResponseEntity.ok("Товара нет в наличии").getBody();
+        }
+    }
+
+    @PostMapping("/finish-purchase/{product-id}")
+    public String finishPurchase(
+            @PathVariable(name = "product-id") Long productId, Model model,
+            @RequestParam Long storeId, @RequestParam Long purchaseTypeId
+    ) {
+        PurchaseResponse purchaseResponse = purchaseService.makePurchase(productId, purchaseTypeId, storeId);
+        model.addAttribute("purchase", purchaseResponse);
+        return "redirect:/purchases/" + purchaseResponse.getId();
     }
 }

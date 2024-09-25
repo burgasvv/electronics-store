@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Совершить покупку</title>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 7%">
+        <form th:action="@{/purchases/finish-purchase/{product-id} (product-id = ${productId})}" th:method="POST">
+            <label for="stores"></label>
+            <select name="storeId" id="stores">
+                <option th:each="store : ${stores}"
+                        th:value="${store.getId()}" th:text="${store.getName()}">Магазины</option>
+            </select><br><br>
+            <label for="purchaseTypes"></label>
+            <select name="purchaseTypeId" id="purchaseTypes">
+                <option th:each="purchaseType : ${purchaseTypes}"
+                        th:value="${purchaseType.getId()}" th:text="${purchaseType.getName()}"></option>
+            </select><br><br>
+            <input type="submit" value="Завершить" style="color: black">
+            <input type="button" value="Назад" style="color: black" onclick="history.back()">
+        </form>
+    </div>
+</body>
+</html>

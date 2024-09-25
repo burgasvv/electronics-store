@@ -93,6 +93,16 @@ public class StoreService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public List<PurchaseStoreResponse> findStoresByProductIdInStock(Long productId) {
+        return storeRepository.findStoresByProductIdInStock(productId)
+                .stream().map(storeMapper::toPurchaseStoreResponse)
+                .toList();
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public void saveDataFromCsvFile(MultipartFile multipartFile) throws IOException {
         storeRepository.saveAll(
                 new CsvToBeanBuilder<StoreCsv>(

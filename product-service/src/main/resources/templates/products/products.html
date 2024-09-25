@@ -15,6 +15,7 @@
             <th><h2>Общее Количество</h2></th>
             <th><h2>В продаже/снят</h2></th>
             <th><h2>В наличии</h2></th>
+            <th><h2>Купить</h2></th>
         </tr>
         <tr th:each="product : ${products}">
             <th>
@@ -62,6 +63,13 @@
                         </a>
                         <span style="color: grey" th:text="|Кол-во: ${storeAmount.getValue().getAmount()}|"></span>
                     </h3>
+                </div>
+            </th>
+            <th>
+                <div>
+                    <form th:method="GET" th:action="@{/purchases/make-purchase-page/{product-id} (product-id = ${product.getId()})}">
+                        <input type="submit" value="Купить" style="color: black">
+                    </form>
                 </div>
             </th>
         </tr>

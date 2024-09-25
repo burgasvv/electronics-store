@@ -2,6 +2,7 @@ package org.burgas.purchaseservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.purchaseservice.entity.Purchase;
 import org.burgas.purchaseservice.mapper.PurchaseMapper;
 import org.burgas.purchaseservice.model.csv.PurchaseCsv;
 import org.burgas.purchaseservice.model.response.PurchaseResponse;
@@ -15,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
@@ -50,7 +53,8 @@ public class PurchaseService {
                 sort.equalsIgnoreCase("new")
         ) {
             purchaseResponses = purchaseRepository.findAll(
-                    PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "purchaseDateTime"))
+                    PageRequest.of(page - 1, size,
+                            Sort.by(Sort.Direction.DESC, "purchaseDateTime"))
             )
                     .map(purchaseMapper::toPurchaseResponse);
         }
@@ -58,7 +62,8 @@ public class PurchaseService {
                 sort.equalsIgnoreCase("old")
         ) {
             purchaseResponses = purchaseRepository.findAll(
-                            PageRequest.of(page - 1, size, Sort.by(Sort.Direction.ASC, "purchaseDateTime"))
+                            PageRequest.of(page - 1, size,
+                                    Sort.by(Sort.Direction.ASC, "purchaseDateTime"))
                     )
                     .map(purchaseMapper::toPurchaseResponse);
         }
@@ -101,5 +106,32 @@ public class PurchaseService {
                         .stream().map(purchaseMapper::toPurchase)
                         .toList()
         );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public PurchaseResponse makePurchase(
+            Long productId, Long purchaseTypeId, Long storeId
+    ) {
+        List<Long> employeeIds = purchaseRepository.findEmployeeIdsByAProductType(productId);
+        PurchaseResponse purchaseResponse = purchaseMapper.toPurchaseResponse(
+                purchaseRepository.save(
+                        Purchase.builder()
+                                .purchaseTypeId(purchaseTypeId)
+                                .storeId(storeId)
+                                .productId(productId)
+                                .purchaseDateTime(LocalDateTime.now())
+                                .employeeId(
+                                        employeeIds.get(
+                                                new Random().nextInt(0, employeeIds.size())
+                                        )
+                                )
+                                .build()
+                )
+        );
+        purchaseRepository.updateProductInStoreAmount(storeId, productId);
+        return purchaseResponse;
     }
 }

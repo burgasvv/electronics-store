@@ -41,4 +41,13 @@ public class StoreRestController {
                 storeService.findStoreByPurchaseId(purchaseId)
         );
     }
+
+    @GetMapping("/new-purchase/{product-id}")
+    public ResponseEntity<List<PurchaseStoreResponse>> getStoresByProductInStock(
+            @PathVariable(name = "product-id") Long productId
+    ) {
+        return ResponseEntity.ok(
+                storeService.findStoresByProductIdInStock(productId)
+        );
+    }
 }

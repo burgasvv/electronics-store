@@ -47,4 +47,14 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Override
     @NotNull
     Page<Store> findAll(@NotNull Pageable pageable);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select s.* from store s
+                    join product_store ps on s.id = ps.store_id
+                    where ps.product_id = ?1 and ps.amount > 0
+                    """
+    )
+    List<Store> findStoresByProductIdInStock(Long productId);
 }
