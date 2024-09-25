@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.List;
@@ -111,12 +112,11 @@ public class PurchaseController {
     }
 
     @PostMapping("/finish-purchase/{product-id}")
-    public String finishPurchase(
-            @PathVariable(name = "product-id") Long productId, Model model,
+    public RedirectView finishPurchase(
+            @PathVariable(name = "product-id") Long productId,
             @RequestParam Long storeId, @RequestParam Long purchaseTypeId
     ) {
         PurchaseResponse purchaseResponse = purchaseService.makePurchase(productId, purchaseTypeId, storeId);
-        model.addAttribute("purchase", purchaseResponse);
-        return "redirect:/purchases/" + purchaseResponse.getId();
+        return new RedirectView("/purchases/" + purchaseResponse.getId());
     }
 }
