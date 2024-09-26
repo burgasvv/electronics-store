@@ -6,11 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @FeignClient(
         name = "store-service",
         url = "http://localhost:8765/rest-stores"
 )
 public interface StoreClient {
+
+    @GetMapping("/all-stores")
+    ResponseEntity<List<StoreResponse>> getAllStores();
 
     @GetMapping("/{store-id}")
     ResponseEntity<StoreResponse> getStoreById(

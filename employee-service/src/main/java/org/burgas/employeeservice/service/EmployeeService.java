@@ -2,9 +2,13 @@ package org.burgas.employeeservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.entity.Employee;
+import org.burgas.employeeservice.entity.EmployeeProductType;
 import org.burgas.employeeservice.mapper.EmployeeMapper;
 import org.burgas.employeeservice.model.csv.EmployeeCsv;
+import org.burgas.employeeservice.model.request.EmployeeRequest;
 import org.burgas.employeeservice.model.response.*;
+import org.burgas.employeeservice.repository.EmployeeProductTypeRepository;
 import org.burgas.employeeservice.repository.EmployeeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,6 +31,7 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeProductTypeRepository employeeProductTypeRepository;
     private final EmployeeMapper employeeMapper;
 
     private PageRequest getPageRequest(int page, int size) {
@@ -212,5 +218,23 @@ public class EmployeeService {
                         bestJuniorConsultantResponse -> bestJuniorConsultantResponse
                                 .getSmartWatchesAmount().equals(maxPurchases)
                 ).toList();
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public EmployeeResponse addEmployee(EmployeeRequest employeeRequest) {
+        Employee employee = employeeRepository.save(employeeMapper.toEmployee(employeeRequest));
+        Arrays.stream(employeeRequest.getProductTypeIds())
+                .forEach(
+                        aLong -> employeeProductTypeRepository.save(
+                                EmployeeProductType.builder()
+                                        .employeeId(employee.getId())
+                                        .productTypeId(aLong)
+                                        .build()
+                        )
+                );
+        return employeeMapper.toEmployeeResponse(employee);
     }
 }

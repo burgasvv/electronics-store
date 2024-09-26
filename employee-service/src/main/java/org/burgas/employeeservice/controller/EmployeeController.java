@@ -1,8 +1,12 @@
 package org.burgas.employeeservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.feign.ProductTypeClient;
+import org.burgas.employeeservice.feign.StoreClient;
+import org.burgas.employeeservice.model.request.EmployeeRequest;
 import org.burgas.employeeservice.model.response.EmployeeResponse;
 import org.burgas.employeeservice.service.EmployeeService;
+import org.burgas.employeeservice.service.PositionService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @Controller
@@ -18,6 +23,9 @@ import java.util.stream.IntStream;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final PositionService positionService;
+    private final StoreClient storeClient;
+    private final ProductTypeClient productTypeClient;
 
     @GetMapping
     public String getAllEmployees(Model model) {
@@ -100,5 +108,22 @@ public class EmployeeController {
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         employeeService.saveFromCsvFile(file);
         return "redirect:http://localhost:8765/employees";
+    }
+
+    @GetMapping("/add-employee-page")
+    public String addEmployeePage(Model model) {
+        model.addAttribute("newEmployee", new EmployeeRequest());
+        model.addAttribute("positions", positionService.findAll());
+        model.addAttribute("stores", storeClient.getAllStores().getBody());
+        model.addAttribute("productTypes", productTypeClient.getAllProductTypes().getBody());
+        return "employees/addEmployee";
+    }
+
+    @PostMapping("/add-employee")
+    public String addEmployee(@ModelAttribute EmployeeRequest employeeRequest) {
+        System.out.println(employeeRequest.getBirthDate());
+        System.out.println(Arrays.toString(employeeRequest.getProductTypeIds()));
+        return "redirect:http://localhost:8765/employees/"
+               + employeeService.addEmployee(employeeRequest).getId();
     }
 }

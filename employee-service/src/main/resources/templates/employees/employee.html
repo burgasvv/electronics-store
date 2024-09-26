@@ -10,7 +10,13 @@
             <h1 th:text="|Ф.И.О: ${employee.getSurname()} ${employee.getName()} ${employee.getPatronymic()}|"></h1>
             <h3 style="color: grey" th:text="|Пол: ${employee.getGender()}|"></h3>
             <h2 th:text="|Должность: ${employee.getPositionResponse().getName()}|"></h2>
-            <h3 th:text="|Магазин: ${employee.getStoreResponse().getName()}|"></h3>
+            <h3 th:text="|Магазин: ${employee.storeResponse.name}|"></h3>
+            <h2>Типы электротоваров</h2>
+            <h3 th:each="productType : ${employee.productTypeResponses}">
+                <a th:href="@{/product-types/{product-type-id} (product-type-id = ${productType.id})}">
+                    <span th:text="${productType.name}"></span>
+                </a>
+            </h3>
         </div>
     </div>
 </body>

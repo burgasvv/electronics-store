@@ -50,4 +50,9 @@ public class StoreRestController {
                 storeService.findStoresByProductIdInStock(productId)
         );
     }
+
+    @GetMapping("/all-stores")
+    public ResponseEntity<List<StoreResponse>> getAllStores() {
+        return ResponseEntity.ok(storeService.findAll());
+    }
 }

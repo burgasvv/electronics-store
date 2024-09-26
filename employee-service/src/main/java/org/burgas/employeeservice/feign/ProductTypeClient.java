@@ -14,6 +14,9 @@ import java.util.List;
 )
 public interface ProductTypeClient {
 
+    @GetMapping("/all-product-types")
+    ResponseEntity<List<ProductTypeResponse>> getAllProductTypes();
+
     @GetMapping("/{employee-id}")
     ResponseEntity<List<ProductTypeResponse>> getEmployeeProductTypes(
             @PathVariable(name = "employee-id") Long employeeId

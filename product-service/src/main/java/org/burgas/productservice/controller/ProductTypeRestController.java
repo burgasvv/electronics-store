@@ -18,6 +18,11 @@ public class ProductTypeRestController {
 
     private final ProductTypeService productTypeService;
 
+    @GetMapping("/all-product-types")
+    public ResponseEntity<List<ProductTypeResponse>> getAllProductTypes() {
+        return ResponseEntity.ok(productTypeService.findAll());
+    }
+
     @GetMapping("/{employee-id}")
     public ResponseEntity<List<ProductTypeResponse>> getEmployeeProductTypes(
             @PathVariable(name = "employee-id") Long employeeId

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
@@ -36,6 +37,16 @@ public class PositionService {
     public Page<PositionResponse> findAllPages(int page, int size) {
         return positionRepository.findAll(getPageRequest(page, size))
                 .map(positionMapper::toPositionResponse);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public List<PositionResponse> findAll() {
+        return positionRepository.findAll()
+                .stream().map(positionMapper::toPositionResponse)
+                .toList();
     }
 
     @Transactional(

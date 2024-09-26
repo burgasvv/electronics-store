@@ -43,6 +43,16 @@ public class ProductTypeService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public List<ProductTypeResponse> findAll() {
+        return productTypeRepository.findAll()
+                .stream().map(productTypeMapper::toTypeResponse)
+                .toList();
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public List<ProductTypeResponse> findTypesByEmployeeId(Long employeeId) {
         return productTypeRepository.findTypeByEmployeeId(employeeId)
                 .stream().map(productTypeMapper::toTypeResponse)

@@ -45,6 +45,16 @@ public class StoreService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public List<StoreResponse> findAll() {
+        return storeRepository.findAll()
+                .stream().map(storeMapper::toStoreResponse)
+                .toList();
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public StoreResponse findById(Long id) {
         return storeRepository.findById(id)
                 .map(storeMapper::toStoreResponse)
