@@ -77,6 +77,6 @@ public class ProductController {
     @PostMapping("/save-from-csv")
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         productService.saveDataFromCsvFile(file);
-        return "redirect:/products";
+        return "redirect:http://localhost:8765/products";
     }
 }

@@ -34,4 +34,20 @@ public class ProductRestController {
                 productService.findProductByEmployeeIdAndPurchaseId(employeeId, purchaseId)
         );
     }
+
+    @GetMapping("/product-not-in-stock")
+    public ResponseEntity<String> notInStockMessage() {
+        return ResponseEntity.ok(
+                """
+                        <body>
+                            <div style='margin: 50px 100px'>
+                                <h1>Товара нет в наличии</h1>
+                            </div>
+                            <script>
+                                alert("Товара нет в наличии")
+                            </script>
+                        </body>
+                      """
+        );
+    }
 }

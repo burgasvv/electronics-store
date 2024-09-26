@@ -47,6 +47,6 @@ public class PositionController {
     @PostMapping("/save-from-csv")
     public String getDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         positionService.saveDataFromCsvFile(file);
-        return "redirect:/positions";
+        return "redirect:http://localhost:8765/positions";
     }
 }

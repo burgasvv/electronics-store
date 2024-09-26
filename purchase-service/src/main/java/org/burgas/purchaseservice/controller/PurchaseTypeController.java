@@ -49,6 +49,6 @@ public class PurchaseTypeController {
     @PostMapping("/save-from-csv")
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         purchaseTypeService.safeDataFromCsvFile(file);
-        return "redirect:/purchase-types";
+        return "redirect:http://localhost:8765/purchase-types";
     }
 }

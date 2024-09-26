@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.List;
@@ -91,7 +90,7 @@ public class PurchaseController {
     @PostMapping("/save-from-csv")
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         purchaseService.saveDataFromCsvFile(file);
-        return "redirect:/purchases";
+        return "redirect:http://localhost:8765/purchases";
     }
 
     @GetMapping("/make-purchase-page/{product-id}")
@@ -107,16 +106,16 @@ public class PurchaseController {
             return "purchases/makePurchase";
 
         } else {
-            return ResponseEntity.ok("Товара нет в наличии").getBody();
+            return "redirect:http://localhost:8765/rest-products/product-not-in-stock";
         }
     }
 
     @PostMapping("/finish-purchase/{product-id}")
-    public RedirectView finishPurchase(
+    public String finishPurchase(
             @PathVariable(name = "product-id") Long productId,
             @RequestParam Long storeId, @RequestParam Long purchaseTypeId
     ) {
         PurchaseResponse purchaseResponse = purchaseService.makePurchase(productId, purchaseTypeId, storeId);
-        return new RedirectView("/purchases/" + purchaseResponse.getId());
+        return "redirect:http://localhost:8765/purchases/" + purchaseResponse.getId();
     }
 }

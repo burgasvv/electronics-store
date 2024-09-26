@@ -20,6 +20,6 @@ public class EmployeeProductTypeController {
     @PostMapping("/save-from-csv")
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         employeeProductTypeService.saveDataFromCsv(file);
-        return "redirect:/employees";
+        return "redirect:http://localhost:8765/employees";
     }
 }

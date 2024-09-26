@@ -99,6 +99,6 @@ public class EmployeeController {
     @PostMapping("/save-from-csv")
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         employeeService.saveFromCsvFile(file);
-        return "redirect:/employees";
+        return "redirect:http://localhost:8765/employees";
     }
 }

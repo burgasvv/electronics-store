@@ -26,8 +26,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Page<Employee> findEmployeesByStoreId(Long storeId, @NotNull Pageable pageable);
 
-    @Override
-    @NotNull Page<Employee> findAll(@NotNull Pageable pageable);
-
     Page<Employee> findEmployeesByPositionId(Long positionId, Pageable pageable);
 }

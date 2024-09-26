@@ -59,6 +59,6 @@ public class StoreController {
     @PostMapping("/save-from-csv")
     public String saveDateFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         storeService.saveDataFromCsvFile(file);
-        return "redirect:/stores";
+        return "redirect:http://localhost:8765/stores";
     }
 }
