@@ -20,7 +20,7 @@
             <a th:href="@{/stores/{store-id} (store-id = ${storeProductAmount.getKey().getId()})}">
                 <span th:text="${storeProductAmount.getKey().getName()}"></span>
             </a>
-            <span th:text="|Количество: ${storeProductAmount.getValue().getAmount()}|"></span>
+            <span th:text="|Количество: ${storeProductAmount.value.amount}|"></span>
         </h3>
     </div>
 </div>

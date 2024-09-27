@@ -18,6 +18,15 @@
                 </a>
             </h3>
         </div>
+        <div style="margin-top: 50px; display: inline-flex">
+            <form th:action="@{/employees/edit-employee-page/{employee-id} (employee-id = ${employee.id})}" th:method="GET">
+                <input type="submit" value="Изменить" style="color: black">
+            </form>
+            <form th:action="@{/employees/delete-employee/{employee-id} (employee-id = ${employee.id})}"
+                  th:method="POST" style="margin-left: 20px">
+                <input type="submit" value="Удалить" style="color: black">
+            </form>
+        </div>
     </div>
 </body>
 </html>

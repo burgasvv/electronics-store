@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @Controller
@@ -121,9 +120,32 @@ public class EmployeeController {
 
     @PostMapping("/add-employee")
     public String addEmployee(@ModelAttribute EmployeeRequest employeeRequest) {
-        System.out.println(employeeRequest.getBirthDate());
-        System.out.println(Arrays.toString(employeeRequest.getProductTypeIds()));
         return "redirect:http://localhost:8765/employees/"
                + employeeService.addEmployee(employeeRequest).getId();
+    }
+
+    @GetMapping("/edit-employee-page/{employee-id}")
+    public String editEmployeePage(
+            @PathVariable(name = "employee-id") Long employeeId, Model model
+    ) {
+        model.addAttribute("employee", employeeService.findEmployeeRequestById(employeeId));
+        model.addAttribute("positions", positionService.findAll());
+        model.addAttribute("stores", storeClient.getAllStores().getBody());
+        model.addAttribute("productTypes", productTypeClient.getAllProductTypes().getBody());
+        return "employees/editEmployee";
+    }
+
+    @PostMapping("/edit-employee")
+    public String editEmployee(@ModelAttribute EmployeeRequest employeeRequest) {
+        return "redirect:http://localhost:8765/employees/"
+               + employeeService.editEmployee(employeeRequest).getId();
+    }
+
+    @PostMapping("/delete-employee/{employee-id}")
+    public String deleteEmployee(
+            @PathVariable(name = "employee-id") Long employeeId
+    ) {
+        employeeService.deleteEmployee(employeeId);
+        return "redirect:http://localhost:8765/employees";
     }
 }

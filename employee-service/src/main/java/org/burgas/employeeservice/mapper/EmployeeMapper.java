@@ -12,11 +12,10 @@ import org.burgas.employeeservice.model.response.EmployeeResponse;
 import org.burgas.employeeservice.model.response.ProductTypeResponse;
 import org.burgas.employeeservice.model.response.PurchaseEmployeeResponse;
 import org.burgas.employeeservice.model.standart.Gender;
+import org.burgas.employeeservice.repository.EmployeeProductTypeRepository;
 import org.burgas.employeeservice.repository.PositionRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -29,6 +28,7 @@ public class EmployeeMapper {
     private final ProductTypeClient productTypeClient;
     private final PurchaseClient purchaseClient;
     private final PositionRepository positionRepository;
+    private final EmployeeProductTypeRepository employeeProductTypeRepository;
 
     public EmployeeResponse toEmployeeResponse(Employee employee) {
 
@@ -102,13 +102,28 @@ public class EmployeeMapper {
                 .name(employeeRequest.getName())
                 .surname(employeeRequest.getSurname())
                 .patronymic(employeeRequest.getPatronymic())
-                .birthDate(
-                        Date.valueOf(LocalDate.parse(
-                                employeeRequest.getBirthDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        ))
-                ).gender(employeeRequest.getGender() != 0 ? Gender.MALE : Gender.FEMALE)
+                .birthDate(employeeRequest.getBirthDate())
+                .gender(employeeRequest.getGender() != 0 ? Gender.MALE : Gender.FEMALE)
                 .positionId(employeeRequest.getPositionId())
                 .storeId(employeeRequest.getStoreId())
+                .build();
+    }
+
+    public EmployeeRequest toEmployeeRequest(Employee employee) {
+        return EmployeeRequest.builder()
+                .id(employee.getId())
+                .surname(employee.getSurname())
+                .name(employee.getName())
+                .patronymic(employee.getPatronymic())
+                .storeId(employee.getStoreId())
+                .positionId(employee.getPositionId())
+                .birthDate(employee.getBirthDate())
+                .gender(
+                        employee.getGender() != Gender.FEMALE ? 1 : 0
+                ).productTypeIds(
+                        employeeProductTypeRepository.findEmployeeProductTypesIdsByEmployeeId(employee.getId())
+                                .toArray(Long[]::new)
+                )
                 .build();
     }
 }

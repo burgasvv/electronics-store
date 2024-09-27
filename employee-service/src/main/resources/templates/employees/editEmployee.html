@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Внести изменения в данные о сотруднике</title>
+</head>
+<body>
+<div style="text-align: center; margin-top: 7%">
+    <form th:action="@{/employees/edit-employee}" th:method="POST">
+        <label for="surname">Фамилия</label><br>
+        <input type="text" id="surname" th:field="${employee.surname}"><br><br>
+
+        <label for="name">Имя</label><br>
+        <input type="text" id="name" th:field="${employee.name}"><br><br>
+
+        <label for="patronymic">Отчество</label><br>
+        <input type="text" id="patronymic" th:field="${employee.patronymic}"><br><br>
+
+        <label for="birthdate">Дата Рождения</label><br>
+        <input type="date" id="birthdate" min="1930-01-01" max="2007-12-31" th:field="${employee.birthDate}"><br><br>
+
+        <label for="gender">Пол</label><br>
+        <select th:field="${employee.gender}" id="gender">
+            <option value="1">Мужчина</option>
+            <option value="0">Женщина</option>
+        </select><br><br>
+
+        <label for="position">Должность</label><br>
+        <select th:field="${employee.positionId}" id="position">
+            <option th:each="position : ${positions}"
+                    th:value="${position.id}" th:text="${position.name}"></option>
+        </select><br><br>
+
+        <label for="store">Филиал магазина</label><br>
+        <select th:field="${employee.storeId}" id="store">
+            <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
+        </select><br><br>
+
+        <label for="productType">Филиал магазина</label><br>
+        <select th:field="${employee.productTypeIds}" id="productType" multiple>
+            <option th:each="productType : ${productTypes}"
+                    th:value="${productType.id}" th:text="${productType.name}"></option>
+        </select><br><br>
+
+        <input type="submit" value="Принять" style="color: black">
+        <input type="button" value="Назад" onclick="history.back()">
+    </form>
+</div>
+</body>
+</html>

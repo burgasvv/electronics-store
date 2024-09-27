@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.burgas.employeeservice.entity.Employee;
 import org.burgas.employeeservice.entity.EmployeeProductType;
+import org.burgas.employeeservice.exception.EmployeeNotFoundException;
 import org.burgas.employeeservice.mapper.EmployeeMapper;
 import org.burgas.employeeservice.model.csv.EmployeeCsv;
 import org.burgas.employeeservice.model.request.EmployeeRequest;
@@ -55,6 +56,20 @@ public class EmployeeService {
         return employeeRepository.findById(id)
                 .map(employeeMapper::toEmployeeResponse)
                 .orElseGet(EmployeeResponse::new);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public EmployeeRequest findEmployeeRequestById(Long id) {
+        return employeeRepository.findById(id)
+                .map(employeeMapper::toEmployeeRequest)
+                .orElseThrow(
+                        () -> new EmployeeNotFoundException(
+                                "Сотрудник с идентификатором " + id + " не найден"
+                        )
+                );
     }
 
     @Transactional(
@@ -236,5 +251,33 @@ public class EmployeeService {
                         )
                 );
         return employeeMapper.toEmployeeResponse(employee);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public EmployeeResponse editEmployee(EmployeeRequest employeeRequest) {
+        Employee employee = employeeRepository.save(employeeMapper.toEmployee(employeeRequest));
+        employeeProductTypeRepository.deleteEmployeeProductTypesByEmployeeId(employee.getId());
+        Arrays.stream(employeeRequest.getProductTypeIds())
+                .forEach(
+                        aLong -> employeeProductTypeRepository.save(
+                                EmployeeProductType.builder()
+                                        .employeeId(employee.getId())
+                                        .productTypeId(aLong)
+                                        .build()
+                        )
+                );
+        return employeeMapper.toEmployeeResponse(employee);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void deleteEmployee(Long employeeId) {
+        employeeProductTypeRepository.deleteEmployeeProductTypesByEmployeeId(employeeId);
+        employeeRepository.deleteById(employeeId);
     }
 }

@@ -1,8 +1,11 @@
 package org.burgas.productservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.productservice.feign.StoreClient;
+import org.burgas.productservice.model.request.ProductRequest;
 import org.burgas.productservice.model.response.ProductResponse;
 import org.burgas.productservice.service.ProductService;
+import org.burgas.productservice.service.ProductTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @Controller
@@ -19,6 +23,8 @@ import java.util.stream.IntStream;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductTypeService productTypeService;
+    private final StoreClient storeClient;
 
     @GetMapping
     public String getAllProducts(Model model) {
@@ -78,5 +84,30 @@ public class ProductController {
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         productService.saveDataFromCsvFile(file);
         return "redirect:http://localhost:8765/products";
+    }
+
+    @GetMapping("/add-product-page")
+    public String addProductPage(Model model) {
+        model.addAttribute("newProduct", new ProductRequest());
+        model.addAttribute("stores", storeClient.getAllStores().getBody());
+        model.addAttribute("productTypes", productTypeService.findAll());
+        return "products/addProduct";
+    }
+
+    @GetMapping("/add-product")
+    public String addProduct(
+            @ModelAttribute ProductRequest productRequest, Model model
+    ) {
+        model.addAttribute(
+                "chosenStores", productService.getStoresByIds(productRequest.getStoreIds())
+        );
+        model.addAttribute("product", productRequest);
+        return "products/addProductAmount";
+    }
+
+    @PostMapping("/add-products-amounts")
+    public String addProductsAmounts(@ModelAttribute ProductRequest productRequest) {
+        return "redirect:http://localhost:8765/products/"
+               + productService.addProduct(productRequest).getId();
     }
 }

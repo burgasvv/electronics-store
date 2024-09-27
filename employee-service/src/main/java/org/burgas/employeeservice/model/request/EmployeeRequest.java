@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,6 +20,6 @@ public class EmployeeRequest {
     private Integer gender;
     private Long positionId;
     private Long storeId;
-    private String birthDate;
+    private Date birthDate;
     private Long[] productTypeIds;
 }
