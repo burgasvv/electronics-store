@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Приветствие</title>
+</head>
+<body>
+    <div style="margin: 50px 100px">
+        <h3>
+            1. Реализовать вывод информации о лучших сотрудниках в зависимости от занимаемой должности
+            по следующим критериям:
+            <br>
+            	- Количество проданных товаров за последний год.
+                - Сумма проданных товаров. Прописать обозначения за последний год.
+            <br><br>
+            <a th:href="@{/employees/best-employees}">Лучшие сотрудники</a>
+            <br><br><br><br>
+            2. Реализовать вывод информации по определенным критериям:
+            <br>
+                - вывод лучшего младшего продавца-консультанта, продавшего больше всех умных часов;
+                - вывод суммы денежных средств, полученной магазином через оплату наличными.
+            <br><br>
+            <a th:href="@{/employees/best-junior-consultant}">
+                Лучший младший продавец-консультант
+            </a>
+            <br>
+            Сумма денежных средств по типу оплаты
+            <form th:action="@{/stores/store-money-purchase-type}" th:method="GET">
+                <label for="store"></label><br>
+                <select name="store-id" id="store">
+                    <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
+                </select><br><br>
+                <label for="purchaseType"></label>
+                <select name="purchase-type" id="purchaseType">
+                    <option th:each="purchaseType : ${purchaseTypes}"
+                            th:value="${purchaseType.name}" th:text="${purchaseType.name}"></option>
+                </select><br><br>
+                <input type="submit" value="Показать" style="color: black">
+            </form>
+        </h3>
+
+    </div>
+</body>
+</html>

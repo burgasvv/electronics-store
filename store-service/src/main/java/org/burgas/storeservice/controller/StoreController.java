@@ -44,10 +44,10 @@ public class StoreController {
         return "store";
     }
 
-    @GetMapping("/store-money-purchase-type/{store-id}/{purchase-type}")
+    @GetMapping("/store-money-purchase-type")
     public String getStoreMoneyByPurchaseType(
-            @PathVariable(name = "store-id") Long storeId,
-            @PathVariable(name = "purchase-type") String purchaseType,
+            @RequestParam(name = "store-id") Long storeId,
+            @RequestParam(name = "purchase-type") String purchaseType,
             Model model
     ) {
         model.addAttribute(

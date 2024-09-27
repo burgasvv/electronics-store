@@ -7,7 +7,6 @@ import org.burgas.purchaseservice.model.response.PurchaseStoreResponse;
 import org.burgas.purchaseservice.service.PurchaseService;
 import org.burgas.purchaseservice.service.PurchaseTypeService;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -75,16 +74,6 @@ public class PurchaseController {
     ) {
         model.addAttribute("purchase", purchaseService.findById(purchaseId));
         return "purchases/purchase";
-    }
-
-    @GetMapping("/purchase/{purchase-id}")
-    @ResponseBody
-    public ResponseEntity<PurchaseResponse> getPurchase(
-            @PathVariable(name = "purchase-id") Long purchaseId
-    ) {
-        return ResponseEntity.ok(
-                purchaseService.findById(purchaseId)
-        );
     }
 
     @PostMapping("/save-from-csv")
