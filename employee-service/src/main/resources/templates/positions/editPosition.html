@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение данных должности</title>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 7%">
+        <form th:action="@{/positions/edit-position}" th:method="POST">
+
+            <input type="hidden" id="id" th:field="${position.id}">
+
+            <label for="name">Наименование</label><br>
+            <input type="text" id="name" th:field="${position.name}"><br><br>
+
+            <input type="submit" value="Принять" style="color: black">
+            <input type="button" value="Назад" onclick="history.back()" style="color: black">
+        </form>
+    </div>
+</body>
+</html>

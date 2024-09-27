@@ -1,6 +1,7 @@
 package org.burgas.employeeservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.model.request.PositionRequest;
 import org.burgas.employeeservice.model.response.PositionResponse;
 import org.burgas.employeeservice.service.PositionService;
 import org.springframework.data.domain.Page;
@@ -47,6 +48,40 @@ public class PositionController {
     @PostMapping("/save-from-csv")
     public String getDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         positionService.saveDataFromCsvFile(file);
+        return "redirect:http://localhost:8765/positions";
+    }
+
+    @GetMapping("/add-position-page")
+    public String addPositionPage(Model model) {
+        model.addAttribute("newPosition", new PositionRequest());
+        return "positions/addPosition";
+    }
+
+    @PostMapping("/add-position")
+    public String addPosition(@ModelAttribute PositionRequest positionRequest) {
+        return "redirect:http://localhost:8765/positions/"
+               + positionService.addPosition(positionRequest).getId();
+    }
+
+    @GetMapping("/edit-position-page/{position-id}")
+    public String editPositionPage(
+            @PathVariable(name = "position-id") Long positionId, Model model
+    ) {
+        model.addAttribute("position", positionService.findPositionRequestById(positionId));
+        return "positions/editPosition";
+    }
+
+    @PostMapping("/edit-position")
+    public String editPosition(@ModelAttribute PositionRequest positionRequest) {
+        return "redirect:http://localhost:8765/positions/"
+               + positionService.editPosition(positionRequest).getId();
+    }
+
+    @PostMapping("/delete-position/{position-id}")
+    public String deletePosition(
+            @PathVariable(name = "position-id") Long positionId
+    ) {
+        positionService.deletePosition(positionId);
         return "redirect:http://localhost:8765/positions";
     }
 }

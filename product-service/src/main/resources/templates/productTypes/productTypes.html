@@ -14,7 +14,13 @@
         </div>
     </div>
 
-    <div>
+    <div style="margin-top: 50px">
+        <form th:action="@{/product-types/add-product-type-page}" th:method="GET">
+            <input type="submit" value="Добавить" style="color: black">
+        </form>
+    </div>
+
+    <div style="margin-top: 100px">
         <form th:method="POST" th:action="@{/product-types/save-from-csv}" enctype="multipart/form-data">
             <label for="csv">Добавить файл</label>
             <input type="file" id="csv" name="file" accept="text/csv">

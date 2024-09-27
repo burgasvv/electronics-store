@@ -2,8 +2,11 @@ package org.burgas.productservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.productservice.entity.ProductType;
+import org.burgas.productservice.exception.ProductTypeNotFoundException;
 import org.burgas.productservice.mapper.ProductTypeMapper;
 import org.burgas.productservice.model.csv.ProductTypeCsv;
+import org.burgas.productservice.model.request.ProductTypeRequest;
 import org.burgas.productservice.model.response.ProductTypeResponse;
 import org.burgas.productservice.repository.ProductTypeRepository;
 import org.springframework.data.domain.Page;
@@ -36,7 +39,7 @@ public class ProductTypeService {
     )
     public Page<ProductTypeResponse> findAllProductTypePages(int page, int size) {
         return productTypeRepository.findAll(getPageRequest(page, size))
-                .map(productTypeMapper::toTypeResponse);
+                .map(productTypeMapper::toProductTypeResponse);
     }
 
     @Transactional(
@@ -45,7 +48,7 @@ public class ProductTypeService {
     )
     public List<ProductTypeResponse> findAll() {
         return productTypeRepository.findAll()
-                .stream().map(productTypeMapper::toTypeResponse)
+                .stream().map(productTypeMapper::toProductTypeResponse)
                 .toList();
     }
 
@@ -55,7 +58,7 @@ public class ProductTypeService {
     )
     public List<ProductTypeResponse> findTypesByEmployeeId(Long employeeId) {
         return productTypeRepository.findTypeByEmployeeId(employeeId)
-                .stream().map(productTypeMapper::toTypeResponse)
+                .stream().map(productTypeMapper::toProductTypeResponse)
                 .toList();
     }
 
@@ -65,8 +68,22 @@ public class ProductTypeService {
     )
     public ProductTypeResponse findById(Long id) {
         return productTypeRepository.findById(id)
-                .map(productTypeMapper::toTypeResponse)
+                .map(productTypeMapper::toProductTypeResponse)
                 .orElseGet(ProductTypeResponse::new);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public ProductTypeRequest findProductTypeRequestById(Long productTypeId) {
+        return productTypeRepository.findById(productTypeId)
+                .map(productTypeMapper::toProductTypeRequest)
+                .orElseThrow(
+                        () -> new ProductTypeNotFoundException(
+                                "Тип продукта с идентификатором " + productTypeId + " не найден"
+                        )
+                );
     }
 
     @Transactional(
@@ -85,5 +102,44 @@ public class ProductTypeService {
                         .stream().map(productTypeMapper::toProductType)
                         .toList()
         );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public ProductTypeResponse addProductType(ProductTypeRequest productTypeRequest) {
+        return productTypeMapper.toProductTypeResponse(
+                productTypeRepository.save(
+                        ProductType.builder()
+                                .name(productTypeRequest.getName())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public ProductTypeResponse editProductType(ProductTypeRequest productTypeRequest) {
+        return productTypeMapper.toProductTypeResponse(
+                productTypeRepository.save(
+                        ProductType.builder()
+                                .id(productTypeRequest.getId())
+                                .name(productTypeRequest.getName())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void deleteProductType(Long productTypeId) {
+        productTypeRepository.deleteById(productTypeId);
+        productTypeRepository.deleteProductsByProductTypeId(productTypeId);
+        productTypeRepository.deleteFromEmployeeProductTypesByProductTypeId(productTypeId);
     }
 }

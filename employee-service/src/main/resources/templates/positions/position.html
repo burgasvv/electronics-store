@@ -12,6 +12,15 @@
             <a th:href="@{/employees/position/{position-id} (position-id = ${position.getId()})}">Сотрудники</a>
         </h3>
     </div>
+    <div style="margin-top: 50px; display: inline-flex">
+        <form th:action="@{/positions/edit-position-page/{position-id} (position-id = ${position.id})}" th:method="GET">
+            <input type="submit" value="Изменить" style="color: black">
+        </form>
+        <form th:action="@{/positions/delete-position/{position-id} (position-id = ${position.id})}"
+              th:method="POST" style="margin-left: 20px">
+            <input type="submit" value="Удалить" style="color: black">
+        </form>
+    </div>
 </div>
 </body>
 </html>

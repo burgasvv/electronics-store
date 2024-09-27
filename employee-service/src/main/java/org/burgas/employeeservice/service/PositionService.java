@@ -2,8 +2,11 @@ package org.burgas.employeeservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.employeeservice.entity.Position;
+import org.burgas.employeeservice.exception.PositionNotFoundException;
 import org.burgas.employeeservice.mapper.PositionMapper;
 import org.burgas.employeeservice.model.csv.PositionCsv;
+import org.burgas.employeeservice.model.request.PositionRequest;
 import org.burgas.employeeservice.model.response.PositionResponse;
 import org.burgas.employeeservice.repository.PositionRepository;
 import org.springframework.data.domain.Page;
@@ -63,6 +66,20 @@ public class PositionService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public PositionRequest findPositionRequestById(Long positionId) {
+        return positionRepository.findById(positionId)
+                .map(positionMapper::toPositionRequest)
+                .orElseThrow(
+                        () -> new PositionNotFoundException(
+                                "Должность с идентификатором " + positionId + " не найдена"
+                        )
+                );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public void saveDataFromCsvFile(MultipartFile multipartFile) throws IOException {
         positionRepository.saveAll(
                 new CsvToBeanBuilder<PositionCsv>(
@@ -75,5 +92,43 @@ public class PositionService {
                         .stream().map(positionMapper::toPosition)
                         .toList()
         );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public PositionResponse addPosition(PositionRequest positionRequest) {
+        return positionMapper.toPositionResponse(
+                positionRepository.save(
+                        Position.builder()
+                                .name(positionRequest.getName())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public PositionResponse editPosition(PositionRequest positionRequest) {
+        return positionMapper.toPositionResponse(
+                positionRepository.save(
+                        Position.builder()
+                                .id(positionRequest.getId())
+                                .name(positionRequest.getName())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void deletePosition(Long positionId) {
+        positionRepository.deleteById(positionId);
+        positionRepository.updateEmployeesByPositionId(positionId);
     }
 }

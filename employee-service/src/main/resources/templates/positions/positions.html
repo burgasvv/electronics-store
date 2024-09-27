@@ -8,13 +8,19 @@
 <div style="margin: 100px 50px">
     <div th:each="position : ${positions}">
         <div>
-            <a th:href="@{/positions/{position-id} (position-id = ${position.getId()})}">
-                <h3 th:text="${position.getName()}"></h3>
+            <a th:href="@{/positions/{position-id} (position-id = ${position.id})}">
+                <h3 th:text="${position.name}"></h3>
             </a>
         </div>
     </div>
 
-    <div>
+    <div style="margin-top: 50px">
+        <form th:action="@{/positions/add-position-page}" th:method="GET">
+            <input type="submit" value="Добавить" style="color: black">
+        </form>
+    </div>
+
+    <div style="margin-top: 100px">
         <form th:method="POST" th:action="@{/positions/save-from-csv}" enctype="multipart/form-data">
             <label for="csv">Добавить файл</label>
             <input type="file" id="csv" name="file" accept="text/csv">

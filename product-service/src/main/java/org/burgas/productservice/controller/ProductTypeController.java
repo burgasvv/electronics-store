@@ -1,6 +1,7 @@
 package org.burgas.productservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.productservice.model.request.ProductTypeRequest;
 import org.burgas.productservice.model.response.ProductTypeResponse;
 import org.burgas.productservice.service.ProductTypeService;
 import org.springframework.data.domain.Page;
@@ -50,5 +51,39 @@ public class ProductTypeController {
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         productTypeService.saveDataFromCsvFile(file);
         return "redirect:http://localhost:8765/productTypes";
+    }
+
+    @GetMapping("/add-product-type-page")
+    public String addProductTypePage(Model model) {
+        model.addAttribute("newProductType", new ProductTypeRequest());
+        return "productTypes/addProductType";
+    }
+
+    @PostMapping("/add-product-type")
+    public String addProductType(@ModelAttribute ProductTypeRequest productTypeRequest) {
+        return "redirect:http://localhost:8765/product-types/"
+               + productTypeService.addProductType(productTypeRequest).getId();
+    }
+
+    @GetMapping("/edit-product-type-page/{product-type-id}")
+    public String editProductTypePage(
+            @PathVariable(name = "product-type-id") Long productTypeId, Model model
+    ) {
+        model.addAttribute(
+                "productType", productTypeService.findProductTypeRequestById(productTypeId)
+        );
+        return "productTypes/editProductType";
+    }
+
+    @PostMapping("/edit-product-type")
+    public String editProductType(@ModelAttribute ProductTypeRequest productTypeRequest) {
+        return "redirect:http://localhost:8765/product-types/"
+               + productTypeService.editProductType(productTypeRequest).getId();
+    }
+
+    @PostMapping("/delete-product-type/{product-type-id}")
+    public String deleteProductType(@PathVariable(name = "product-type-id") Long productTypeId) {
+        productTypeService.deleteProductType(productTypeId);
+        return "redirect:http://localhost:8765/product-types";
     }
 }

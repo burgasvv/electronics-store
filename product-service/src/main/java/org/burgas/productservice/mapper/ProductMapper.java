@@ -56,7 +56,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .productTypeResponse(
-                        productTypeMapper.toTypeResponse(
+                        productTypeMapper.toProductTypeResponse(
                                 productTypeRepository.findById(product.getProductTypeId())
                                         .orElseGet(ProductType::new)
                         )
@@ -74,7 +74,7 @@ public class ProductMapper {
                 .id(product.getId())
                 .name(product.getName())
                 .productTypeResponse(
-                        productTypeMapper.toTypeResponse(
+                        productTypeMapper.toProductTypeResponse(
                                 productTypeRepository.findById(product.getProductTypeId())
                                         .orElseGet(ProductType::new)
                         )
