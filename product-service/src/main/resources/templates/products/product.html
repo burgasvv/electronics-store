@@ -23,6 +23,16 @@
             <span th:text="|Количество: ${storeProductAmount.value.amount}|"></span>
         </h3>
     </div>
+
+    <div style="margin-top: 50px; display: inline-flex">
+        <form th:action="@{/products/edit-product-page/{product-id} (product-id = ${product.id})}" th:method="GET">
+            <input type="submit" value="Изменить" style="color: black">
+        </form>
+        <form th:action="@{/products/delete-product/{product-id} (product-id = ${product.id})}"
+              th:method="POST" style="margin-left: 20px">
+            <input type="submit" value="Удалить" >
+        </form>
+    </div>
 </div>
 </body>
 </html>

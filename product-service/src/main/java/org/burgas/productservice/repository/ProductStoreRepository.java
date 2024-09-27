@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProductStoreRepository extends JpaRepository<ProductStore, ProductStorePK> {
 
     List<ProductStore> findProductStoresByProductId(Long productId);
+
+    void deleteProductStoresByProductId(Long productId);
 }

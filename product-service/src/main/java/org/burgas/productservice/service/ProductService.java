@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.burgas.productservice.entity.Product;
 import org.burgas.productservice.entity.ProductStore;
+import org.burgas.productservice.exception.ProductNotFoundException;
 import org.burgas.productservice.feign.StoreClient;
 import org.burgas.productservice.mapper.ProductMapper;
 import org.burgas.productservice.model.csv.ProductCsv;
@@ -69,6 +70,20 @@ public class ProductService {
         return productRepository.findById(id)
                 .map(productMapper::toProductResponse)
                 .orElseGet(ProductResponse::new);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public ProductRequest findProductRequestById(Long productId) {
+        return productRepository.findById(productId)
+                .map(productMapper::toProductRequest)
+                .orElseThrow(
+                        () -> new ProductNotFoundException(
+                                "Электротовар с идентификатором " + productId + " не найден"
+                        )
+                );
     }
 
     @Transactional(
@@ -155,5 +170,48 @@ public class ProductService {
         }
 
         return productMapper.toProductResponse(product);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public ProductResponse editProduct(ProductRequest productRequest) {
+        Product product = productRepository.save(
+                Product.builder()
+                        .id(productRequest.getId())
+                        .name(productRequest.getName())
+                        .productTypeId(productRequest.getProductTypeId())
+                        .price(productRequest.getPrice())
+                        .archive(productRequest.getArchive() != 0)
+                        .amount(
+                                Arrays.stream(productRequest.getStoreProductAmounts())
+                                        .reduce(Integer::sum).orElse(0)
+                        ).description(productRequest.getDescription())
+                        .build()
+        );
+
+        productStoreRepository.deleteProductStoresByProductId(product.getId());
+
+        for (int i = 0; i < productRequest.getStoreIds().length; i++) {
+            productStoreRepository.save(
+                    ProductStore.builder()
+                            .productId(product.getId())
+                            .storeId(productRequest.getStoreIds()[i])
+                            .amount(productRequest.getStoreProductAmounts()[i])
+                            .build()
+            );
+        }
+
+        return productMapper.toProductResponse(product);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void deleteProduct(Long productId) {
+        productStoreRepository.deleteProductStoresByProductId(productId);
+        productRepository.deleteById(productId);
     }
 }

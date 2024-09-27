@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить количество электротоваров</title>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 7%">
+        <h1>Распределить товар</h1>
+        <form th:action="@{/products/edit-products-amounts}" th:method="POST">
+            <input type="hidden" th:field="${product.id}">
+            <input type="hidden" th:field="${product.name}">
+            <input type="hidden"  th:field="${product.storeIds}">
+            <input type="hidden"  th:field="${product.productTypeId}">
+            <input type="hidden"  th:field="${product.archive}">
+            <input type="hidden"  th:field="${product.price}">
+            <input type="hidden"  th:field="${product.description}">
+            <div th:each="store : ${chosenStores}">
+                <h2>
+                    <span th:text="${store.name}"></span>
+                    <label for="amount">Количество товара</label>
+                    <input id="amount" type="number" style="margin-left: 100px"
+                           th:field="${product.storeProductAmounts}">
+                </h2>
+            </div>
+            <input type="submit" value="Принять" style="color: black">
+            <input type="button" value="Назад" onclick="history.back()">
+        </form>
+    </div>
+</body>
+</html>

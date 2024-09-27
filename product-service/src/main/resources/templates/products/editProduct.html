@@ -2,40 +2,43 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Добавить электротовар</title>
+    <title>Изменить данные электротовара</title>
 </head>
 <body>
     <div style="text-align: center; margin-top: 7%">
-        <form th:action="@{/products/add-product}" th:method="GET">
+        <form th:action="@{/products/edit-product}" th:method="GET">
+
+            <input type="hidden" id="id" th:field="${product.id}">
+
             <label for="name">Наименование</label><br>
-            <input type="text" id="name" th:field="${newProduct.name}"><br><br>
+            <input type="text" id="name" th:field="${product.name}"><br><br>
 
             <label for="price">Цена</label><br>
-            <input type="number" id="price" th:field="${newProduct.price}"><br><br>
+            <input type="number" id="price" th:field="${product.price}"><br><br>
 
             <label for="description">Описание</label><br>
-            <textarea id="description" th:field="${newProduct.description}" cols="30" rows="10">></textarea><br><br>
+            <textarea id="description" th:field="${product.description}" cols="30" rows="10">></textarea><br><br>
 
             <label for="archive">В продаже/снят</label><br>
-            <select th:field="${newProduct.archive}" id="archive">
+            <select th:field="${product.archive}" id="archive">
                 <option value="1">В продаже</option>
                 <option value="0">Снят с продажи</option>
             </select><br><br>
 
             <label for="productType">Тип электротовара</label><br>
-            <select th:field="${newProduct.productTypeId}" id="productType">
+            <select th:field="${product.productTypeId}" id="productType">
                 <option th:each="productType : ${productTypes}"
                         th:value="${productType.id}" th:text="${productType.name}"></option>
             </select><br><br>
 
             <label for="store">Магазины</label><br>
-            <select  th:field="${newProduct.storeIds}" id="store" multiple>
+            <select  th:field="${product.storeIds}" id="store" multiple>
                 <option th:each="store : ${stores}"
                         th:value="${store.id}" th:text="${store.name}"></option>
             </select><br><br>
-
             <input type="submit" value="Далее" style="color: black">
             <input type="button" value="Назад" onclick="history.back()">
+
         </form>
     </div>
 </body>

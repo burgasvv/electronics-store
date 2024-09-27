@@ -109,4 +109,39 @@ public class ProductController {
         return "redirect:http://localhost:8765/products/"
                + productService.addProduct(productRequest).getId();
     }
+
+    @GetMapping("/edit-product-page/{product-id}")
+    public String editProductPage(
+            @PathVariable(name = "product-id") Long productId, Model model
+    ) {
+        model.addAttribute("product", productService.findProductRequestById(productId));
+        model.addAttribute("stores", storeClient.getAllStores().getBody());
+        model.addAttribute("productTypes", productTypeService.findAll());
+        return "products/editProduct";
+    }
+
+    @GetMapping("/edit-product")
+    public String editProduct(
+            @ModelAttribute ProductRequest productRequest, Model model
+    ) {
+        model.addAttribute(
+                "chosenStores", productService.getStoresByIds(productRequest.getStoreIds())
+        );
+        model.addAttribute("product", productRequest);
+        return "products/editProductAmount";
+    }
+
+    @PostMapping("/edit-products-amounts")
+    public String editProductsAmounts(@ModelAttribute ProductRequest productRequest) {
+        return "redirect:http://localhost:8765/products/"
+               + productService.editProduct(productRequest).getId();
+    }
+
+    @PostMapping("/delete-product/{product-id}")
+    public String deleteProduct(
+            @PathVariable(name = "product-id") Long productId
+    ) {
+        productService.deleteProduct(productId);
+        return "redirect:http://localhost:8765/products";
+    }
 }
