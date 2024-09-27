@@ -79,7 +79,7 @@ public class StoreController {
     public String editStorePage(
             @PathVariable(name = "store-id") Long storeId, Model model
     ) {
-        model.addAttribute("store", storeService.findById(storeId));
+        model.addAttribute("store", storeService.findStoreRequestById(storeId));
         return "editStore";
     }
 

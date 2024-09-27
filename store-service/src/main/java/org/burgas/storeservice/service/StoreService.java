@@ -3,6 +3,7 @@ package org.burgas.storeservice.service;
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.burgas.storeservice.entity.Store;
+import org.burgas.storeservice.exception.StoreNotFoundException;
 import org.burgas.storeservice.mapper.StoreMapper;
 import org.burgas.storeservice.model.csv.StoreCsv;
 import org.burgas.storeservice.model.request.StoreRequest;
@@ -61,6 +62,20 @@ public class StoreService {
         return storeRepository.findById(id)
                 .map(storeMapper::toStoreResponse)
                 .orElseGet(StoreResponse::new);
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public StoreRequest findStoreRequestById(Long id) {
+        return storeRepository.findById(id)
+                .map(storeMapper::toStoreRequest)
+                .orElseThrow(
+                        () -> new StoreNotFoundException(
+                                "Магазин с идентификатором " + id + " не найден"
+                        )
+                );
     }
 
     @Transactional(

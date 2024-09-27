@@ -14,7 +14,7 @@
             </h3>
         </div>
         <div style="margin-top: 50px; display: inline-flex">
-            <form th:action="@{/stores/edit-store-page/{store-id} (sotr-id = ${store.id})}" th:method="GET">
+            <form th:action="@{/stores/edit-store-page/{store-id} (store-id = ${store.id})}" th:method="GET">
                 <input type="submit" value="Изменить" style="color: black">
             </form>
             <form th:action="@{/stores/delete-store/{store-id} (store-id = ${store.id})}"
