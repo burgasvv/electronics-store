@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить данные магазина</title>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 7%">
+        <form th:action="@{/stores/edit-store}" th:method="POST">
+
+            <input type="hidden" id="id" th:field="${store.id}">
+
+            <label for="name">Наименование</label><br>
+            <input type="text" id="name" th:field="${store.name}"><br><br>
+
+            <label for="address">Адрес</label><br>
+            <input type="text" id="address" th:field="${store.address}"><br><br>
+
+            <input type="submit" value="Принять" style="color: black">
+            <input type="button" value="Назад" onclick="history.back()" style="color: black">
+        </form>
+    </div>
+</body>
+</html>

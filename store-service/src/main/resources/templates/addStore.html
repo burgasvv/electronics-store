@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить магазин</title>
+</head>
+<body>
+    <div style="margin-top: 7%; text-align: center">
+        <form th:action="@{/stores/add-store}" th:method="POST">
+            <label for="name">Наименование</label><br>
+            <input type="text" id="name" th:field="${newStore.name}"><br><br>
+
+            <label for="address">Адрес</label><br>
+            <input type="text" id="address" th:field="${newStore.address}"><br><br>
+
+            <input type="submit" value="Принять" style="color: black">
+            <input type="button" value="Назад" onclick="history.back()" style="color: black">
+        </form>
+    </div>
+</body>
+</html>

@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -57,4 +58,13 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
                     """
     )
     List<Store> findStoresByProductIdInStock(Long productId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    delete from product_store where store_id = ?1
+                    """
+    )
+    @Modifying
+    void deleteProductStoresByStoreId(Long storeId);
 }

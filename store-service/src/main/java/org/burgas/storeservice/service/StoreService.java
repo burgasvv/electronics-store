@@ -2,8 +2,10 @@ package org.burgas.storeservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.storeservice.entity.Store;
 import org.burgas.storeservice.mapper.StoreMapper;
 import org.burgas.storeservice.model.csv.StoreCsv;
+import org.burgas.storeservice.model.request.StoreRequest;
 import org.burgas.storeservice.model.response.PurchaseStoreResponse;
 import org.burgas.storeservice.model.response.StoreMoneyResponse;
 import org.burgas.storeservice.model.response.StoreResponse;
@@ -125,5 +127,45 @@ public class StoreService {
                         .stream().map(storeMapper::toStore)
                         .toList()
         );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public StoreResponse addStore(StoreRequest storeRequest) {
+        return storeMapper.toStoreResponse(
+                storeRepository.save(
+                        Store.builder()
+                                .name(storeRequest.getName())
+                                .address(storeRequest.getAddress())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public StoreResponse editStore(StoreRequest storeRequest) {
+        return storeMapper.toStoreResponse(
+                storeRepository.save(
+                        Store.builder()
+                                .id(storeRequest.getId())
+                                .name(storeRequest.getName())
+                                .address(storeRequest.getAddress())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void deleteStore(Long storeId) {
+        storeRepository.deleteById(storeId);
+        storeRepository.deleteProductStoresByStoreId(storeId);
     }
 }
