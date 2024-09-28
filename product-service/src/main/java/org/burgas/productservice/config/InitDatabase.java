@@ -45,8 +45,6 @@ public class InitDatabase {
                     )
             );
 
-            log.info("Electronic Types added {}", productTypeRepository.saveAll(productTypes));
-
             Product tv1 = Product.builder().name("Телевизор LED LG 20MT48VF-PZ черный")
                     .productTypeId(1L).price(7899).amount(10).archive(false)
                     .description("HD, 1366x768, DVB-T, DVB-T2, DVB-C, DVB-S2, HDMI х 1, USB х 1").build();
@@ -210,6 +208,8 @@ public class InitDatabase {
             Product waterrrr2= Product.builder().name("Водонагреватель Thermex Lanza 3500")
                     .productTypeId(11L).price(25990).amount(0).archive(false)
                     .description("проточный, установка горизонтальная, 3.5 кВт, 45°, 29.8 см x 16.8 см x 12.5 см").build();
+
+            log.info("Electronic Types added {}", productTypeRepository.saveAll(productTypes));
 
             log.info(
                     "Products added: {}", productRepository.saveAll(

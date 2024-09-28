@@ -49,6 +49,8 @@
 </head>
 <body>
 <div class="sidenav">
+    <a href="/index">Начальная страница</a>
+    <a href="/index">Начальная страница</a>
     <a href="/products">Электротовары</a>
     <a href="/purchases">Покупки</a>
     <a href="/employees">Сотрудники</a>
@@ -64,8 +66,8 @@
 </div>
     <div style="margin: 50px 100px 50px 20%">
         <div th:each="employee : ${employees}">
-            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
-                <h3 th:text="|${employee.getName()} ${employee.getPositionResponse().getName()}|"></h3>
+            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id})}">
+                <h3 th:text="|${employee.name} ${employee.positionResponse.name}|"></h3>
             </a>
         </div>
     </div>

@@ -49,6 +49,7 @@
 </head>
 <body>
 <div class="sidenav">
+    <a href="/index">Начальная страница</a>
     <a href="/products">Электротовары</a>
     <a href="/purchases">Покупки</a>
     <a href="/employees">Сотрудники</a>
@@ -140,7 +141,7 @@
 
     <div style="margin-top: 100px">
         <form th:method="POST" th:action="@{/products/save-from-csv}" enctype="multipart/form-data">
-            <label for="csv">Добавить файл</label>
+            <label for="csv">Добавить CSV UTF-8 файл для загрузки электротоваров</label>
             <input type="file" id="csv" name="file" accept="text/csv">
             <input type="submit" value="Принять" style="color: black">
         </form>
@@ -149,7 +150,7 @@
 
     <div>
         <form th:method="POST" th:action="@{/products-stores/save-from-csv}" enctype="multipart/form-data">
-            <label for="csv2">Добавить CSV(UTF-8) файл связи продукты и магазины</label>
+            <label for="csv2">Добавить CSV файл для загрузки связи электротовары и магазины</label>
             <input type="file" id="csv2" name="file" accept="text/csv">
             <input type="submit" value="Принять" style="color: black">
         </form>

@@ -50,6 +50,7 @@
 <body>
 
 <div class="sidenav">
+    <a href="/index">Начальная страница</a>
     <a href="/products">Электортовары</a>
     <a href="/purchases">Покупки</a>
     <a href="/employees">Сотрудники</a>
@@ -66,7 +67,7 @@
 
 
 <div style="margin: 50px 100px 50px 20%">
-    <table style="width: 80%; margin-top: 50px">
+    <table style="width: 80%; margin-top: 50px" class="w3-table-all">
         <tr>
             <th><h2>Ф.И.О.</h2></th>
             <th><h2>Должность</h2></th>
@@ -74,24 +75,24 @@
         </tr>
         <tr th:each="employee : ${bestJuniorConsultants}">
             <th>
-                <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
+                <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id})}">
                     <h3>
-                        <span th:text="|${employee.getEmployeeResponse().getName()}
-                        ${employee.getEmployeeResponse().getName()} ${employee.getEmployeeResponse().getPatronymic()}|"></span>
+                        <span th:text="|${employee.employeeResponse.name}
+                        ${employee.employeeResponse.name} ${employee.employeeResponse.patronymic}|"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <a th:href="@{/positions/{position-id} (position-id = ${employee.getEmployeeResponse().getPositionResponse().getId()})}">
+                <a th:href="@{/positions/{position-id} (position-id = ${employee.employeeResponse.positionResponse.id})}">
                     <h3>
-                        <span th:text="${employee.getEmployeeResponse().getPositionResponse().getName()}"></span>
+                        <span th:text="${employee.employeeResponse.positionResponse.name}"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <th:block th:if="${employee.getSmartWatchesAmount() != null}">
+                <th:block th:if="${employee.smartWatchesAmount != null}">
                     <h3>
-                        <span th:text="${employee.getSmartWatchesAmount()}"></span>
+                        <span th:text="${employee.smartWatchesAmount}"></span>
                     </h3>
                 </th:block>
             </th>

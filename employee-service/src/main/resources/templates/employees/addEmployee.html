@@ -49,6 +49,7 @@
 </head>
 <body>
     <div class="sidenav">
+        <a href="/index">Начальная страница</a>
         <a href="/products">Электротовары</a>
         <a href="/purchases">Покупки</a>
         <a href="/employees">Сотрудники</a>
@@ -65,45 +66,59 @@
 
 
     <div style="margin: 50px 100px 50px 20%">
-        <form th:action="@{/employees/add-employee}" th:method="POST">
-            <label for="surname">Фамилия</label><br>
-            <input type="text" id="surname" th:field="${newEmployee.surname}"><br><br>
+        <div class="w3-card-4 w3-round-large" style="width: 630px">
 
-            <label for="name">Имя</label><br>
-            <input type="text" id="name" th:field="${newEmployee.name}"><br><br>
+            <div class="w3-container w3-blue">
+                <h2>Добавить сотрудника</h2>
+            </div>
 
-            <label for="patronymic">Отчество</label><br>
-            <input type="text" id="patronymic" th:field="${newEmployee.patronymic}"><br><br>
+            <form th:action="@{/employees/add-employee}" th:method="POST" class="w3-container" style="margin: 50px">
+                <label for="surname">Фамилия</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="text" id="surname" th:field="${newEmployee.surname}"><br>
 
-            <label for="birthdate">Дата Рождения</label><br>
-            <input type="date" id="birthdate" min="1930-01-01" max="2007-12-31" th:field="${newEmployee.birthDate}"><br><br>
+                <label for="name">Имя</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="text" id="name" th:field="${newEmployee.name}"><br>
 
-            <label for="gender">Пол</label><br>
-            <select th:field="${newEmployee.gender}" id="gender">
-                <option value="1">Мужчина</option>
-                <option value="0">Женщина</option>
-            </select><br><br>
+                <label for="patronymic">Отчество</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="text" id="patronymic" th:field="${newEmployee.patronymic}"><br>
 
-            <label for="position">Должность</label><br>
-            <select th:field="${newEmployee.positionId}" id="position">
-                <option th:each="position : ${positions}"
-                        th:value="${position.id}" th:text="${position.name}"></option>
-            </select><br><br>
+                <label for="birthdate">Дата Рождения</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="date" id="birthdate" min="1930-01-01" max="2007-12-31" th:field="${newEmployee.birthDate}"><br>
 
-            <label for="store">Филиал магазина</label><br>
-            <select th:field="${newEmployee.storeId}" id="store">
-                <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
-            </select><br><br>
+                <label for="gender">Пол</label><br>
+                <select class="w3-input w3-border w3-round" style="width: 500px" th:field="${newEmployee.gender}" id="gender">
+                    <option value="1">Мужчина</option>
+                    <option value="0">Женщина</option>
+                </select><br>
 
-            <label for="productType">Филиал магазина</label><br>
-            <select th:field="${newEmployee.productTypeIds}" id="productType" multiple>
-                <option th:each="productType : ${productTypes}"
-                        th:value="${productType.id}" th:text="${productType.name}"></option>
-            </select><br><br>
+                <label for="position">Должность</label><br>
+                <select class="w3-input w3-border w3-round" style="width: 500px" th:field="${newEmployee.positionId}" id="position">
+                    <option th:each="position : ${positions}"
+                            th:value="${position.id}" th:text="${position.name}"></option>
+                </select><br>
 
-            <input type="submit" value="Принять" style="color: black">
-            <input type="button" value="Назад" onclick="history.back()">
-        </form>
+                <label for="store">Филиал магазина</label><br>
+                <select class="w3-input w3-border w3-round" style="width: 500px" th:field="${newEmployee.storeId}" id="store">
+                    <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
+                </select><br>
+
+                <label for="productType">Типы продуктов</label><br>
+                <select class="w3-input w3-border w3-round" style="width: 500px"
+                        th:field="${newEmployee.productTypeIds}" id="productType" multiple>
+                    <option th:each="productType : ${productTypes}"
+                            th:value="${productType.id}" th:text="${productType.name}"></option>
+                </select><br>
+
+                <div style="margin-bottom: 50px">
+                    <input class="w3-button w3-blue w3-round" type="submit" value="Принять" style="color: black">
+                    <input class="w3-button w3-light-grey w3-round" type="button" value="Назад" onclick="history.back()">
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>

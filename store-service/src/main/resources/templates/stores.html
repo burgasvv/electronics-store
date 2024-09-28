@@ -49,6 +49,7 @@
 </head>
 <body>
 <div class="sidenav">
+    <a href="/index">Начальная страница</a>
     <a href="/products">Электротовары</a>
     <a href="/purchases">Покупки</a>
     <a href="/employees">Сотрудники</a>
@@ -80,7 +81,7 @@
 
         <div style="margin-top: 100px">
             <form th:method="POST" th:action="@{/stores/save-from-csv}" enctype="multipart/form-data">
-                <label for="csv">Добавить файл</label>
+                <label for="csv">Добавить CSV UTF-8 файл для загрузки магазинов</label>
                 <input type="file" id="csv" name="file" accept="text/csv">
                 <input type="submit" value="Принять" style="color: black">
             </form>

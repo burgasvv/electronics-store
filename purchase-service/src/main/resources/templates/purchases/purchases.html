@@ -49,6 +49,7 @@
 </head>
 <body>
 <div class="sidenav">
+    <a href="/index">Начальная страница</a>
     <a href="/products">Электротовары</a>
     <a href="/purchases">Покупки</a>
     <a href="/employees">Сотрудники</a>
@@ -92,7 +93,7 @@
                     </a>
                 </th>
                 <th>
-                    <th:block th:if="${purchase.getPurchaseProductResponse().getProductTypeResponse().getId() != null}">
+                    <th:block th:if="${purchase.getPurchaseProductResponse().getProductTypeResponse() != null}">
                         <a th:href="@{/product-types/{product-type-id}
                     (product-type-id = ${purchase.getPurchaseProductResponse().getProductTypeResponse().getId()})}">
                             <h3 th:text="${purchase.getPurchaseProductResponse().getProductTypeResponse().getName()}"></h3>
@@ -100,7 +101,7 @@
                     </th:block>
                 </th>
                 <th>
-                    <th:block th:if="${purchase.getPurchaseTypeResponse().getName() != null}">
+                    <th:block th:if="${purchase.getPurchaseTypeResponse() != null}">
                         <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.getPurchaseTypeResponse().getId()})}">
                             <h3 th:text="${purchase.getPurchaseTypeResponse().getName()}"></h3>
                         </a>
@@ -110,16 +111,20 @@
                     </th:block>
                 </th>
                 <th>
-                    <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.getPurchaseEmployeeResponse().getId()})}">
-                        <h3 th:text="|${purchase.getPurchaseEmployeeResponse().getPositionResponse().getName()}
+                    <th:block th:if="${purchase.getPurchaseEmployeeResponse().getPositionResponse() != null}">
+                        <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.getPurchaseEmployeeResponse().getId()})}">
+                            <h3 th:text="|${purchase.getPurchaseEmployeeResponse().getPositionResponse().getName()}
                         ${purchase.getPurchaseEmployeeResponse().getSurname()} ${purchase.getPurchaseEmployeeResponse().getName()}
                         ${purchase.getPurchaseEmployeeResponse().getPatronymic()}|"></h3>
-                    </a>
+                        </a>
+                    </th:block>
                 </th>
                 <th>
-                    <a th:href="@{/stores/{store-id} (store-id = ${purchase.getPurchaseStoreResponse().getId()})}">
-                        <h2 th:text="${purchase.getPurchaseStoreResponse().getName()}"></h2>
-                    </a>
+                    <th:block th:if="${purchase.getPurchaseStoreResponse() != null}">
+                        <a th:href="@{/stores/{store-id} (store-id = ${purchase.getPurchaseStoreResponse().getId()})}">
+                            <h2 th:text="${purchase.getPurchaseStoreResponse().getName()}"></h2>
+                        </a>
+                    </th:block>
                 </th>
                 <th>
                     <h2 th:text="${purchase.getDateTime()}"></h2>
@@ -134,7 +139,7 @@
 
         <div>
             <form th:method="POST" th:action="@{/purchases/save-from-csv}" enctype="multipart/form-data">
-                <label for="csv">Добавить файл</label>
+                <label for="csv">Добавить CSV UTF-8 файл для загрузки покупок</label>
                 <input type="file" id="csv" name="file" accept="text/csv">
                 <input type="submit" value="Принять" style="color: black">
             </form>

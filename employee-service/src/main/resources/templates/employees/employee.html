@@ -49,6 +49,7 @@
 </head>
 <body>
 <div class="sidenav">
+    <a href="/index">Начальная страница</a>
     <a href="/products">Электротовары</a>
     <a href="/purchases">Покупки</a>
     <a href="/employees">Сотрудники</a>
@@ -64,26 +65,33 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <div>
-            <h1 th:text="|Ф.И.О: ${employee.getSurname()} ${employee.getName()} ${employee.getPatronymic()}|"></h1>
-            <h3 style="color: grey" th:text="|Пол: ${employee.getGender()}|"></h3>
-            <h2 th:text="|Должность: ${employee.getPositionResponse().getName()}|"></h2>
-            <h3 th:text="|Магазин: ${employee.storeResponse.name}|"></h3>
-            <h2>Типы электротоваров</h2>
-            <h3 th:each="productType : ${employee.productTypeResponses}">
-                <a th:href="@{/product-types/{product-type-id} (product-type-id = ${productType.id})}">
-                    <span th:text="${productType.name}"></span>
-                </a>
-            </h3>
-        </div>
-        <div style="margin-top: 50px; display: inline-flex">
-            <form th:action="@{/employees/edit-employee-page/{employee-id} (employee-id = ${employee.id})}" th:method="GET">
-                <input type="submit" value="Изменить" style="color: black">
-            </form>
-            <form th:action="@{/employees/delete-employee/{employee-id} (employee-id = ${employee.id})}"
-                  th:method="POST" style="margin-left: 20px">
-                <input type="submit" value="Удалить" style="color: black">
-            </form>
+        <div class="w3-card-4 w3-round-large" style="width: 900px">
+            <div class="w3-container w3-blue" style="text-align: center">
+                <h2>Сотрудник</h2>
+            </div>
+            <div class="w3-container" style="margin: 50px">
+                <h1 th:text="|Ф.И.О: ${employee.surname} ${employee.name} ${employee.patronymic}|"></h1>
+                <br><br>
+                <h3 style="color: grey" th:text="|Пол: ${employee.gender}|"></h3><br><br>
+                <h2 th:text="|Должность: ${employee.positionResponse.name}|"></h2><br><br>
+                <h3 th:text="|Магазин: ${employee.storeResponse.name}|"></h3><br><br>
+                <h2>Типы электротоваров</h2>
+                <h3 th:each="productType : ${employee.productTypeResponses}">
+                    <a th:href="@{/product-types/{product-type-id} (product-type-id = ${productType.id})}">
+                        <span th:text="${productType.name}"></span>
+                    </a>
+                </h3>
+            </div>
+            <div style="margin: 50px; display: inline-flex">
+                <form th:action="@{/employees/edit-employee-page/{employee-id} (employee-id = ${employee.id})}" th:method="GET">
+                    <input type="submit" value="Изменить" style="color: black" class="w3-button w3-teal w3-round">
+                </form>
+                <form th:action="@{/employees/delete-employee/{employee-id} (employee-id = ${employee.id})}"
+                      th:method="POST" style="margin-left: 20px">
+                    <input type="submit" value="Удалить" style="color: black" class="w3-button w3-round w3-red">
+                </form>
+            </div>
+
         </div>
     </div>
 

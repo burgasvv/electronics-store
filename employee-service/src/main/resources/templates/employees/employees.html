@@ -51,6 +51,7 @@
 
 
     <div class="sidenav">
+        <a href="/index">Начальная страница</a>
         <a href="/products">Электротовары</a>
         <a href="/purchases">Покупки</a>
         <a href="/employees">Сотрудники</a>
@@ -66,8 +67,9 @@
     </div>
 
 
-    <div style="margin: 50px 100px 50px 20%">
-        <table style="width: 80%; margin-top: 50px">
+    <div style="margin: 50px 50px 50px 20%">
+        <h1>Сотрудники</h1>
+        <table style="width: 90%; margin-top: 50px" class="w3-table-all">
             <tr>
                 <th><h2>Ф.И.О.</h2></th>
                 <th><h2>Пол</h2></th>
@@ -77,73 +79,83 @@
                 <th><h2>Тип товара</h2></th>
             </tr>
             <tr th:each="employee : ${employees}">
-                <th>
-                    <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
+                <td>
+                    <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id})}">
                         <h3>
-                            <span th:text="|${employee.getSurname()} ${employee.getName()} ${employee.getPatronymic()}|"></span>
+                            <span th:text="|${employee.surname} ${employee.name} ${employee.patronymic}|"></span>
                         </h3>
                     </a>
-                </th>
-                <th>
+                </td>
+                <td>
                     <h3>
-                        <span th:text="${employee.getGender()}"></span>
+                        <span th:text="${employee.gender}"></span>
                     </h3>
-                </th>
-                <th>
+                </td>
+                <td>
                     <h3>
-                        <span th:text="${employee.getBirthDate()}"></span>
+                        <span th:text="${employee.birthDate}"></span>
                     </h3>
-                </th>
-                <th>
-                    <th:block th:if="${employee.getPositionResponse().getName() != null}">
-                        <a th:href="@{/positions/{position-id} (position-id = ${employee.getPositionResponse().getId()})}">
+                </td>
+                <td>
+                    <th:block th:if="${employee.positionResponse.name != null}">
+                        <a th:href="@{/positions/{position-id} (position-id = ${employee.positionResponse.id})}">
                             <h3>
-                                <span th:text="${employee.getPositionResponse().getName()}"></span>
+                                <span th:text="${employee.positionResponse.name}"></span>
                             </h3>
                         </a>
                     </th:block>
-                    <th:block th:if="${employee.getPositionResponse().getName() == null}">
+                    <th:block th:if="${employee.positionResponse.name == null}">
                         <h3>Отсутствует</h3>
                     </th:block>
-                </th>
-                <th>
-                    <a th:href="@{/stores/{store-id} (store-id = ${employee.getStoreResponse().getId()})}">
+                </td>
+                <td>
+                    <a th:href="@{/stores/{store-id} (store-id = ${employee.storeResponse.id})}">
                         <h3>
-                            <span th:text="|${employee.getStoreResponse().getName()}, ${employee.getStoreResponse().getAddress()}|"></span>
+                            <span th:text="|${employee.storeResponse.name}, ${employee.storeResponse.address}|"></span>
                         </h3>
                     </a>
-                </th>
-                <th>
+                </td>
+                <td>
                     <th:block >
 
                     </th:block>
-                    <h4 th:each="productType : ${employee.getProductTypeResponses()}">
-                        <span th:text="${productType.getName()}" style="color: grey"></span>
+                    <h4 th:each="productType : ${employee.productTypeResponses}">
+                        <span th:text="${productType.name}" style="color: grey"></span>
                     </h4>
-                </th>
+                </td>
             </tr>
         </table>
 
         <div style="margin-top: 50px">
             <form th:action="@{/employees/add-employee-page}" th:method="GET">
-                <input type="submit" value="Добавить" style="color: black">
+                <input type="submit" value="Добавить" style="color: black" class="w3-button w3-blue w3-round">
             </form>
         </div>
 
-        <div style="margin-top: 100px">
-            <form th:method="POST" th:action="@{/employees/save-from-csv}" enctype="multipart/form-data">
-                <label for="csv">Добавить CSV(UTF-8) файл сотрудников </label>
-                <input type="file" id="csv" name="file" accept="text/csv">
-                <input type="submit" value="Принять" style="color: black">
+        <div style="margin-top: 100px; width: 800px" class="w3-card-4 w3-round-large">
+            <form th:method="POST" th:action="@{/employees/save-from-csv}" enctype="multipart/form-data" style="margin: 20px">
+                <div style="text-align: center; width: 800px; margin-left: -20px; margin-bottom: 10px; height: 30px"
+                     class="w3-container w3-light-grey">
+                    <label style="font-weight: bolder" for="csv">Добавить CSV UTF-8 файл для загрузки сотрудников </label><br><br>
+                </div>
+                <div style="display: inline-flex; margin-bottom: 20px">
+                    <input class="w3-input w3-border w3-round-large" style="width: 500px" type="file" id="csv" name="file" accept="text/csv">
+                    <input class="w3-button w3-green w3-round" type="submit" value="Принять" style="color: black; margin-left: 20px">
+                </div>
             </form>
         </div>
-        <br>
 
-        <div>
-            <form th:method="POST" th:action="@{/employees-product-types/save-from-csv}" enctype="multipart/form-data">
-                <label for="csv2">Добавить CSV(UTF-8) файл связи сотрудники и типы продуктов</label>
-                <input type="file" id="csv2" name="file" accept="text/csv">
-                <input type="submit" value="Принять" style="color: black">
+        <div style="margin-top: 50px; width: 800px" class="w3-card-4 w3-round-large">
+            <form th:method="POST" th:action="@{/employees-product-types/save-from-csv}" enctype="multipart/form-data" style="margin: 20px">
+                <div style="text-align: center; width: 800px; margin-left: -20px; margin-bottom: 10px; height: 30px"
+                     class="w3-container w3-light-grey">
+                    <label style="font-weight: bolder" for="csv2">
+                        Добавить CSV файл для загрузки связи сотрудники и типы электротоваров </label><br><br>
+                </div>
+                <div style="display: inline-flex; margin-bottom: 20px">
+                    <input class="w3-input w3-border w3-round-large" style="width: 500px" type="file" id="csv2" name="file" accept="text/csv">
+                    <input class="w3-button w3-green w3-round" type="submit" value="Принять" style="color: black; margin-left: 20px">
+                </div>
             </form>
         </div>
 
