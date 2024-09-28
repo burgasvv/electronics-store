@@ -1,6 +1,7 @@
 package org.burgas.purchaseservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.burgas.purchaseservice.model.request.PurchaseTypeRequest;
 import org.burgas.purchaseservice.model.response.PurchaseTypeResponse;
 import org.burgas.purchaseservice.service.PurchaseTypeService;
 import org.springframework.data.domain.Page;
@@ -49,6 +50,42 @@ public class PurchaseTypeController {
     @PostMapping("/save-from-csv")
     public String saveDataFromCsvFile(@RequestPart MultipartFile file) throws IOException {
         purchaseTypeService.safeDataFromCsvFile(file);
+        return "redirect:http://localhost:8765/purchase-types";
+    }
+
+    @GetMapping("/add-purchase-type-page")
+    public String addPurchaseTypePage(Model model) {
+        model.addAttribute("newPurchaseType", new PurchaseTypeRequest());
+        return "purchaseTypes/addPurchaseType";
+    }
+
+    @PostMapping("/add-purchase-type")
+    public String addPurchaseType(@ModelAttribute PurchaseTypeRequest purchaseTypeRequest) {
+        return "redirect:http://localhost:8765/purchase-types/"
+               + purchaseTypeService.addPurchaseType(purchaseTypeRequest).getId();
+    }
+
+    @GetMapping("/edit-purchase-type-page/{purchase-type-id}")
+    public String editPurchaseTypePage(
+            @PathVariable(name = "purchase-type-id") Long purchaseTypeId, Model model
+    ) {
+        model.addAttribute(
+                "purchaseType", purchaseTypeService.findPurchaseTypeRequestById(purchaseTypeId)
+        );
+        return "purchaseTypes/editPurchaseType";
+    }
+
+    @PostMapping("/edit-purchase-type")
+    public String editPurchaseType(@ModelAttribute PurchaseTypeRequest purchaseTypeRequest) {
+        return "redirect:http://localhost:8765/purchase-types/"
+               + purchaseTypeService.editPurchaseType(purchaseTypeRequest).getId();
+    }
+
+    @PostMapping("/delete-purchase-type/{purchase-type-id}")
+    public String deletePurchaseType(
+            @PathVariable(name = "purchase-type-id") Long purchaseTypeId
+    ) {
+        purchaseTypeService.deletePurchaseType(purchaseTypeId);
         return "redirect:http://localhost:8765/purchase-types";
     }
 }

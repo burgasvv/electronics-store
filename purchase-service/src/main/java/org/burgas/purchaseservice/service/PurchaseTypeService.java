@@ -2,8 +2,11 @@ package org.burgas.purchaseservice.service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.burgas.purchaseservice.entity.PurchaseType;
+import org.burgas.purchaseservice.exception.PurchaseTypeNotFoundException;
 import org.burgas.purchaseservice.mapper.PurchaseTypeMapper;
 import org.burgas.purchaseservice.model.csv.PurchaseTypeCsv;
+import org.burgas.purchaseservice.model.request.PurchaseTypeRequest;
 import org.burgas.purchaseservice.model.response.PurchaseTypeResponse;
 import org.burgas.purchaseservice.repository.PurchaseTypeRepository;
 import org.springframework.data.domain.Page;
@@ -63,6 +66,20 @@ public class PurchaseTypeService {
             isolation = SERIALIZABLE,
             propagation = REQUIRED
     )
+    public PurchaseTypeRequest findPurchaseTypeRequestById(Long purchaseTypeId) {
+        return purchaseTypeRepository.findById(purchaseTypeId)
+                .map(purchaseTypeMapper::toPurchaseTypeRequest)
+                .orElseThrow(
+                        () -> new PurchaseTypeNotFoundException(
+                                "Тип покупки с идентификатором " + purchaseTypeId + " не найден"
+                        )
+                );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
     public void safeDataFromCsvFile(MultipartFile multipartFile) throws IOException {
         purchaseTypeRepository.saveAll(
                 new CsvToBeanBuilder<PurchaseTypeCsv>(
@@ -75,5 +92,43 @@ public class PurchaseTypeService {
                         .stream().map(purchaseTypeMapper::toPurchaseType)
                         .toList()
         );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public PurchaseTypeResponse addPurchaseType(PurchaseTypeRequest purchaseTypeRequest) {
+        return purchaseTypeMapper.toPurchaseTypeResponse(
+                purchaseTypeRepository.save(
+                        PurchaseType.builder()
+                                .name(purchaseTypeRequest.getName())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public PurchaseTypeResponse editPurchaseType(PurchaseTypeRequest purchaseTypeRequest) {
+        return purchaseTypeMapper.toPurchaseTypeResponse(
+                purchaseTypeRepository.save(
+                        PurchaseType.builder()
+                                .id(purchaseTypeRequest.getId())
+                                .name(purchaseTypeRequest.getName())
+                                .build()
+                )
+        );
+    }
+
+    @Transactional(
+            isolation = SERIALIZABLE,
+            propagation = REQUIRED
+    )
+    public void deletePurchaseType(Long purchaseTypeId) {
+        purchaseTypeRepository.deleteById(purchaseTypeId);
+        purchaseTypeRepository.updatePurchasesByPurchaseTypeId(purchaseTypeId);
     }
 }

@@ -3,6 +3,7 @@ package org.burgas.purchaseservice.mapper;
 import lombok.RequiredArgsConstructor;
 import org.burgas.purchaseservice.entity.PurchaseType;
 import org.burgas.purchaseservice.model.csv.PurchaseTypeCsv;
+import org.burgas.purchaseservice.model.request.PurchaseTypeRequest;
 import org.burgas.purchaseservice.model.response.PurchaseTypeResponse;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,13 @@ public class PurchaseTypeMapper {
     public PurchaseType toPurchaseType(PurchaseTypeCsv purchaseTypeCsv) {
         return PurchaseType.builder()
                 .name(purchaseTypeCsv.getName())
+                .build();
+    }
+
+    public PurchaseTypeRequest toPurchaseTypeRequest(PurchaseType purchaseType) {
+        return PurchaseTypeRequest.builder()
+                .id(purchaseType.getId())
+                .name(purchaseType.getName())
                 .build();
     }
 }

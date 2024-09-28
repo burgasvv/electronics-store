@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Типы покупок</title>
@@ -14,7 +14,13 @@
             </div>
         </div>
 
-        <div>
+        <div style="margin-top: 50px">
+            <form th:action="@{/purchase-types/add-purchase-type-page}" th:method="GET">
+                <input type="submit" value="Добавить" style="color: black">
+            </form>
+        </div>
+
+        <div style="margin-top: 100px">
             <form th:method="POST" th:action="@{/purchase-types/save-from-csv}" enctype="multipart/form-data">
                 <label for="csv">Добавить файл</label>
                 <input type="file" id="csv" name="file" accept="text/csv">

@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/product-service/src/main/java/org/burgas/productservice/repository/ProductRepository.java" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/product-service/src/main/java/org/burgas/productservice/repository/ProductTypeRepository.java" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/purchase-service/src/main/java/org/burgas/purchaseservice/repository/PurchaseRepository.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/purchase-service/src/main/java/org/burgas/purchaseservice/repository/PurchaseTypeRepository.java" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/store-service/src/main/java/org/burgas/storeservice/repository/StoreRepository.java" dialect="PostgreSQL" />
   </component>
 </project>

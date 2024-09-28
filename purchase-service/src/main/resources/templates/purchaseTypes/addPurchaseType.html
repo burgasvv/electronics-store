@@ -2,16 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Изменить данные о типе продукта</title>
+    <title>Добавить Тип покупки</title>
 </head>
 <body>
-<div style="text-align: center; margin-top: 7%">
-    <form th:action="@{/product-types/edit-product-type}" th:method="POST">
-
-        <input type="hidden" id="id" th:field="${productType.id}">
-
+<div style="margin-top: 7%; text-align: center">
+    <form th:action="@{/purchase-types/add-purchase-type}" th:method="POST">
         <label for="name">Наименование</label><br>
-        <input type="text" id="name" th:field="${productType.name}"><br><br>
+        <input type="text" id="name" th:field="${newPurchaseType.name}"><br><br>
 
         <input type="submit" value="Принять" style="color: black">
         <input type="button" value="Назад" onclick="history.back()" style="color: black">

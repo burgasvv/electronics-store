@@ -45,7 +45,10 @@ public class PurchaseMapper {
                 )
                 .purchaseTypeResponse(
                         purchaseTypeMapper.toPurchaseTypeResponse(
-                                purchaseTypeRepository.findById(purchase.getPurchaseTypeId())
+                                purchaseTypeRepository.findById(
+                                                purchase.getPurchaseTypeId() != null ?
+                                                        purchase.getPurchaseTypeId() : 0
+                                        )
                                         .orElseGet(PurchaseType::new)
                         )
                 )
