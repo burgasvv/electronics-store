@@ -101,7 +101,7 @@
                         Лучший младший продавец-консультант
                     </a>
                     <br><br>
-                    <th:block th:if="${stores != null || purchaseTypes != null}">
+                    <th:block th:if="${stores != null && purchaseTypes != null}">
                         Сумма денежных средств по типу оплаты
                         <form th:action="@{/stores/store-money-purchase-type}" th:method="GET">
                             <label for="store"></label><br>
