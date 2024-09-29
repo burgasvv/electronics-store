@@ -65,7 +65,24 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <h2 th:text="|${storeMoney.storeResponse.name} : ${storeMoney.purchaseType} : ${storeMoney.fullSum}|"></h2>
+        <table class="w3-table-all" style="width: 70%">
+            <tr>
+                <th><h2>Магазин</h2></th>
+                <th><h2>Тип оплаты</h2></th>
+                <th><h2>Сумма денег</h2></th>
+            </tr>
+            <tr>
+                <th>
+                    <span th:text="${storeMoney.storeResponse.name}"></span>
+                </th>
+                <th>
+                    <span th:text="${storeMoney.purchaseType}"></span>
+                </th>
+                <th>
+                    <span th:text="${storeMoney.fullSum}"></span>
+                </th>
+            </tr>
+        </table>
     </div>
 
     <script>

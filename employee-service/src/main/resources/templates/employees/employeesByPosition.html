@@ -65,12 +65,26 @@
     </div>
 </div>
     <div style="margin: 50px 100px 50px 20%">
-        <div th:each="employee : ${employees}">
-            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id})}">
-                <h3 th:text="|${employee.name} ${employee.positionResponse.name}|"></h3>
-            </a>
-        </div>
+
+        <h1 th:text="${employees.first.positionResponse.name}"></h1>
+
+        <table class="w3-table-all" style="width: 30%">
+            <tr>
+                <th><h2>Сотрудники</h2></th>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <td>
+                    <h3 th:text="|${employee.surname} ${employee.name} ${employee.patronymic}|"></h3>
+                </td>
+                <th>
+                    <form th:action="@{/employees/{employee-id} (employee-id = ${employee.id})}" th:method="GET">
+                        <input type="submit" value="Просмотр" class="w3-button w3-teal w3-round">
+                    </form>
+                </th>
+            </tr>
+        </table>
     </div>
+
     <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
         <ul style="display: inline-flex; list-style-type: none">
             <th:block th:each="pageNumber : ${pages}">
@@ -83,6 +97,7 @@
             </th:block>
         </ul>
     </div>
+
     <script>
         let dropdown = document.getElementsByClassName("dropdown-btn");
         let i;

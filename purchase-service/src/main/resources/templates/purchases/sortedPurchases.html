@@ -65,18 +65,22 @@
 </div>
 
 <div style="margin: 50px 100px 50px 20%">
+
     <h1>Покупки</h1>
     <div>
         <form th:action="@{/purchases/sort-purchases-by-date}" th:method="GET">
-            <label for="sortByDate">Сортировать по дате</label>
-            <select name="sort" id="sortByDate">
-                <option value="new">Сначала новые</option>
-                <option value="old">Сначала старые</option>
-            </select>
-            <input type="submit" value="Сортровать" style="color: black">
+            <label for="sortByDate">Сортировать по дате</label><br>
+            <div style="display: inline-flex">
+                <select class="w3-input w3-border w3-round" style="width: 300px" name="sort" id="sortByDate">
+                    <option value="new">Сначала новые</option>
+                    <option value="old">Сначала старые</option>
+                </select>
+                <input type="submit" value="Отсортировать" style="color: black; margin-left: 20px" class="w3-button w3-round w3-light-blue">
+            </div>
         </form>
     </div>
-    <table style="width: 80%">
+
+    <table style="width: 100%; margin-top: 50px" class="w3-table-all">
         <tr>
             <th><h2>Наименование товара</h2></th>
             <th><h2>Тип товара</h2></th>
@@ -84,42 +88,71 @@
             <th><h2>Продавец</h2></th>
             <th><h2>Магазин</h2></th>
             <th><h2>Дата покупки</h2></th>
+            <th><h2>Просмотр</h2></th>
         </tr>
         <tr th:each="purchase : ${purchases}">
             <th>
-                <a th:href="@{/products/{product-id} (product-id = ${purchase.getPurchaseProductResponse().getId()})}">
-                    <h3 th:text="${purchase.getPurchaseProductResponse().getName()}"></h3>
+                <a th:href="@{/products/{product-id} (product-id = ${purchase.purchaseProductResponse.id})}">
+                    <h3 th:text="${purchase.purchaseProductResponse.name}"></h3>
                 </a>
             </th>
             <th>
-                <a th:href="@{/product-types/{product-type-id}
-                    (product-type-id = ${purchase.getPurchaseProductResponse().getProductTypeResponse().getId()})}">
-                    <h3 th:text="${purchase.getPurchaseProductResponse().getProductTypeResponse().getName()}"></h3>
-                </a>
+                <th:block th:if="${purchase.purchaseProductResponse.productTypeResponse != null}">
+                    <a th:href="@{/product-types/{product-type-id}
+                    (product-type-id = ${purchase.purchaseProductResponse.productTypeResponse.id})}">
+                        <h3 th:text="${purchase.purchaseProductResponse.productTypeResponse.name}"></h3>
+                    </a>
+                </th:block>
             </th>
             <th>
-                <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.getPurchaseTypeResponse().getId()})}">
-                    <h3 th:text="${purchase.getPurchaseTypeResponse().getName()}"></h3>
-                </a>
+                <th:block th:if="${purchase.purchaseTypeResponse != null}">
+                    <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchase.purchaseTypeResponse.id})}">
+                        <h3 th:text="${purchase.purchaseTypeResponse.name}"></h3>
+                    </a>
+                </th:block>
+                <th:block th:if="${purchase.purchaseTypeResponse.name == null}">
+                    <h3 style="color: red">Отсутствует</h3>
+                </th:block>
             </th>
             <th>
-                <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.getPurchaseEmployeeResponse().getId()})}">
-                    <h3 th:text="|${purchase.getPurchaseEmployeeResponse().getPositionResponse().getName()}
-                        ${purchase.getPurchaseEmployeeResponse().getSurname()} ${purchase.getPurchaseEmployeeResponse().getName()}
-                        ${purchase.getPurchaseEmployeeResponse().getPatronymic()}|"></h3>
-                </a>
+                <th:block th:if="${purchase.purchaseEmployeeResponse.positionResponse != null}">
+                    <a th:href="@{/employees/{employee-id} (employee-id = ${purchase.purchaseEmployeeResponse.id})}">
+                        <h3 th:text="|${purchase.purchaseEmployeeResponse.positionResponse.name}
+                        ${purchase.purchaseEmployeeResponse.surname} ${purchase.purchaseEmployeeResponse.name}
+                        ${purchase.purchaseEmployeeResponse.patronymic}|"></h3>
+                    </a>
+                </th:block>
             </th>
             <th>
-                <a th:href="@{/stores/{store-id} (store-id = ${purchase.getPurchaseStoreResponse().getId()})}">
-                    <h2 th:text="${purchase.getPurchaseStoreResponse().getName()}"></h2>
-                </a>
+                <th:block th:if="${purchase.purchaseStoreResponse != null}">
+                    <a th:href="@{/stores/{store-id} (store-id = ${purchase.purchaseStoreResponse.id})}">
+                        <h2 th:text="${purchase.purchaseStoreResponse.name}"></h2>
+                    </a>
+                </th:block>
             </th>
             <th>
-                <h2 th:text="${purchase.getDateTime()}"></h2>
+                <h2 th:text="${purchase.dateTime}"></h2>
+            </th>
+            <th>
+                <form th:action="@{/purchases/{purchase-id} (purchase-id = ${purchase.id})}" th:method="GET">
+                    <input type="submit" value="Просмотр" style="color: black" class="w3-button w3-round w3-blue">
+                </form>
             </th>
         </tr>
     </table>
 
+    <div style="margin-top: 100px; width: 800px" class="w3-card-4 w3-round-large">
+        <form th:method="POST" th:action="@{/purchases/save-from-csv}" enctype="multipart/form-data" style="margin: 20px">
+            <div style="text-align: center; width: 800px; margin-left: -20px; margin-bottom: 10px; height: 30px"
+                 class="w3-container w3-light-grey">
+                <label style="font-weight: bolder" for="csv">Добавить CSV UTF-8 файл для загрузки покупок </label><br><br>
+            </div>
+            <div style="display: inline-flex; margin-bottom: 20px">
+                <input class="w3-input w3-border w3-round-large" style="width: 500px" type="file" id="csv" name="file" accept="text/csv">
+                <input class="w3-button w3-green w3-round" type="submit" value="Принять" style="color: black; margin-left: 20px">
+            </div>
+        </form>
+    </div>
 
     <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
         <ul style="display: inline-flex; list-style-type: none">

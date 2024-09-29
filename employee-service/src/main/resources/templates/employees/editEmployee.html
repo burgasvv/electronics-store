@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Внести изменения в данные о сотруднике</title>
@@ -73,6 +73,8 @@
         </div>
 
         <form th:action="@{/employees/edit-employee}" th:method="POST" class="w3-container" style="margin: 50px">
+
+            <input type="hidden" id="id" th:field="${employee.id}">
 
             <label for="surname">Фамилия</label><br>
             <input class="w3-input w3-border w3-round" style="width: 500px"

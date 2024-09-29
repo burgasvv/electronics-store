@@ -65,37 +65,52 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <form th:action="@{/products/add-product}" th:method="GET">
-            <label for="name">Наименование</label><br>
-            <input type="text" id="name" th:field="${newProduct.name}"><br><br>
 
-            <label for="price">Цена</label><br>
-            <input type="number" id="price" th:field="${newProduct.price}"><br><br>
+        <div class="w3-card-4 w3-round-large" style="width: 630px">
 
-            <label for="description">Описание</label><br>
-            <textarea id="description" th:field="${newProduct.description}" cols="30" rows="10">></textarea><br><br>
+            <div class="w3-container w3-blue" style="text-align: center">
+                <h2>Добавить продукт</h2>
+            </div>
 
-            <label for="archive">В продаже/снят</label><br>
-            <select th:field="${newProduct.archive}" id="archive">
-                <option value="1">В продаже</option>
-                <option value="0">Снят с продажи</option>
-            </select><br><br>
+            <form th:action="@{/products/add-product}" th:method="GET" class="w3-container" style="margin: 50px">
 
-            <label for="productType">Тип электротовара</label><br>
-            <select th:field="${newProduct.productTypeId}" id="productType">
-                <option th:each="productType : ${productTypes}"
-                        th:value="${productType.id}" th:text="${productType.name}"></option>
-            </select><br><br>
+                <label for="name">Наименование</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="text" id="name" th:field="${newProduct.name}"><br>
 
-            <label for="store">Магазины</label><br>
-            <select  th:field="${newProduct.storeIds}" id="store" multiple>
-                <option th:each="store : ${stores}"
-                        th:value="${store.id}" th:text="${store.name}"></option>
-            </select><br><br>
+                <label for="price">Цена</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="number" id="price" th:field="${newProduct.price}"><br>
 
-            <input type="submit" value="Далее" style="color: black">
-            <input type="button" value="Назад" onclick="history.back()">
-        </form>
+                <label for="description">Описание</label><br>
+                <textarea class="w3-input w3-border w3-round" style="width: 500px"
+                          id="description" th:field="${newProduct.description}" cols="30" rows="10"></textarea><br>
+
+                <label for="archive">В продаже/снят</label><br>
+                <select class="w3-input w3-border w3-round" style="width: 500px" th:field="${newProduct.archive}" id="archive">
+                    <option value="1">В продаже</option>
+                    <option value="0">Снят с продажи</option>
+                </select><br>
+
+                <label for="productType">Тип электротовара</label><br>
+                <select class="w3-input w3-border w3-round" style="width: 500px" th:field="${newProduct.productTypeId}" id="productType">
+                    <option th:each="productType : ${productTypes}"
+                            th:value="${productType.id}" th:text="${productType.name}"></option>
+                </select><br>
+
+                <label for="store">Магазины</label><br>
+                <select class="w3-input w3-border w3-round" style="width: 500px" th:field="${newProduct.storeIds}" id="store" multiple>
+                    <option th:each="store : ${stores}"
+                            th:value="${store.id}" th:text="${store.name}"></option>
+                </select><br>
+
+                <div style="margin-bottom: 50px">
+                    <input class="w3-button w3-blue w3-round" type="submit" value="Далее" style="color: black">
+                    <input class="w3-button w3-light-grey w3-round" type="button" value="Назад" onclick="history.back()">
+                </div>
+            </form>
+
+        </div>
     </div>
 
 <script>

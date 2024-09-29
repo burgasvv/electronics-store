@@ -65,25 +65,50 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <div th:each="purchaseType : ${purchaseTypes}">
-            <div>
-                <a th:href="@{/purchase-types/{purchase-type-id} (purchase-type-id = ${purchaseType.getId()})}">
-                    <h3 th:text="${purchaseType.getName()}"></h3>
-                </a>
-            </div>
-        </div>
+
+        <h1>Типы покупок</h1>
+        <table style="width: 90%; margin-top: 50px" class="w3-table-all">
+            <tr>
+                <th>Наименование</th>
+                <th>Изменение</th>
+                <th>Удаление</th>
+            </tr>
+            <tr th:each="purchaseType : ${purchaseTypes}">
+                <td>
+                    <h3 th:text="${purchaseType.name}"></h3>
+                </td>
+                <td>
+                    <form th:action="@{/purchase-types/edit-purchase-type-page/{purchase-type-id}
+            (purchase-type-id = ${purchaseType.id})}" th:method="GET">
+                        <input type="submit" value="Изменить" style="color: black" class="w3-button w3-teal w3-round">
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/purchase-types/delete-purchase-type/{purchase-type-id} (purchase-type-id = ${purchaseType.id})}"
+                          th:method="POST" style="margin-left: 20px">
+                        <input type="submit" value="Удалить" style="color: black" class="w3-button w3-round w3-red">
+                    </form>
+                </td>
+            </tr>
+        </table>
 
         <div style="margin-top: 50px">
             <form th:action="@{/purchase-types/add-purchase-type-page}" th:method="GET">
-                <input type="submit" value="Добавить" style="color: black">
+                <input type="submit" value="Добавить" style="color: black" class="w3-button w3-blue w3-round">
             </form>
         </div>
 
-        <div style="margin-top: 100px">
-            <form th:method="POST" th:action="@{/purchase-types/save-from-csv}" enctype="multipart/form-data">
-                <label for="csv">Добавить CSV UTF-8 файл для загрузки типов покупки</label>
-                <input type="file" id="csv" name="file" accept="text/csv">
-                <input type="submit" value="Принять" style="color: black">
+
+        <div style="margin-top: 100px; width: 800px" class="w3-card-4 w3-round-large">
+            <form th:method="POST" th:action="@{/purchase-types/save-from-csv}" enctype="multipart/form-data" style="margin: 20px">
+                <div style="text-align: center; width: 800px; margin-left: -20px; margin-bottom: 10px; height: 30px"
+                     class="w3-container w3-light-grey">
+                    <label style="font-weight: bolder" for="csv">Добавить CSV UTF-8 файл для загрузки типов покупки </label><br><br>
+                </div>
+                <div style="display: inline-flex; margin-bottom: 20px">
+                    <input class="w3-input w3-border w3-round-large" style="width: 500px" type="file" id="csv" name="file" accept="text/csv">
+                    <input class="w3-button w3-green w3-round" type="submit" value="Принять" style="color: black; margin-left: 20px">
+                </div>
             </form>
         </div>
 

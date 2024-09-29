@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${purchase.getPurchaseProductResponse().getName()}">Покупка</title>
+    <title th:text="${purchase.purchaseProductResponse.name}">Покупка</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         .sidenav {
@@ -65,31 +65,42 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <h1>Покупка</h1>
-        <div>
-            <h2>
-                Наименование электротовара:
-                <a th:href="@{/products/{product-id} (product-id = ${purchase.getPurchaseProductResponse().getId()})}">
-                    <span th:text="|${purchase.getPurchaseProductResponse().getName()}|"></span><br>
-                </a>
-                Описание:
-                <span th:text="${purchase.getPurchaseProductResponse().getDescription()}"></span><br>
-                Тип электротовара:
-                <a th:href="@{/product-types/{product-type-id}
-                (product-type-id = ${purchase.getPurchaseProductResponse().getProductTypeResponse().getId()})}">
-                    <span th:text="|${purchase.getPurchaseProductResponse().getProductTypeResponse().getName()}|"></span>
-                </a>
-            </h2>
-            <h3>
-                <span th:text="|Ф.И.О: ${purchase.getPurchaseEmployeeResponse().getSurname()}
-                    ${purchase.getPurchaseEmployeeResponse().getName()} ${purchase.getPurchaseEmployeeResponse().getPatronymic()}|"></span><br>
-                <span th:text="|Должность: ${purchase.getPurchaseEmployeeResponse().getPositionResponse().getName()}|"></span><br>
+        <div class="w3-card-4 w3-round-large" style="width: 900px">
 
-                <form th:action="@{/employees/{employee-id} (employee-id = ${purchase.getPurchaseEmployeeResponse().getId()})}" th:method="GET">
-                    <input type="submit" value="Просмотр" style="color: black">
-                </form>
-            </h3>
-            <h3 th:text="|Тип оплаты: ${purchase.getPurchaseTypeResponse().getName()}|"></h3>
+            <div class="w3-container w3-blue" style="text-align: center">
+                <h2>Покупка</h2>
+            </div>
+
+            <div style="margin: 50px">
+                <h2>
+                    Наименование электротовара: <br>
+                    <a th:href="@{/products/{product-id} (product-id = ${purchase.purchaseProductResponse.id})}">
+                        <span th:text="|${purchase.purchaseProductResponse.name}|"></span><br>
+                    </a><br>
+
+                    Описание: <br>
+                    <span th:text="${purchase.purchaseProductResponse.description}"></span><br><br>
+
+                    Тип электротовара: <br>
+                    <a th:href="@{/product-types/{product-type-id}
+                (product-type-id = ${purchase.purchaseProductResponse.productTypeResponse.id})}">
+                        <span th:text="|${purchase.purchaseProductResponse.productTypeResponse.name}|"></span>
+                    </a><br><br>
+                </h2>
+                <h3>
+                <span th:text="|Ф.И.О: ${purchase.purchaseEmployeeResponse.surname}
+                    ${purchase.purchaseEmployeeResponse.name} ${purchase.purchaseEmployeeResponse.patronymic}|"></span><br><br>
+
+                    <span th:text="|Должность: ${purchase.purchaseEmployeeResponse.positionResponse.name}|"></span><br><br>
+
+                    <form th:action="@{/employees/{employee-id} (employee-id = ${purchase.purchaseEmployeeResponse.id})}" th:method="GET">
+                        <input type="submit" value="Просмотр" style="color: black" class="w3-button w3-round w3-light-grey">
+                    </form>
+                    <br>
+                </h3>
+                <h3 th:text="|Тип оплаты: ${purchase.purchaseTypeResponse.name}|"></h3><br><br>
+            </div>
+
         </div>
     </div>
 

@@ -65,25 +65,53 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <div th:each="store : ${stores}">
-            <div>
-                <a th:href="@{/stores/{store-id} (store-id = ${store.getId()})}">
-                    <h3 th:text="${store.getName()}"></h3>
-                </a>
-            </div>
-        </div>
+
+        <h1>Магазины</h1>
+        <table style="width: 90%; margin-top: 50px" class="w3-table-all">
+            <tr>
+                <th>Наименование</th>
+                <th>Сотрудники</th>
+                <th>Изменение</th>
+                <th>Удаление</th>
+            </tr>
+            <tr th:each="store : ${stores}">
+                <td>
+                    <h3 th:text="${store.name}"></h3>
+                </td>
+                <td>
+                    <a class="w3-button w3-light-grey w3-round" style="text-decoration: none"
+                       th:href="@{/employees/store/{store-id} (store-id = ${store.id})}">Сотрудники</a>
+                </td>
+                <td>
+                    <form th:action="@{/stores/edit-store-page/{store-id} (store-id = ${store.id})}" th:method="GET">
+                        <input type="submit" value="Изменить" style="color: black" class="w3-button w3-teal w3-round">
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/stores/delete-store/{store-id} (store-id = ${store.id})}"
+                          th:method="POST" style="margin-left: 20px">
+                        <input type="submit" value="Удалить" style="color: black" class="w3-button w3-round w3-red">
+                    </form>
+                </td>
+            </tr>
+        </table>
 
         <div style="margin-top: 50px">
             <form th:action="@{/stores/add-store-page}" th:method="GET">
-                <input type="submit" value="Добавить" style="color: black">
+                <input type="submit" value="Добавить" style="color: black" class="w3-button w3-blue w3-round">
             </form>
         </div>
 
-        <div style="margin-top: 100px">
-            <form th:method="POST" th:action="@{/stores/save-from-csv}" enctype="multipart/form-data">
-                <label for="csv">Добавить CSV UTF-8 файл для загрузки магазинов</label>
-                <input type="file" id="csv" name="file" accept="text/csv">
-                <input type="submit" value="Принять" style="color: black">
+        <div style="margin-top: 100px; width: 800px" class="w3-card-4 w3-round-large">
+            <form th:method="POST" th:action="@{/stores/save-from-csv}" enctype="multipart/form-data" style="margin: 20px">
+                <div style="text-align: center; width: 800px; margin-left: -20px; margin-bottom: 10px; height: 30px"
+                     class="w3-container w3-light-grey">
+                    <label style="font-weight: bolder" for="csv">Добавить CSV UTF-8 файл для загрузки магазинов </label><br><br>
+                </div>
+                <div style="display: inline-flex; margin-bottom: 20px">
+                    <input class="w3-input w3-border w3-round-large" style="width: 500px" type="file" id="csv" name="file" accept="text/csv">
+                    <input class="w3-button w3-green w3-round" type="submit" value="Принять" style="color: black; margin-left: 20px">
+                </div>
             </form>
         </div>
 

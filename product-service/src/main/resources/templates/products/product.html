@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${product.getName()}"></title>
+    <title th:text="${product.name}"></title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         .sidenav {
@@ -48,6 +48,7 @@
     </style>
 </head>
 <body>
+
 <div class="sidenav">
     <a href="/index">Начальная страница</a>
     <a href="/products">Электротовары</a>
@@ -65,32 +66,42 @@
 </div>
 
 <div style="margin: 50px 100px 50px 20%">
-    <div>
-        <h1 th:text="|Наименование: ${product.getName()}|"></h1>
-        <h3>
-            <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.getProductTypeResponse().getId()})}">
-                <span th:text="${product.getProductTypeResponse().getName()}"></span>
-            </a><br>
-            <span th:text="|Цена: ${product.getPrice()}|"></span><br>
-            <span th:text="|Общее количество: ${product.getAmount()}|"></span><br>
-            <span th:text="|Описание: ${product.getDescription()}|"></span><br>
-        </h3>
-        <h3 th:each="storeProductAmount : ${product.getStoreProductMap()}">
-            <a th:href="@{/stores/{store-id} (store-id = ${storeProductAmount.getKey().getId()})}">
-                <span th:text="${storeProductAmount.getKey().getName()}"></span>
-            </a>
-            <span th:text="|Количество: ${storeProductAmount.value.amount}|"></span>
-        </h3>
-    </div>
 
-    <div style="margin-top: 50px; display: inline-flex">
-        <form th:action="@{/products/edit-product-page/{product-id} (product-id = ${product.id})}" th:method="GET">
-            <input type="submit" value="Изменить" style="color: black">
-        </form>
-        <form th:action="@{/products/delete-product/{product-id} (product-id = ${product.id})}"
-              th:method="POST" style="margin-left: 20px">
-            <input type="submit" value="Удалить" >
-        </form>
+    <div class="w3-card-4 w3-round-large" style="width: 900px">
+
+        <div class="w3-container w3-blue" style="text-align: center">
+            <h2>Товар</h2>
+        </div>
+
+        <div style="margin: 50px">
+            <h3>
+                <span th:text="|Наименование: ${product.name}|"></span>
+                <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse.id})}">
+                    <span th:text="${product.productTypeResponse.name}"></span>
+                </a><br>
+                <span th:text="|Цена: ${product.price}|"></span><br>
+                <span th:text="|Общее количество: ${product.amount}|"></span><br>
+                <span th:text="|Описание: ${product.description}|"></span><br>
+            </h3>
+
+            <h3 th:each="storeProductAmount : ${product.storeProductMap}">
+                <a th:href="@{/stores/{store-id} (store-id = ${storeProductAmount.key.id})}">
+                    <span th:text="${storeProductAmount.key.name}"></span>
+                </a>
+                <span th:text="|Количество: ${storeProductAmount.value.amount}|"></span>
+            </h3>
+
+            <div style="margin-top: 50px; margin-bottom: 50px; display: inline-flex">
+                <form th:action="@{/products/edit-product-page/{product-id} (product-id = ${product.id})}" th:method="GET">
+                    <input type="submit" value="Изменить" style="color: black" class="w3-button w3-teal w3-round">
+                </form>
+                <form th:action="@{/products/delete-product/{product-id} (product-id = ${product.id})}"
+                      th:method="POST" style="margin-left: 20px">
+                    <input type="submit" value="Удалить" style="color: black" class="w3-button w3-round w3-red">
+                </form>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -110,5 +121,6 @@
         });
     }
 </script>
+
 </body>
 </html>

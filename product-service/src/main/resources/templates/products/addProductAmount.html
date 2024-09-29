@@ -48,42 +48,56 @@
     </style>
 </head>
 <body>
-<div class="sidenav">
-    <a href="/index">Начальная страница</a>
-    <a href="/products">Электротовары</a>
-    <a href="/purchases">Покупки</a>
-    <a href="/employees">Сотрудники</a>
-    <button class="dropdown-btn">Справочники
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/positions">Должности</a>
-        <a href="/product-types">Типы электротовара</a>
-        <a href="/stores">Магазины</a>
-        <a href="/purchase-types">Типы покупок</a>
+
+    <div class="sidenav">
+        <a href="/index">Начальная страница</a>
+        <a href="/products">Электротовары</a>
+        <a href="/purchases">Покупки</a>
+        <a href="/employees">Сотрудники</a>
+        <button class="dropdown-btn">Справочники
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="/positions">Должности</a>
+            <a href="/product-types">Типы электротовара</a>
+            <a href="/stores">Магазины</a>
+            <a href="/purchase-types">Типы покупок</a>
+        </div>
     </div>
-</div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <h1>Распределить товар</h1>
-        <form th:action="@{/products/add-products-amounts}" th:method="POST">
-            <input type="hidden" id="name" th:field="${product.name}">
-            <input type="hidden" id="storeIds" th:field="${product.storeIds}">
-            <input type="hidden" id="productTypeId" th:field="${product.productTypeId}">
-            <input type="hidden" id="archive" th:field="${product.archive}">
-            <input type="hidden" id="price" th:field="${product.price}">
-            <input type="hidden" id="description" th:field="${product.description}">
-            <div th:each="store : ${chosenStores}">
-                <h2>
-                    <span th:text="${store.name}"></span>
-                    <label for="amount">Количество товара</label>
-                    <input id="amount" type="number" style="margin-left: 100px"
-                           th:field="${product.storeProductAmounts}">
-                </h2>
+
+        <div class="w3-card-4 w3-round-large" style="width: 1000px">
+
+            <div class="w3-container w3-blue" style="text-align: center">
+                <h2>Распределить товар</h2>
             </div>
-            <input type="submit" value="Принять" style="color: black">
-            <input type="button" value="Назад" onclick="history.back()">
-        </form>
+
+            <form th:action="@{/products/add-products-amounts}" th:method="POST" class="w3-container" style="margin: 50px">
+
+                <input type="hidden" id="name" th:field="${product.name}">
+                <input type="hidden" id="storeIds" th:field="${product.storeIds}">
+                <input type="hidden" id="productTypeId" th:field="${product.productTypeId}">
+                <input type="hidden" id="archive" th:field="${product.archive}">
+                <input type="hidden" id="price" th:field="${product.price}">
+                <input type="hidden" id="description" th:field="${product.description}">
+
+                <div th:each="store : ${chosenStores}">
+                    <h2 style="display: inline-flex">
+                        <span th:text="${store.name}"></span>
+                        <label for="amount">Количество товара</label><br>
+                        <input id="amount" type="number" style="margin-left: 100px"
+                               th:field="${product.storeProductAmounts}">
+                    </h2>
+                </div>
+                <br><br>
+                <div style="margin-bottom: 50px">
+                    <input class="w3-button w3-blue w3-round" type="submit" value="Принять" style="color: black">
+                    <input class="w3-button w3-light-grey w3-round" type="button" value="Назад" onclick="history.back()">
+                </div>
+            </form>
+
+        </div>
     </div>
 
     <script>

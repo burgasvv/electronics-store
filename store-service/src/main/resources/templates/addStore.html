@@ -48,34 +48,48 @@
     </style>
 </head>
 <body>
-<div class="sidenav">
-    <a href="/index">Начальная страница</a>
-    <a href="/products">Электротовары</a>
-    <a href="/purchases">Покупки</a>
-    <a href="/employees">Сотрудники</a>
-    <button class="dropdown-btn">Справочники
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="/positions">Должности</a>
-        <a href="/product-types">Типы электротовара</a>
-        <a href="/stores">Магазины</a>
-        <a href="/purchase-types">Типы покупок</a>
+    <div class="sidenav">
+        <a href="/index">Начальная страница</a>
+        <a href="/products">Электротовары</a>
+        <a href="/purchases">Покупки</a>
+        <a href="/employees">Сотрудники</a>
+        <button class="dropdown-btn">Справочники
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="/positions">Должности</a>
+            <a href="/product-types">Типы электротовара</a>
+            <a href="/stores">Магазины</a>
+            <a href="/purchase-types">Типы покупок</a>
+        </div>
     </div>
-</div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <form th:action="@{/stores/add-store}" th:method="POST">
-            <label for="name">Наименование</label><br>
-            <input type="text" id="name" th:field="${newStore.name}"><br><br>
 
-            <label for="address">Адрес</label><br>
-            <input type="text" id="address" th:field="${newStore.address}"><br><br>
+        <div class="w3-card-4 w3-round-large" style="width: 630px">
 
-            <input type="submit" value="Принять" style="color: black">
-            <input type="button" value="Назад" onclick="history.back()" style="color: black">
-        </form>
+            <div class="w3-container w3-blue" style="text-align: center">
+                <h2>Добавить магазин</h2>
+            </div>
+
+            <form th:action="@{/stores/add-store}" th:method="POST" class="w3-container" style="margin: 50px">
+
+                <label for="name">Наименование</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="text" id="name" th:field="${newStore.name}"><br><br>
+
+                <label for="address">Адрес</label><br>
+                <input class="w3-input w3-border w3-round" style="width: 500px"
+                       type="text" id="address" th:field="${newStore.address}"><br><br>
+
+                <div style="margin-bottom: 50px">
+                    <input class="w3-button w3-blue w3-round" type="submit" value="Принять" style="color: black">
+                    <input class="w3-button w3-light-grey w3-round" type="button" value="Назад" onclick="history.back()">
+                </div>
+            </form>
+        </div>
     </div>
+
     <script>
         let dropdown = document.getElementsByClassName("dropdown-btn");
         let i;

@@ -66,7 +66,7 @@
 
     <div style="margin: 50px 100px 50px 20%">
         <div>
-            <h2 th:text="${purchaseType.getName()}"></h2>
+            <h2 th:text="${purchaseType.name}"></h2>
         </div>
         <div style="margin-top: 50px; display: inline-flex">
             <form th:action="@{/purchase-types/edit-purchase-type-page/{purchase-type-id} (purchase-type-id = ${purchaseType.id})}" th:method="GET">

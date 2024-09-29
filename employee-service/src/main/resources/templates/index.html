@@ -66,40 +66,57 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <h3>
-            1. Реализовать вывод информации о лучших сотрудниках в зависимости от занимаемой должности
-            по следующим критериям:
-            <br>
-            	- Количество проданных товаров за последний год.
-            <br>
-                - Сумма проданных товаров. Прописать обозначения за последний год.
-            <br><br>
-            <a th:href="@{/employees/best-employees}">Лучшие сотрудники</a>
-            <br><br><br><br>
-            2. Реализовать вывод информации по определенным критериям:
-            <br>
-                - вывод лучшего младшего продавца-консультанта, продавшего больше всех умных часов;
-            <br>
-                - вывод суммы денежных средств, полученной магазином через оплату наличными.
-            <br><br>
-            <a th:href="@{/employees/best-junior-consultant}">
-                Лучший младший продавец-консультант
-            </a>
-            <br><br>
-            Сумма денежных средств по типу оплаты
-            <form th:action="@{/stores/store-money-purchase-type}" th:method="GET">
-                <label for="store"></label><br>
-                <select name="store-id" id="store">
-                    <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
-                </select><br><br>
-                <label for="purchaseType"></label>
-                <select name="purchase-type" id="purchaseType">
-                    <option th:each="purchaseType : ${purchaseTypes}"
-                            th:value="${purchaseType.name}" th:text="${purchaseType.name}"></option>
-                </select><br><br>
-                <input type="submit" value="Показать" style="color: black">
-            </form>
-        </h3>
+        <h1>Первые два задания</h1>
+
+        <div class="w3-card-4 w3-round-large" style="width: 1000px">
+            <div style="margin: 100px">
+                <h3>
+                    1. Реализовать вывод информации о лучших сотрудниках в зависимости от занимаемой должности
+                    по следующим критериям:
+                    <br>
+                    - Количество проданных товаров за последний год.
+                    <br>
+                    - Сумма проданных товаров. Прописать обозначения за последний год.
+                    <br>
+                    <hr style="height: 1px; width: 800px">
+
+                    <a class="w3-tag w3-indigo w3-round-large" style="width: 500px; margin-top: 50px; margin-bottom: 20px"
+                       th:href="@{/employees/best-employees}">Лучшие сотрудники</a>
+                </h3>
+            </div>
+        </div>
+
+        <div class="w3-card-4 w3-round-large" style="width: 1000px">
+            <div style="margin: 100px">
+                <h3>
+                    2. Реализовать вывод информации по определенным критериям:
+                    <br>
+                    - вывод лучшего младшего продавца-консультанта, продавшего больше всех умных часов;
+                    <br>
+                    - вывод суммы денежных средств, полученной магазином через оплату наличными.
+                    <br>
+                    <hr style="height: 1px; width: 800px">
+                    <a class="w3-tag w3-teal w3-round-large" style="width: 500px; margin-top: 50px"
+                       th:href="@{/employees/best-junior-consultant}">
+                        Лучший младший продавец-консультант
+                    </a>
+                    <br><br>
+                    Сумма денежных средств по типу оплаты
+                    <form th:action="@{/stores/store-money-purchase-type}" th:method="GET">
+                        <label for="store"></label><br>
+                        <select class="w3-input w3-border w3-round-large" name="store-id" id="store" style="width: 700px">
+                            <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
+                        </select><br>
+                        <label for="purchaseType"></label>
+                        <select class="w3-input w3-border w3-round-large" name="purchase-type" id="purchaseType" style="width: 700px">
+                            <option th:each="purchaseType : ${purchaseTypes}"
+                                    th:value="${purchaseType.name}" th:text="${purchaseType.name}"></option>
+                        </select><br>
+                        <input class="w3-button w3-blue w3-round" type="submit" value="Показать" style="color: black; margin-bottom: 20px">
+                    </form>
+                </h3>
+            </div>
+        </div>
 
     </div>
     <script>

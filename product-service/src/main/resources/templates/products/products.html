@@ -65,7 +65,8 @@
 </div>
 
 <div style="margin: 50px 100px 50px 20%">
-    <table style="width: 80%; margin-top: 50px">
+    <h1>Товары</h1>
+    <table style="width: 100%; margin-top: 50px" class="w3-table-all">
         <tr>
             <th><h2>Наименование электротовара</h2></th>
             <th><h2>Тип электротовара</h2></th>
@@ -77,56 +78,56 @@
         </tr>
         <tr th:each="product : ${products}">
             <th>
-                <a th:href="@{/products/{product-id} (product-id = ${product.getId()})}">
+                <a th:href="@{/products/{product-id} (product-id = ${product.id})}">
                     <h3>
-                        <span th:text="${product.getName()}"></span>
+                        <span th:text="${product.name}"></span>
                     </h3>
                 </a>
             </th>
             <th>
-                <th:block th:if="${product.getProductTypeResponse().getName() != null}">
-                    <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.getProductTypeResponse().getId()})}">
+                <th:block th:if="${product.productTypeResponse != null}">
+                    <a th:href="@{/product-types/{product-type-id} (product-type-id = ${product.productTypeResponse.id})}">
                         <h3>
-                            <span th:text="${product.getProductTypeResponse().getName()}"></span>
+                            <span th:text="${product.productTypeResponse.name}"></span>
                         </h3>
                     </a>
                 </th:block>
-                <th:block th:if="${product.getProductTypeResponse().getName() == null}">
+                <th:block th:if="${product.productTypeResponse == null}">
                     <h3 style="color: red">Отсутствует</h3>
                 </th:block>
             </th>
             <th>
                 <h3>
-                    <span th:text="${product.getPrice()}"></span>
+                    <span th:text="${product.price}"></span>
                 </h3>
             </th>
             <th>
                 <h3>
-                    <span th:text="${product.getAmount()}"></span>
+                    <span th:text="${product.amount}"></span>
                 </h3>
             </th>
             <th>
-                <th:block th:if="${product.getArchive() eq false}">
+                <th:block th:if="${product.archive eq false}">
                     <h4 style="color: red">Снят с продажи</h4>
                 </th:block>
-                <th:block th:if="${product.getArchive() eq true}">
+                <th:block th:if="${product.archive eq true}">
                     <h4 style="color: green">В продаже</h4>
                 </th:block>
             </th>
             <th>
-                <div th:each="storeAmount : ${product.getStoreProductMap()}">
+                <div th:each="storeAmount : ${product.storeProductMap}">
                     <h3>
-                        <a th:href="@{/stores/{store-id} (store-id = ${storeAmount.getKey().getId()})}">
-                            <span th:text="${storeAmount.getKey().getName()}"></span><br>
+                        <a th:href="@{/stores/{store-id} (store-id = ${storeAmount.key.id})}">
+                            <span th:text="${storeAmount.key.name}"></span><br>
                         </a>
-                        <span style="color: grey" th:text="|Кол-во: ${storeAmount.getValue().getAmount()}|"></span>
+                        <span style="color: grey" th:text="|Кол-во: ${storeAmount.value.amount}|"></span>
                     </h3>
                 </div>
             </th>
             <th>
                 <div>
-                    <form th:method="GET" th:action="@{/purchases/make-purchase-page/{product-id} (product-id = ${product.getId()})}">
-                        <input type="submit" value="Купить" style="color: black">
+                    <form th:method="GET" th:action="@{/purchases/make-purchase-page/{product-id} (product-id = ${product.id})}">
+                        <input type="submit" value="Купить" style="color: black" class="w3-button w3-round w3-indigo">
                     </form>
                 </div>
             </th>
@@ -135,24 +136,35 @@
 
     <div style="margin-top: 50px">
         <form th:action="@{/products/add-product-page}" th:method="GET">
-            <input type="submit" value="Добавить" style="color: black">
+            <input type="submit" value="Добавить" style="color: black" class="w3-button w3-blue w3-round">
         </form>
     </div>
 
-    <div style="margin-top: 100px">
-        <form th:method="POST" th:action="@{/products/save-from-csv}" enctype="multipart/form-data">
-            <label for="csv">Добавить CSV UTF-8 файл для загрузки электротоваров</label>
-            <input type="file" id="csv" name="file" accept="text/csv">
-            <input type="submit" value="Принять" style="color: black">
+
+    <div style="margin-top: 100px; width: 800px" class="w3-card-4 w3-round-large">
+        <form th:method="POST" th:action="@{/products/save-from-csv}" enctype="multipart/form-data" style="margin: 20px">
+            <div style="text-align: center; width: 800px; margin-left: -20px; margin-bottom: 10px; height: 30px"
+                 class="w3-container w3-light-grey">
+                <label style="font-weight: bolder" for="csv">Добавить CSV UTF-8 файл для загрузки электротоваров </label><br><br>
+            </div>
+            <div style="display: inline-flex; margin-bottom: 20px">
+                <input class="w3-input w3-border w3-round-large" style="width: 500px" type="file" id="csv" name="file" accept="text/csv">
+                <input class="w3-button w3-green w3-round" type="submit" value="Принять" style="color: black; margin-left: 20px">
+            </div>
         </form>
     </div>
-    <br><br>
 
-    <div>
-        <form th:method="POST" th:action="@{/products-stores/save-from-csv}" enctype="multipart/form-data">
-            <label for="csv2">Добавить CSV файл для загрузки связи электротовары и магазины</label>
-            <input type="file" id="csv2" name="file" accept="text/csv">
-            <input type="submit" value="Принять" style="color: black">
+    <div style="margin-top: 50px; width: 800px" class="w3-card-4 w3-round-large">
+        <form th:method="POST" th:action="@{/products-stores/save-from-csv}" enctype="multipart/form-data" style="margin: 20px">
+            <div style="text-align: center; width: 800px; margin-left: -20px; margin-bottom: 10px; height: 30px"
+                 class="w3-container w3-light-grey">
+                <label style="font-weight: bolder" for="csv2">
+                    Добавить CSV файл для загрузки связи электротовары и магазины </label><br><br>
+            </div>
+            <div style="display: inline-flex; margin-bottom: 20px">
+                <input class="w3-input w3-border w3-round-large" style="width: 500px" type="file" id="csv2" name="file" accept="text/csv">
+                <input class="w3-button w3-green w3-round" type="submit" value="Принять" style="color: black; margin-left: 20px">
+            </div>
         </form>
     </div>
 

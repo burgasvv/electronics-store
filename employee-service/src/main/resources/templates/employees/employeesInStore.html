@@ -72,16 +72,29 @@
     </div>
 </div>
     <div style="margin: 50px 100px 50px 20%">
-        <div th:each="employee : ${employees}">
-            <a th:href="@{/employees/{employee-id} (employee-id = ${employee.getId()})}">
-                <h3 th:text="|${employee.getSurname()} ${employee.getName()} ${employee.getPatronymic()}|"></h3>
-            </a>
-            <a th:href="@{/positions/{position-id} (position-id = ${employee.getPositionResponse().getId()})}">
-                <h3 th:text="${employee.getPositionResponse().getName()}"></h3>
-            </a>
-            <hr>
-        </div>
+        <h1 th:text="${employees.first.storeResponse.name}"></h1>
+
+        <table class="w3-table-all" style="width: 30%">
+            <tr>
+                <th><h2>Сотрудники</h2></th>
+                <th><h2>Должность</h2></th>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <td>
+                    <a th:href="@{/employees/{employee-id} (employee-id = ${employee.id})}">
+                        <h3 th:text="|${employee.surname} ${employee.name} ${employee.patronymic}|"></h3>
+                    </a>
+                </td>
+                <th>
+                    <a th:href="@{/positions/{position-id} (position-id = ${employee.positionResponse.id})}">
+                        <h3 th:text="${employee.positionResponse.name}"></h3>
+                    </a>
+                </th>
+            </tr>
+        </table>
+
     </div>
+
     <div style="margin: 50px 100px; display: inline-flex" class="w3-bar w3-round">
         <ul style="display: inline-flex; list-style-type: none">
             <th:block th:each="pageNumber : ${pages}">
@@ -94,6 +107,7 @@
             </th:block>
         </ul>
     </div>
+
 <script>
     let dropdown = document.getElementsByClassName("dropdown-btn");
     let i;

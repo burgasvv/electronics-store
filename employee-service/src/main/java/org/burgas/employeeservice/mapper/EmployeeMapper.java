@@ -48,7 +48,9 @@ public class EmployeeMapper {
                 )
                 .positionResponse(
                         positionMapper.toPositionResponse(
-                                positionRepository.findById(employee.getPositionId())
+                                positionRepository.findById(
+                                            employee.getPositionId() == null ? 0 : employee.getPositionId()
+                                        )
                                         .orElseGet(Position::new)
                         )
                 ).storeResponse(
@@ -76,7 +78,9 @@ public class EmployeeMapper {
                 )
                 .positionResponse(
                         positionMapper.toPositionResponse(
-                                positionRepository.findById(employee.getPositionId())
+                                positionRepository.findById(
+                                            employee.getPositionId() == null ? 0 : employee.getPositionId()
+                                        )
                                         .orElseGet(Position::new)
                         )
                 )

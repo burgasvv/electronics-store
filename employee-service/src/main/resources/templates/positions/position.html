@@ -64,21 +64,29 @@
     </div>
 </div>
 <div style="margin: 50px 100px 50px 20%">
-    <div>
-        <h2 th:text="${position.getName()}"></h2>
-        <h3>
-            <a th:href="@{/employees/position/{position-id} (position-id = ${position.getId()})}">Сотрудники</a>
-        </h3>
+
+    <div class="w3-card-4 w3-round-large" style="width: 500px">
+        <div class="w3-container w3-blue" style="text-align: center">
+            <h2 th:text="${position.name}"></h2>
+        </div>
+        <div style="margin: 50px">
+            <h3>
+                <a class="w3-tag w3-border w3-round-large w3-light-grey"  style="text-decoration: none; width: 400px"
+                   th:href="@{/employees/position/{position-id} (position-id = ${position.getId()})}">Сотрудники</a>
+            </h3>
+
+            <div style="margin-top: 50px; margin-bottom: 50px; display: inline-flex">
+                <form th:action="@{/positions/edit-position-page/{position-id} (position-id = ${position.id})}" th:method="GET">
+                    <input type="submit" value="Изменить" style="color: black" class="w3-button w3-teal w3-round">
+                </form>
+                <form th:action="@{/positions/delete-position/{position-id} (position-id = ${position.id})}"
+                      th:method="POST" style="margin-left: 20px">
+                    <input type="submit" value="Удалить" style="color: black" class="w3-button w3-round w3-red">
+                </form>
+            </div>
+        </div>
     </div>
-    <div style="margin-top: 50px; display: inline-flex">
-        <form th:action="@{/positions/edit-position-page/{position-id} (position-id = ${position.id})}" th:method="GET">
-            <input type="submit" value="Изменить" style="color: black">
-        </form>
-        <form th:action="@{/positions/delete-position/{position-id} (position-id = ${position.id})}"
-              th:method="POST" style="margin-left: 20px">
-            <input type="submit" value="Удалить" style="color: black">
-        </form>
-    </div>
+
 </div>
 
 <script>
