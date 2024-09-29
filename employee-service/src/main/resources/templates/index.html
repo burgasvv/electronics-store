@@ -101,19 +101,21 @@
                         Лучший младший продавец-консультант
                     </a>
                     <br><br>
-                    Сумма денежных средств по типу оплаты
-                    <form th:action="@{/stores/store-money-purchase-type}" th:method="GET">
-                        <label for="store"></label><br>
-                        <select class="w3-input w3-border w3-round-large" name="store-id" id="store" style="width: 700px">
-                            <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
-                        </select><br>
-                        <label for="purchaseType"></label>
-                        <select class="w3-input w3-border w3-round-large" name="purchase-type" id="purchaseType" style="width: 700px">
-                            <option th:each="purchaseType : ${purchaseTypes}"
-                                    th:value="${purchaseType.name}" th:text="${purchaseType.name}"></option>
-                        </select><br>
-                        <input class="w3-button w3-blue w3-round" type="submit" value="Показать" style="color: black; margin-bottom: 20px">
-                    </form>
+                    <th:block th:if="${stores != null || purchaseTypes != null}">
+                        Сумма денежных средств по типу оплаты
+                        <form th:action="@{/stores/store-money-purchase-type}" th:method="GET">
+                            <label for="store"></label><br>
+                            <select class="w3-input w3-border w3-round-large" name="store-id" id="store" style="width: 700px">
+                                <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}"></option>
+                            </select><br>
+                            <label for="purchaseType"></label>
+                            <select class="w3-input w3-border w3-round-large" name="purchase-type" id="purchaseType" style="width: 700px">
+                                <option th:each="purchaseType : ${purchaseTypes}"
+                                        th:value="${purchaseType.name}" th:text="${purchaseType.name}"></option>
+                            </select><br>
+                            <input class="w3-button w3-blue w3-round" type="submit" value="Показать" style="color: black; margin-bottom: 20px">
+                        </form>
+                    </th:block>
                 </h3>
             </div>
         </div>
