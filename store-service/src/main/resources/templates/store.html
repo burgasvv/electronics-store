@@ -65,22 +65,32 @@
 </div>
 
     <div style="margin: 50px 100px 50px 20%">
-        <div>
-            <h2 th:text="${store.name}"></h2>
-            <h3 style="color: grey" th:text="${store.address}"></h3>
-            <h3>
-                <a th:href="@{/employees/store/{store-id} (store-id = ${store.id})}">Сотрудники</a>
-            </h3>
-        </div>
 
-        <div style="margin-top: 50px; display: inline-flex">
-            <form th:action="@{/stores/edit-store-page/{store-id} (store-id = ${store.id})}" th:method="GET">
-                <input type="submit" value="Изменить" style="color: black">
-            </form>
-            <form th:action="@{/stores/delete-store/{store-id} (store-id = ${store.id})}"
-            th:method="POST" style="margin-left: 20px">
-                <input type="submit" value="Удалить" style="color: black">
-            </form>
+        <div class="w3-card-4 w3-round-large" style="width: 900px">
+
+            <div class="w3-container w3-blue" style="text-align: center">
+                <h2>Магазин</h2>
+            </div>
+
+            <div style="margin: 50px">
+                <div>
+                    <h2 th:text="${store.name}"></h2>
+                    <h3 style="color: grey" th:text="${store.address}"></h3>
+                    <h3>
+                        <a th:href="@{/employees/store/{store-id} (store-id = ${store.id})}">Сотрудники</a>
+                    </h3>
+                </div>
+
+                <div style="margin-top: 50px; margin-bottom: 50px; display: inline-flex">
+                    <form th:action="@{/stores/edit-store-page/{store-id} (store-id = ${store.id})}" th:method="GET">
+                        <input type="submit" value="Изменить" style="color: black" class="w3-button w3-teal w3-round">
+                    </form>
+                    <form th:action="@{/stores/delete-store/{store-id} (store-id = ${store.id})}"
+                          th:method="POST" style="margin-left: 20px">
+                        <input type="submit" value="Удалить" style="color: black" class="w3-button w3-round w3-red">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
