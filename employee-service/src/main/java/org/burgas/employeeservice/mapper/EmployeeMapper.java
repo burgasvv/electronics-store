@@ -103,6 +103,7 @@ public class EmployeeMapper {
 
     public Employee toEmployee(EmployeeRequest employeeRequest) {
         return Employee.builder()
+                .id(employeeRequest.getId())
                 .name(employeeRequest.getName())
                 .surname(employeeRequest.getSurname())
                 .patronymic(employeeRequest.getPatronymic())

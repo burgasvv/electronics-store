@@ -29,6 +29,7 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;

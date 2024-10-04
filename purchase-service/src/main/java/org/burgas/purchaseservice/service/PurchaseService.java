@@ -25,6 +25,7 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PurchaseService {
 
     private final PurchaseRepository purchaseRepository;

@@ -6,6 +6,7 @@ import org.burgas.productservice.mapper.ProductStoreMapper;
 import org.burgas.productservice.model.csv.ProductStoreCsv;
 import org.burgas.productservice.repository.ProductStoreRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.io.InputStreamReader;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProductStoreService {
 
     private final ProductStoreRepository productStoreRepository;

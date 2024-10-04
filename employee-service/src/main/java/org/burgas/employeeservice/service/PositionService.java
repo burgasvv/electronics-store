@@ -24,6 +24,7 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PositionService {
 
     private final PositionRepository positionRepository;
