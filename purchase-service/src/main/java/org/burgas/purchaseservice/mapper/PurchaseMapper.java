@@ -62,6 +62,7 @@ public class PurchaseMapper {
 
     public Purchase toPurchase(PurchaseCsv purchaseCsv) {
         return Purchase.builder()
+                .id(purchaseCsv.getId())
                 .productId(purchaseCsv.getProductId())
                 .employeeId(purchaseCsv.getEmployeeId())
                 .storeId(purchaseCsv.getStoreId())

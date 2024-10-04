@@ -88,6 +88,7 @@ public class ProductMapper {
 
     public Product toProduct(ProductCsv productCsv) {
         return Product.builder()
+                .id(productCsv.getId())
                 .name(productCsv.getName())
                 .productTypeId(productCsv.getProductTypeId())
                 .price(productCsv.getPrice())

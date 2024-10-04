@@ -89,6 +89,7 @@ public class EmployeeMapper {
 
     public Employee toEmployee(EmployeeCsv employeeCsv) {
         return Employee.builder()
+                .id(employeeCsv.getId())
                 .surname(employeeCsv.getSurname())
                 .name(employeeCsv.getName())
                 .patronymic(employeeCsv.getPatronymic())

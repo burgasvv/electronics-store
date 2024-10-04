@@ -18,6 +18,7 @@ public class PositionMapper {
 
     public Position toPosition(PositionCsv positionCsv) {
         return Position.builder()
+                .id(positionCsv.getId())
                 .name(positionCsv.getName())
                 .build();
     }

@@ -22,6 +22,7 @@ public class PurchaseTypeMapper {
 
     public PurchaseType toPurchaseType(PurchaseTypeCsv purchaseTypeCsv) {
         return PurchaseType.builder()
+                .id(purchaseTypeCsv.getId())
                 .name(purchaseTypeCsv.getName())
                 .build();
     }

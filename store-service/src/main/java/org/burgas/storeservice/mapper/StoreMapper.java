@@ -30,6 +30,7 @@ public class StoreMapper {
 
     public Store toStore(StoreCsv storeCsv) {
         return Store.builder()
+                .id(storeCsv.getId())
                 .name(storeCsv.getName())
                 .address(storeCsv.getAddress())
                 .build();

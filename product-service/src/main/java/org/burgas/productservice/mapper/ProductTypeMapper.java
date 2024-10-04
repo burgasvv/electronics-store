@@ -18,6 +18,7 @@ public class ProductTypeMapper {
 
     public ProductType toProductType(ProductTypeCsv productTypeCsv) {
         return ProductType.builder()
+                .id(productTypeCsv.getId())
                 .name(productTypeCsv.getName())
                 .build();
     }
